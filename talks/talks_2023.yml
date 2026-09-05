@@ -1,0 +1,38 @@
+- title: "Analysing the Effectiveness and Outcomes of Blended and Self-Directed e-Learning Approach Through the Moodle Platform for Statistical Training in Social Sciences Degrees"  
+  date: 2023-07-04
+  description: '15th Annual International Conference on Education and New Learning Technologies - Edulearn 2023'
+  location: Palma de Mallorca, Spain
+  authors: Pérez Priego, M.; Gómez-Casero, G.; García-Moreno García, M.B. & Caro-Barrera, J.R.
+  links:
+  - name: Slides
+    url: https://github.com/jrcarob/International_Congress/blob/main/edulearn_23.pdf
+    icon: fa-solid fa-chalkboard-user
+  - name: GitHub repository
+    url: https://github.com/jrcarob/International_Congress/tree/main
+    icon: fa-brands fa-github
+  
+- title: "The Importance of Data Visualization in Introductory Statistics Courses in Social Sciences Degrees"
+  date: 2023-07-04
+  description: '15th Annual International Conference on Education and New Learning Technologies - Edulearn 2023'
+  location: Palma de Mallorca, Spain
+  authors: Caro-Barrera, J.R.; García-Moreno García, M.B.; Jara Alba, C.A. & Pérez Priego, M.
+  links:
+  - name: Poster
+    url: https://jrcarob.github.io/International_Congress/
+    icon: fa-solid fa-chalkboard-user
+  - name: GitHub repository for talk
+    url: https://github.com/jrcarob/International_Congress
+    icon: fa-brands fa-github
+
+- title: "Computational Methods for Modelling Mortality and Fertility Projections: Application to Spanish Demography"
+  date: 2023-09-05
+  description: "Royal Statitical Society International Conference, 2021"
+  location: Harrogate, UK
+  authors: Caro-Barrera, J.R.; García-Moreno García, M.B. & Pérez Priego, M.
+  links:
+  - name: Poster
+    url: https://github.com/jrcarob/RSS-2023/blob/main/poster.png
+    icon: fa-solid fa-chalkboard-user
+  - name: GitHub repository for congress
+    url: https://github.com/jrcarob/RSS-2023
+    icon: fa-brands fa-github

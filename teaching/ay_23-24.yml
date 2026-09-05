@@ -1,0 +1,59 @@
+- title: Applied Statistics For Tourism 
+  description: "Introductory statistics and data analysis applied to the tourism sector"
+  university: University of Córdoba, Spain
+  number: Bilingual Degree of Tourism
+  url: https://www.uco.es/trabajo/grados/gr-turismo-bilingue
+  logo: logos/icon.png
+  semester:
+  - name: Fall 2023
+    # url: https://www.uco.es/
+  
+- title: Quantitative Methods in Business 
+  description: "Quantitative Methods in Business"
+  university: University of Córdoba, Spain
+  number: Degree in Law and Business Administration
+  url: https://www.uco.es/organiza/centros/derecho/es/grados/gr-derecho-y-a-d-e
+  logo: logos/uco4.png
+  semester:
+  - name: Fall 2022
+    # url: https://www.uco.es/
+    
+- title: Computational Data Analysis  
+  description: "Data Analysis for Human Relationships and Tourism"
+  university: University of Córdoba, Spain
+  number: Degree in Labour Relationships and Human Resources
+  url: https://www.uco.es/trabajo/grados/gr-turismo-bilingue
+  logo: logos/uco4.png
+  semester:
+  - name: Fall 2022
+    # url: https://www.uco.es/
+    
+- title: Statistics for Biology 
+  description: "Statistics for Biological Sciences"
+  university: University of Córdoba, Spain
+  number: Degree in Biolgy
+  # url: https://www.uco.es/trabajo/grados/gr-turismo-bilingue
+  logo: logos/uco4.png
+  semester:
+  - name: Fall 2019-2023
+    # url: https://www.uco.es/
+
+- title: Statistics for Chemistry 
+  description: "Statistics for Chemistry"
+  university: University of Córdoba, Spain
+  number: Degree in Chemistry
+  # url: https://www.uco.es/trabajo/grados/gr-turismo-bilingue
+  logo: logos/uco4.png
+  semester:
+  - name: Fall 2019-2022
+    # url: https://www.uco.es/
+
+- title: Statistics for Environmental Science 
+  description: "Statistics for Environmental Science"
+  university: University of Córdoba, Spain
+  number: Degree in Environmental Science
+  # url: https://www.uco.es/trabajo/grados/gr-turismo-bilingue
+  logo: logos/uco4.png
+  semester:
+  - name: Fall 2018-2022
+    # url: https://www.uco.es/

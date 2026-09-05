@@ -1,0 +1,58 @@
+---
+title: Resources for Teaching
+date: 2026-09-05
+description-meta: José Caro is working on a bunch of exciting and groundbreaking projects for teaching
+title-block-banner: "#771C6D"
+published-title: Last updated
+toc: true
+toc-location: right
+toc-title: "Contents"
+---
+
+> "_An image is worth than 1000 words._" (Frederick R. Barnard, 1921)
+
+Sometimes it's better to show concepts to students through simulation, letting them practice on their own. This is especially true in fields like statistics, economics, or finance, where visual representation is essential to understanding certain concepts. As a teacher of financial mathematics, microeconomics, and macroeconomics, data visualization plays an important role in these courses. I have developed a few applications in the Shiny environment to help students explore how the underlying models react as they change the parameters themselves, rather than just reading about the theory. Links to the apps for each course are below.
+
+## Apps and Simulators
+
+These are largely [R shiny](https://shiny.rstudio.com/) apps developed to demonstrate economic concepts for my economics courses. The main purpose is to visualize concepts in action (often through a plot, chart or table) and especially show how key parameters affect the outcome by allowing users to change these values and see the chart update dynamically.
+
+:::::: {.grid}
+
+::::: {.card .g-col-12 .g-col-sm-4}
+
+[![](img/app01.png){.card-img-top}](2026_finmatapp/index.qmd)
+
+:::: {.card-body}
+
+#### Financial Maths
+
+Teaching resources for the Spanish course **Financial Mathematics**
+
+[{{< fa arrow-up-right-from-square >}} Site](https://jrcaro.shinyapps.io/simplevscomp/){.card-link} [{{< fa brands github >}} Source](https://github.com/jrcarob){.card-link}
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.17579699.svg)](https://doi.org/10.5281/zenodo.17579699){target="_blank"}
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.17767521.svg)](https://doi.org/10.5281/zenodo.17767521){target="_blank"}
+
+::::
+
+:::::
+
+::::: {.card .g-col-12 .g-col-sm-4}
+
+[![](img/supply&demand.png){.card-img-top}](2026_microapp/index.qmd)
+
+:::: {.card-body}
+
+#### Microeconomics
+
+Teaching resource for the Spanish course **Microeconomics**
+
+[{{< fa arrow-up-right-from-square >}} Site](https://jrcaro.shinyapps.io/microeconomics/){.card-link} [{{< fa brands github >}} Source](https://github.com/jrcarob){.card-link}
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.18220705.svg)](https://doi.org/10.5281/zenodo.18220705){target="_blank"}
+
+::::
+
+:::::
+
+::::::
+

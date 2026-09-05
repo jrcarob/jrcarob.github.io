@@ -1,0 +1,14 @@
+- title: "Demografía y Pensiones. Recursos de Planificación Financiera a Largo Plazo: La Hipoteca Inversa como Complemento a la Pensión"
+  date: 2019-02-06
+  description: "VII Conference for Researchers in Training (in Spanish)"
+  location: Córdoba, España
+  links:
+  - name: Poster
+    url: https://github.com/jrcarob/Congress_Poster/blob/master/Latex_poster/mc2011_poster_beamer.pdf
+    icon: fa-solid fa-up-right-from-square
+  #- name: Slides
+  #  url: https://github.com/jrcarob/Congress_Poster/blob/master/Latex_poster/mc2011_poster_beamer.pdf
+  #  icon: fa-solid fa-chalkboard-user
+  - name: GitHub repository
+    url: https://github.com/jrcarob/Congress_Poster/tree/master
+    icon: fa-brands fa-github

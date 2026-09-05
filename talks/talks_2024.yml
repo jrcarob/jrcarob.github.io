@@ -1,0 +1,30 @@
+- title: "Hunting Tourism: Balancing Conservation, Ethics and Socioeconomic Impact: A Bibliographic Analysis"
+  date: 2024-11-18
+  description: >-
+    IV International Congress Tourism Heritage Management Cultural and Natural Inland Destinations (CIGESTUR)
+  location: Córdoba, Spain
+  links:
+  - name: Github repository
+    url:  https://github.com/jrcarob/Cigestur/tree/main
+    icon: fa-brands fa-github 
+  - name: Slides
+    url:  https://github.com/jrcarob/Cigestur/blob/main/2024/Cigestur_final.pdf
+    icon: fa-solid fa-chalkboard-user
+  - name: Talk
+    url:  https://github.com/jrcarob/Cigestur/blob/main/2024/ponencia_Cigestur_final.pdf
+    icon: fa-solid fa-up-right-from-square
+    
+- title: "Introduction to Statistics with SPSS"
+  date: 2024-05-12
+  description: >-
+    Workshop on "Survey Design and Analysis with SPSS" for Social Sciences projects in the Degree of Tourism 
+  location: University of Córdoba, Spain
+  links:
+  - name: Slides
+    url:  https://jrcarob.github.io/SPSS_Workshop/#1
+    icon: fa-solid fa-chalkboard-user
+  - name: GitHub repository
+    url:  https://github.com/jrcarob/SPSS_Workshop
+    icon: fa-brands fa-github
+
+

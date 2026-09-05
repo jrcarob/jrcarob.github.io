@@ -1,0 +1,58 @@
+---
+title: "José R. Caro-Barrera"
+page-layout: full
+about:
+    id: hero-heading # having a written section below the two-columns format
+    template: trestles
+    image: /files/profiles/jcaro2.png
+    links:
+      - icon: envelope
+        href: mailto:jrcaro@uco.es
+      - text: "{{< fa brands orcid >}}"
+        href: https://orcid.org/0000-0001-6154-2493
+      - icon: github
+        href: https://github.com/jrcarob
+      - text: "{{< ai google-scholar >}}"
+        href: https://scholar.google.es/citations?hl=es&user=NGV9ylEAAAAJ
+      - icon: twitter
+        href: https://twitter.com/caroisallin
+      - icon: linkedin
+        href: https://www.linkedin.com/in/jose-rafael-caro-barrera-0128917b/
+      
+---
+
+<!-- This part is above the two-columns  -->
+
+:::{#hero-heading} 
+
+## **Hello everybody and welcome!**
+
+I'm an assistant professor in the [Department of Statistics, Applied Economics and Management Organization](https://www.uco.es/organiza/departamentos/estadistica/) at the [University of Córdoba](https://www.uco.es/). I received my PhD in Social Science from the same University in 2019.
+
+<!--Previously, I was Associate Professor of Economics at [Hood College](https://www.hood.edu/academics/departments/george-b-delaplaine-jr-school-business), and I have taught 17 different economics courses over the last 10 years. I am a firm believer of providing public goods & promoting open source materials, so you can find all course materials on my custom [course websites](teaching.qmd).-->
+ 
+My personal research explores the analysis of [demographic phenomena](https://www.demogr.mpg.de/en/about_us_6113/what_is_demography_6674/) and the application of computational methods for modelling them. Quantitative finance, economics and the field of  [econophysics](https://en.wikipedia.org/wiki/Econophysics) are other lines in my research profile.
+
+I am a passionate user of [*R*](https://www.r-project.org/) and [*Python*](https://www.python.org/) for statistics and economics, data analysis and visualization and [Quarto](https://quarto.org/), [Git](https://git-scm.com/) and [Github](https://github.com/), among other software, for writing reproducible research, using version control, and managing my workflow. I blog [here](/blog) about using these tools in my research, teaching and learning and how to use new tools and software for open science.
+
+<!--## Education
+
+- Ph.D, Economics, 2015 ()
+- M.A., Economics, 2013 ()
+- B.A., Economics, 2011 ()-->
+
+### Interests
+
+- _Data Analysis_
+- _Open Science_
+- _Research Reproducibility_
+
+### Skills
+
+- R, Python, Git, LaTeX, Markdown, Quarto 
+
+:::
+
+<!-- This part is below the two columns --> 
+
+**Disclaimer:** All opinions expressed on this website are my own and do not represent the views or policies of the University of Córdoba, any other institution or colleagues.

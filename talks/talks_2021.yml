@@ -1,0 +1,25 @@
+- title: "Results of Moodle e-Learning Activities in the Statistical Training of Science Undergraduates in a Blended Self-learning Environment"
+  date: 2021-12-01
+  description: "VI International Virtual Congress on Education, Innovation and ICT"
+  location: Madrid, Spain (via Zoom)
+  authors: Caro-Barrera, J.R.; García-Moreno García, M.B.; Pérez Priego, M.
+  #links:
+  #- name: Poster
+  #  url: https://github.com/jrcarob/RSS-2021/blob/main/poster.png
+  #  icon: fa-solid fa-chalkboard-user
+  #- name: GitHub repository
+  #  url: https://github.com/jrcarob/RSS-2021
+  #  icon: fa-brands fa-github
+
+- title: "Computational Methods for Modelling Mortality and Fertility Projections: Application to Spanish Demography"
+  date: 2021-09-06
+  description: "Royal Statitical Society International Conference, 2021"
+  location: Manchester, UK
+  authors: Caro-Barrera, J.R.
+  links:
+  - name: Poster
+    url: https://github.com/jrcarob/RSS-2021/blob/main/poster.png
+    icon: fa-solid fa-chalkboard-user
+  - name: GitHub repository
+    url: https://github.com/jrcarob/RSS-2021
+    icon: fa-brands fa-github

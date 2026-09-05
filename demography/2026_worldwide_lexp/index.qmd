@@ -1,0 +1,199 @@
+---
+title: "The Longevity Revolution: From 2026 to 2100"
+date: 07-26-2026
+# description: "Most relevant periods where life expectancy dropped dramatically"
+title-block-banner: "#F5AD27"
+image: world-le.png
+twitter-card:
+    image: "world-le.png"
+open-graph:
+    image: "world-le.png"
+categories: 
+  - demography
+  - mortality
+  - life expectancy
+format:
+  html
+    #code-fold: show
+toc: true
+toc-location: right
+toc-title: "Contents"
+---
+
+
+## When 90 Becomes the New Normal
+
+
+![](life_expectancy.png)
+
+### A Century of Increasing Longevity
+
+The graph offers a striking glimpse of how the geography of longevity could change over the course of the twenty-first century. It compares life expectancy at birth in 2026 with projected levels for 2100, and its most important message is not simply that people are expected to live longer, but that the hierarchy of the world’s longest-lived populations is likely to change considerably.
+
+In 2026, Monaco stands clearly at the top, with a life expectancy of 88.7 years, followed by San Marino, Japan, South Korea and Andorra. The concentration of countries with exceptionally high longevity in Europe and East Asia is remarkable. Spain, Switzerland, Italy and Singapore are also among the current leaders, with life expectancy already exceeding 84 years. These figures illustrate the extraordinary demographic transformation experienced by advanced societies during the last century, driven by improvements in nutrition, living conditions, public health, medical technology and, particularly, the dramatic reduction of mortality at older ages.
+
+### The Geography of Longevity Is Changing
+
+The picture becomes even more interesting when we move towards 2100. Monaco is projected to remain at the top, but with life expectancy approaching 95 years. Japan, San Marino and South Korea also remain among the leaders, while several European countries continue to occupy prominent positions. Spain is particularly noteworthy: from 84.1 years in 2026, it is projected to reach approximately 92.9 years by 2100, placing it among the world's longevity leaders. This is consistent with Spain's longstanding position as one of the countries with the highest life expectancies in the world.
+
+The flows in the graph tell a more subtle story than a simple ranking. Some countries move upward relative to their current position, while others are overtaken despite achieving substantial gains in absolute longevity. This distinction is important. A country can add eight or nine years to life expectancy and nevertheless fall in the ranking if other countries improve even faster. The Sankey design makes this relative dimension immediately visible: longevity is not a race against a fixed benchmark, but a constantly moving distribution in which countries are compared with one another.
+
+### When Living Beyond 90 Becomes Normal
+
+Perhaps the most striking feature of the projection is the emergence of a world in which life expectancy above 90 years is no longer confined to a handful of exceptional populations. By 2100, a growing group of countries is projected to approach or exceed this threshold.
+
+This would represent a profound demographic transformation. Adding several years to average life expectancy is not merely a statistical achievement. It changes the age structure of populations and increases the proportion of people reaching very advanced ages. The implications extend to healthcare, long-term care, pension systems, labour markets, saving behaviour and the organisation of family life.
+
+The crucial question, therefore, is not simply whether people will live longer, but whether institutions will adapt to these longer lives.
+
+### The United States: Longer Lives, but Not a Higher Ranking
+
+The United States provides an especially interesting contrast. Life expectancy rises from 79.3 years in 2026 to 89.2 years in 2100, an extraordinary improvement of almost ten years. Nevertheless, its position remains comparatively modest: the United States is shown around 45th today and only around 48th in 2100.
+
+The message is therefore not that Americans will fail to live substantially longer. Rather, other populations are projected to experience comparable or even greater improvements. The ranking illustrates an important demographic principle: **absolute progress and relative position are not the same thing**.
+
+A country can achieve remarkable improvements in survival while simultaneously losing ground relative to countries experiencing even faster gains.
+
+### What Does a World of Longer Lives Mean?
+
+The demographic consequences of this transformation extend far beyond life expectancy itself. Longer lives imply longer periods of retirement, greater demand for health and long-term care, changing patterns of saving and wealth accumulation, and a fundamental reconsideration of the relationship between working life and old age.
+
+This is particularly important for pension systems. If people live substantially longer but retirement ages remain unchanged, the period during which pensions must be paid becomes progressively longer. One possible response is to extend working lives, but this raises questions about employment, health, inequality and the ability of different occupational groups to remain economically active at older ages.
+
+Longevity should therefore be understood not simply as a demographic success, but as a structural transformation with economic and social consequences.
+
+### 2100 Is a Projection, Not a Prediction
+
+There is, however, an important qualification. These figures are projections, not predictions carved in stone. They depend on assumptions about future mortality trends, and the further we look into the future, the greater the uncertainty surrounding any demographic projection.
+
+The value of the graph therefore lies less in treating 2100 as a precise destination than in using it to understand the direction of demographic change. The exact ranking of countries may look very different by the end of the century, but the broader trend towards longer lives is likely to remain one of the defining demographic developments of our time.
+
+### A New Demographic Frontier
+
+Seen in this way, the graph tells a compelling story. The great demographic achievement of the twentieth century was the extension of human survival; the defining demographic challenge of the twenty-first may be learning how to organise societies in which living into one's nineties becomes increasingly normal.
+
+The question is no longer simply whether humanity will live longer. It is how economies, pension systems, healthcare institutions and societies will adapt to lives that are becoming longer than previous generations could have imagined.
+
+The future of longevity is therefore not only a question of **how many years we gain**, but of **what we do with those additional years**.
+
+## Reproducibility: Recreating the Figure in R
+
+The figure can be reproduced from the underlying demographic data using R. Making the code available alongside the visualisation turns the graph from a static illustration into a reproducible research object, allowing readers to inspect the data, modify the assumptions and experiment with alternative representations of the projected changes in longevity.
+
+
+```{r setup, include = TRUE, message=FALSE}
+knitr::opts_chunk$set(echo = T,
+                      results = "hide")
+library(tidyverse)
+library(ggplot2)
+library(ggflags)
+library(showtext)
+
+# ============================================================================
+# 0. LOAD FONT
+# ============================================================================
+font_add_google("Roboto Condensed", "roboto_condensed")
+showtext_auto()
+
+# ============================================================================
+# 1. DATA
+# ============================================================================
+
+region_colors <- c(
+  "Europe"    = "#2E5AAC",
+  "Asia"      = "#C44536", 
+  "Americas"  = "#D4A843",
+  "Oceania"   = "#3AA688",
+  "Mid. East" = "#E07A3E"
+)
+
+country_iso2 <- c(
+  "Monaco" = "mc", "San Marino" = "sm", "Japan" = "jp", 
+  "South Korea" = "kr", "Andorra" = "ad", "Switzerland" = "ch",
+  "Australia" = "au", "Italy" = "it", "Singapore" = "sg",
+  "Spain" = "es", "Liechtenstein" = "li", "Malta" = "mt",
+  "Norway" = "no", "Sweden" = "se", "France" = "fr",
+  "UAE" = "ae", "Iceland" = "is", "Canada" = "ca",
+  "Ireland" = "ie", "Israel" = "il", "Portugal" = "pt",
+  "Qatar" = "qa", "Luxembourg" = "lu", "Netherlands" = "nl",
+  "Belgium" = "be", "New Zealand" = "nz", "Austria" = "at",
+  "Finland" = "fi", "Greece" = "gr", "Denmark" = "dk",
+  "U.S." = "us", "Maldives" = "mv", "Cyprus" = "cy",
+  "Chile" = "cl", "Costa Rica" = "cr"
+)
+
+data_2026 <- tribble(
+  ~rank_2026, ~country_2026, ~value_2026, ~region_2026,
+  1,  "Monaco",        88.7, "Europe",
+  2,  "San Marino",    86.0, "Europe",
+  3,  "Japan",         85.1, "Asia",
+  4,  "South Korea",   84.6, "Asia",
+  5,  "Andorra",       84.5, "Europe",
+  6,  "Switzerland",   84.4, "Europe",
+  7,  "Australia",     84.3, "Oceania",
+  8,  "Italy",         84.2, "Europe",
+  9,  "Singapore",     84.1, "Asia",
+  10, "Spain",         84.1, "Europe",
+  11, "Liechtenstein", 84.1, "Europe",
+  12, "Malta",         83.8, "Europe",
+  13, "Norway",        83.8, "Europe",
+  14, "Sweden",        83.7, "Europe",
+  15, "France",        83.7, "Europe",
+  16, "UAE",           83.4, "Mid. East",
+  17, "Iceland",       83.3, "Europe",
+  18, "Canada",        83.1, "Americas",
+  19, "Ireland",       82.9, "Europe",
+  20, "Israel",        82.9, "Mid. East",
+  21, "Portugal",      82.9, "Europe",
+  22, "Qatar",         82.8, "Mid. East",
+  23, "Luxembourg",    82.6, "Europe",
+  24, "Netherlands",   82.6, "Europe",
+  25, "Belgium",       82.6, "Europe",
+  26, "New Zealand",   82.5, "Oceania",
+  27, "Austria",       82.5, "Europe",
+  28, "Finland",       82.4, "Europe",
+  29, "Greece",        82.4, "Europe",
+  30, "Denmark",       82.4, "Europe",
+  45, "U.S.",          79.3, "Americas",
+  
+)
+
+data_2100 <- tribble(
+  ~rank_2100, ~country_2100, ~value_2100, ~region_2100,
+  1,  "Monaco",              94.7, "Europe",
+  2,  "Japan",               94.4, "Asia",
+  3,  "San Marino",          94.0, "Europe",
+  4,  "South Korea",         93.1, "Asia",
+  5,  "Andorra",             93.0, "Europe",
+  6,  "Liechtenstein",       92.9, "Europe",
+  7,  "Spain",               92.9, "Europe",
+  8,  "Switzerland",         92.8, "Europe",
+  9,  "Italy",               92.8, "Europe",
+  10, "Singapore",           92.7, "Asia",
+  11, "Australia",           92.6, "Oceania",
+  12, "Malta",               92.3, "Europe",
+  13, "Sweden",              92.2, "Europe",
+  14, "France",              92.1, "Europe",
+  15, "Norway",              92.1, "Europe",
+  16, "Iceland",             92.0, "Europe",
+  17, "Portugal",            91.9, "Europe",
+  18, "Ireland",             91.8, "Europe",
+  19, "Canada",              91.7, "Americas",
+  20, "Maldives",            91.6, "Asia",
+  21, "UAE",                 91.6, "Mid. East",
+  22, "Israel",              91.5, "Mid. East",
+  23, "Netherlands",         91.5, "Europe",
+  24, "Austria",             91.5, "Europe",
+  25, "Belgium",             91.4, "Europe",
+  26, "Greece",              91.4, "Europe",
+  27, "Cyprus",              91.4, "Europe",
+  28, "Finland",             91.3, "Europe",
+  29, "Chile",               91.3, "Americas",
+  30, "Costa Rica",          91.2, "Americas",
+  48, "U.S.",                89.2, "Americas"
+)
+```
+
+2. 
+
+3. 

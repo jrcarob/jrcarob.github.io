@@ -1,0 +1,87 @@
+---
+title: "Testing the Weak Form of the Efficient Market Hypothesis and the Impact of COVID-19 in LAC countries"
+date: 2025-12-08
+author:
+  - name: Manuel Adolfo Pérez Priego
+    #url: http://www.github.com/jrcarob
+    orcid: 0000-0003-0155-5510
+    affiliation: University of Córdoba, Spain
+  - name: María de los Baños García-Moreno García
+    orcid: 0000-0002-7981-8846
+    #url: https://marriottschool.byu.edu/directory/details?id=50683
+    affiliation: University of Córdoba, Spain
+  - name: Lorena Caridad López del Río
+    orcid: 0000-0002-3406-9917
+    #url: https://marriottschool.byu.edu/directory/details?id=50683
+    affiliation: University of Sevilla, Spain
+  - name: José R. Caro-Barrera
+    url: http://www.github.com/jrcarob
+    orcid: 0000-0001-6154-2493
+    affiliation: University of Córdoba, Spain
+categories: 
+  - Efficient Market Hypothesis
+  - Financial Markets
+  - Random Walk
+pub-info:
+  reference: >-
+    Manuel Pérez Priego, María de los Baños García-Moreno García, Lorena Caridad López del Río and <strong>José Rafael Caro-Barrera</strong></a>, “Testing the Weak Form of the Efficient Market Hypothesis and the Impact of COVID-19 in LAC countries”, <em>Revista de Estudios Andaluces (REA)</em> n. 51 (February 2026), doi: <a href="https://dx.doi.org/10.12795/rea.2026.i51"><code>10.12795/rea.2026.i51</code></a>
+  links:
+    - name: Preprint
+      url: 12_Perez-Priego_etal.pdf
+      icon: fa-solid fa-file-pdf
+      local: true
+    - name: Final version
+      url: https://dx.doi.org/10.12795/rea.2026.i51
+      icon: fa-solid fa-scroll
+    - name: Add to Zotero
+      url: https://www.zotero.org/save?type=doi&q=10.12795/rea.2026.i51
+      icon: ai ai-zotero
+  #extra: >-
+  #  Presented at the Royal Statistical Society International Conference, Harrogate, Manchester, UK, September 2023.
+doi: 10.12795/rea.2026.i51
+haiku:
+  - Volatility surges,
+  - markets learn faster,
+  - drifting closer to chance.
+---
+
+![Preregistered](preregistered_large_color.png) <!--&emsp; ![Open data](data_large_color.png) &emsp; ![Open](materials_large_color.png)-->
+
+## Important links
+
+- [Paper (preprint)](12_Perez-Priego_etal.pdf){target="_blank"}
+<!-- - ![](helvia.png){width="150"} (To update)-->
+
+
+## Abstract
+
+This study analyses the impact of the pandemic on the poor performance of stock markets in Latin America and the Caribbean (LAC) by examining the COLCAP, BOVESPA, IPSA, MERVAL and MEXBOL indices between January 2018 and March 2021, with a particular focus on the first half of 2020. The proposed methodology is relatively new and consists of a sequential combination of statistical tests designed to determine whether index returns follow a random walk, and if so, what type this is. Empirical evidence shows that sharp price declines and increased volatility associated with the pandemic generally favoured weak-form efficiency in these markets. This reduced short-term return predictability and reinforced the role of prices in processing available information quickly. Additionally, the results imply that the impact of the pandemic on LAC markets was not uniform, but it did lead to a faster and more consistent incorporation of global and local news into stock prices, with significant implications for investor risk management and policymakers responsible for financial stability.
+
+## Methodology and Countries Analyzed
+
+Main overview of the structure of the research: context and indicators, methodology proposed and main findings and results.
+
+![Methodology.](fig1.jpg)
+
+
+
+## Citation
+
+<p class="buttons" style="text-align:center;">
+<a class="btn btn-danger" target="_blank" href="https://www.zotero.org/save?type=doi&q=10.12795/rea.2026.i51.12">{{< ai zotero >}}&emsp;Add to Zotero {{< fa square-arrow-up-right >}}</a>
+</p>
+
+```bibtex
+@article{PerezPriegoEtAl2026,
+  author  = {P{\'e}rez-Priego, Manuel Adolfo and Garc{\'i}a-Moreno Garc{\'i}a, Mar{\'i}a de los Ba{\~n}os and L{\'o}pez del R{\'i}o, Lorena Caridad and Caro-Barrera, Jos{\'e} Rafael},
+  title   = {Testing the weak form of the Efficient Market Hypothesis and the impact of COVID-19 in LAC countries},
+  journal = {Revista de Estudios Andaluces},
+  year    = {2026},
+  volume  = {51},
+  pages   = {241--267},
+  doi     = {10.12795/rea.2026.i51.12}
+  url     = {https://dx.doi.org/10.12795/rea.2026.i51.12}
+}
+```
+
+

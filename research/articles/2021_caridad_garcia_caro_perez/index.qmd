@@ -1,0 +1,90 @@
+---
+title: "Moody’s Ratings Statistical Forecasting for Industrial and Retail Firms"
+date: 2021-10-15
+author:
+  - name: Lorena Caridad y López del Río
+    orcid: 0000-0002-3406-9917
+    affiliation: University of Córdoba, Spain
+  - name: María de los Baños García-Moreno García
+    orcid: 0000-0002-7981-8846
+    affiliation: University of Córdoba, Spain
+  - name: José R. Caro-Barrera
+    url: http://www.github.com/jrcarob
+    orcid: 0000-0001-6154-2493
+    affiliation: University of Córdoba, Spain
+  - name: Manuel Adolfo Pérez Priego
+    orcid: 0000-0003-0155-5510
+    affiliation: University of Córdoba, Spain
+  - name: Daniel Caridad y López del Río
+    affiliation: University Carlos III, Madrid, Spain
+categories: 
+  - Moody’s rating
+  - Forecasting
+  - Industral Firms
+  - Retailing
+  - Credit Risk
+  - Neural Networks
+pub-info:
+  reference: >-
+    Lorena Caridad y López del Río</a>, María de los Baños García-Moreno García</a>, <strong>José Rafael Caro-Barrera</strong></a>, Manuel Adolfo Pérez Priego</a> and Daniel Caridad y López del Río: “Moody’s Ratings Statistical Forecasting for Industrial and Retail Firms,” <em>Economies</em> (2021) 9, 154, doi: <a href="9, 154. https://doi.org/10.3390/economies9040154"><code>10.3390/economies9040154</code></a>
+  links:
+    - name: Preprint
+      url: elsarticle-template-harv.pdf
+      icon: fa-solid fa-file-pdf
+      local: true
+    - name: Final version
+      url: https://doi.org/10.3390/economies9040154
+      icon: fa-solid fa-scroll
+    - name: Add to Zotero
+      url: https://www.zotero.org/save?type=doi&q=10.3390/economies9040154
+      icon: ai ai-zotero
+  #extra: >-
+  #  Presented at the Royal Statistical Society International Conference, Harrogate, Manchester, UK, September 2023.
+doi: 10.3390/economies9040154
+haiku:
+  - Artificial Neural Networks methods produce
+  - better results when working with large
+  - datasets increasing the model's accuracy.
+---
+
+![Preregistered](preregistered_large_color.png) <!--&emsp; ![Open data](data_large_color.png) &emsp; ![Open](materials_large_color.png)-->
+
+## Important links
+
+- [Paper (preprint)](economies-1281435-pre.pdf){target="_blank"}
+- University of Córdoba's official repository [![](helvia.png){width="150"}](https://helvia.uco.es/handle/10396/21889){target="_blank"}
+
+
+## Abstract
+
+Long-term ratings of companies are obtained from public data plus some additional nondisclosed information. A model based on data from firms’ public accounts is proposed to directly obtain these ratings, showing fairly close similitude with published results from Credit Rating Agencies. The rating models used to assess the creditworthiness of a firm may involve some possible conflicts of interest, as companies pay for most of the rating process and are, thus, clients of the rating firms. Such loss of faith among investors and criticism toward the rating agencies were especially severe during the financial crisis in 2008. To overcome this issue, several alternatives are addressed; in particular, the focus is on elaborating a rating model for Moody’s long-term companies’ ratings for industrial and retailing firms that could be useful as an external check of published rates. Statistical and artificial intelligence methods are used to obtain direct prediction of awarded rates in these sectors, without aggregating adjacent classes, which is usual in previous literature. This approach achieves an easy-to-replicate methodology for real rating forecasts based only on public available data, without incurring the costs associated with the rating process, while achieving a higher accuracy. With additional sampling information, these models can be extended to other sectors.
+
+
+## Important Figures
+
+![Fig. 2. Average cumulative default reates. More than a half of the `C` rated companies 265 entered default after a decade, white `Aaa` firms where almost free of financial problems, 266 even after longer periods.](rating02.png) 
+
+![Fig. 5. The sensibility vs specificity curves for each rating category show a homogenous 395 behavior across the whole range of values.](sens.png) 
+
+
+
+## Citation
+
+<p class="buttons" style="text-align:center;">
+<a class="btn btn-danger" target="_blank" href="https://www.zotero.org/save?type=doi&q=10.3390/economies9040154">{{< ai zotero >}}&emsp;Add to Zotero {{< fa square-arrow-up-right >}}</a>
+</p>
+
+```bibtex
+@Article{economies9040154,
+AUTHOR = {Caridad y López del Río, Lorena and García-Moreno García, María de los Baños and Caro-Barrera, José Rafael and Pérez-Priego, Manuel Adolfo and Caridad y López del Río, Daniel},
+TITLE = {Moody’s Ratings Statistical Forecasting for Industrial and Retail Firms},
+JOURNAL = {Economies},
+VOLUME = {9},
+YEAR = {2021},
+NUMBER = {4},
+ARTICLE-NUMBER = {154},
+URL = {https://www.mdpi.com/2227-7099/9/4/154},
+ISSN = {2227-7099},
+DOI = {10.3390/economies9040154}
+}
+```

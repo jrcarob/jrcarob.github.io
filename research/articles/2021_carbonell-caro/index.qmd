@@ -1,0 +1,101 @@
+---
+title: "Predictive Factors for Pulmonary Homograft Dysfunction After Ross Surgery: A 20-Year Follow-up"
+date: 2021-14-15
+author:
+  - name: Azahara Fernández-Carbonell, MD
+    #url: http://www.github.com/jrcarob
+    #orcid: 0000-0003-0155-5510
+    affiliation: University of Granada, Spain
+  - name: Enrique Rodríguez-Guerrero, MD
+    #orcid: 0000-0002-7981-8846
+    #url: https://marriottschool.byu.edu/directory/details?id=50683
+    affiliation: University of Granada, Spain
+  - name: Carlos Merino-Cejas, MD, PhD
+    #orcid: 0000-0002-3406-9917
+    #url: https://marriottschool.byu.edu/directory/details?id=50683
+    affiliation: University of Córdoba, Spain
+  - name: María Teresa Conejero Jurado, MD, PhD
+    #orcid: 0000-0002-3406-9917
+    #url: https://marriottschool.byu.edu/directory/details?id=50683
+    affiliation: Hospital Reina Sofía Córdoba, Spain
+  - name: Rafael Villalba Montoro, MD, PhD
+    #orcid: 0000-0002-3406-9917
+    #url: https://marriottschool.byu.edu/directory/details?id=50683
+    affiliation: Hospital Reina Sofía Córdoba, Spain
+  - name: José R. Caro-Barrera, PhD
+    url: http://www.github.com/jrcarob
+    orcid: 0000-0001-6154-2493
+    affiliation: University of Córdoba, Spain
+categories: 
+  - Event Study
+  - Survival Probabilities
+  - Medical Statistics
+pub-info:
+  reference: >-
+    Azahara Fernández-Carbonell, Enrique Rodríguez-Guerrero, Carlos Merino-Cejas, María Teresa Conejero-Jurado, Rafael Villalba-Montoro and <strong>José Rafael Caro-Barrera</strong></a>, “Predictive Factors for Pulmonary Homograft Dysfunction After Ross Surgery: A 20-Year Follow-up”, <em>The Annals of Thoracic Surgery</em> vol. 111 (April 2021), doi: <a href="https://doi.org/10.1016/j.athoracsur.2020.06.032"><code>10.1016/j.athoracsur.2020.06.032</code></a>
+  links:
+    - name: Preprint
+      url: journal_pre-proof.pdf
+      icon: fa-solid fa-file-pdf
+      local: true
+    - name: Final version
+      url: https://doi.org/10.1016/j.athoracsur.2020.06.032
+      icon: fa-solid fa-scroll
+    - name: Add to Zotero
+      url: https://www.zotero.org/save?type=doi&q=10.1016/j.athoracsur.2020.06.032
+      icon: ai ai-zotero
+  #extra: >-
+  #  Presented at the Royal Statistical Society International Conference, Harrogate, Manchester, UK, September 2023.
+doi: 10.1016/j.athoracsur.2020.06.032
+haiku:
+  - The Ross surgery for pulmonary homografts dysfunction
+  - offer satisfactory long-term results.
+---
+
+![Preregistered](preregistered_large_color.png) <!--&emsp; ![Open data](data_large_color.png) &emsp; ![Open](materials_large_color.png)-->
+
+## Important links
+
+- [Paper (preprint)](journal_pre-proof.pdf){target="_blank"}
+- University of Córdoba's official repository [![](helvia.png){width="150"}](https://helvia.uco.es/xmlui/handle/10396/37013){target="_blank"}
+
+
+## Background
+
+We studied the determinants of hemodynamics and analyzed the incidence, risk factors, and clinical impact of pulmonary homograft dysfunction following Ross surgery, after a 20-year follow-up at our referral center.
+
+## Methods
+
+From 1997 to 2017, a total of 142 patients underwent surgery using the Ross procedure. The development of moderate-severe stenosis (peak transhomograft pressure gradient 36 mm Hg or greater) and surgical or percutaneous Ross homograft reinterventions were evaluated by echocardiography in the immediate postoperative period and at annual intervals.
+
+## Conclusions
+
+Pulmonary homografts implanted in the Ross procedure offer satisfactory long-term results, but the level of homograft dysfunction is not negligible. Young recipient and donor age were associated with a higher rate of homograft stenosis during follow-up. Moreover, homograft dysfunction usually occurred during the first few years of follow-up, and may have been related to immune responses.
+
+![Survival rate in the follow-up months.](fx1_lrg.jpg)
+
+
+
+## Citation
+
+<p class="buttons" style="text-align:center;">
+<a class="btn btn-danger" target="_blank" href="https://www.zotero.org/save?type=doi&q=0.1016/j.athoracsur.2020.06.032">{{< ai zotero >}}&emsp;Add to Zotero {{< fa square-arrow-up-right >}}</a>
+</p>
+
+```bibtex
+@article{cite-key,
+	title = {Predictive Factors for Pulmonary Homograft Dysfunction After Ross Surgery: A 20-Year Follow-up},
+	author = {Fern{\'a}ndez-Carbonell, Azahara and Rodr{\'\i}guez-Guerrero, Enrique and Merino-Cejas, Carlos and Conejero-Jurado, Mar{\'\i}a Teresa and Villalba-Montoro, Rafael and Romero-Morales, Mar{\'\i}a del Carmen and Alados-Arboledas, Pedro and Casares-Mediavilla, Jaime and Fern{\'a}ndez-Carbonell, Marta and L{\'o}pez-Cillero, Pedro and Caro-Barrera, Jos{\'e}Rafael},
+	journal = {The Annals of Thoracic Surgery},
+	date = {2021/04/01},
+	doi = {10.1016/j.athoracsur.2020.06.032},
+	number = {4},
+	pages = {1338--1344},
+	publisher = {Elsevier},
+	type = {doi: 10.1016/j.athoracsur.2020.06.032},
+	url = {https://doi.org/10.1016/j.athoracsur.2020.06.032},
+	volume = {111},
+	year = {2021}}
+```
+
+

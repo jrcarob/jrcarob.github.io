@@ -1,0 +1,87 @@
+---
+title: "Exploring Trophy Hunting and Recreational Hunting Tourism: an Analysis from a Bibliometric Perspective (1971–2024)"
+date: 2026-07-01
+author:
+  - name: José R. Caro-Barrera
+    url: http://www.github.com/jrcarob
+    orcid: 0000-0001-6154-2493
+    affiliation: University of Córdoba, Spain
+  - name: María de los Baños García-Moreno García
+    orcid: 0000-0002-7981-8846
+    #url: https://marriottschool.byu.edu/directory/details?id=50683
+    affiliation: University of Córdoba, Spain
+  - name: Manuel Adolfo Pérez Priego
+    #url: http://www.github.com/jrcarob
+    orcid: 0000-0003-0155-5510
+    affiliation: University of Córdoba, Spain
+categories: 
+  - Tourism
+  - Bibliometrics
+pub-info:
+  reference: >-
+    <strong>José Rafael Caro-Barrera</strong></a>, María de los Baños García-Moreno García, Manuel Pérez Priego, “Exploring Trophy Hunting and Recreational Hunting Tourism: an Analysis from a Bibliometric Perspective (1971–2024)”, <em>Transformation in Business and Economics</em> 25(2 (68), 460-483, doi: <a href="https://doi.org/10.15388/Tibe.2026.25.2.6"><code>10.15388/Tibe.2026.25.2.6</code></a>
+  links:
+    - name: Final version
+      url: https://doi.org/10.15388/Tibe.2026.25.2.6
+      icon: fa-solid fa-scroll
+    - name: Add to Zotero
+      url: https://www.zotero.org/save?type=doi&q=10.15388/Tibe.2026.25.2.6
+      icon: ai ai-zotero
+  #extra: >-
+  #  Presented at the Royal Statistical Society International Conference, Harrogate, Manchester, UK, September 2023.
+doi: 10.15388/Tibe.2026.25.2.6
+haiku:
+  - Analysis of scientific literature
+  - SLNA apprach
+  - exponential growth of scientific production
+  - over the last 15 years 
+---
+
+![Preregistered](preregistered_large_color.png) <!--&emsp; ![Open data](data_large_color.png) &emsp; ![Open](materials_large_color.png)-->
+
+## Important links
+
+- ![](helvia.png){width="150"} (To update).
+
+
+## Abstract
+
+Recreational and trophy hunting are controversial practices that intersect ecological conservation, ethical debates and socio-economic development. Only a few studies have been conducted on this subject; thus, this study analyses scientific literature on recreational and trophy hunting by applying the systematic literature network analysis methodology. It uses bibliometric software Bibliometrix and VOSviewer© to analyse a total of 1,559 scientific publications short-listed from the Web of Science© and Scopus© databases from 1971 to 2024. Geographically, there is a lack of research in regions with a hunting tradition. The study contribution extends to the academic and policy areas, establishing a basis for guiding future research and informed policymaking on trophy hunting with socio-economic benefits.
+
+## Methodology
+
+
+![Fig. 1 SLNA Approach.](methodology.jpg)
+
+![Fig. 2: Flowchart of Data Collection.](flowchart.jpg)
+
+## Keywords Analysis
+
+![Fig.5: Network of co-occurrence of author's keywords.](keywords.png)
+
+
+
+## Citation
+
+<p class="buttons" style="text-align:center;">
+<a class="btn btn-danger" target="_blank" href="https://www.zotero.org/save?type=doi&q=10.12795/rea.2026.i51.12">{{< ai zotero >}}&emsp;Add to Zotero {{< fa square-arrow-up-right >}}</a>
+</p>
+
+```bibtex
+@article{Caro-Barrera_de los Baños García-Moreno García_Pérez Priego_2026,
+  author  ={Caro-Barrera, José Rafael and de los Baños García-Moreno García, María and Pérez Priego, Manuel Adolfo}, 
+  title ={Exploring trophy hunting and recreational hunting tourism: an analysis from a bibliometric perspective (1971–2024)}, 
+  volume  ={25}, 
+  url ={https://www.journals.vu.lt/TIBE/article/view/46180}, 
+  DOI ={10.15388/Tibe.2026.25.2.6}, 
+  abstractNote={
+Recreational and trophy hunting are controversial practices that intersect ecological conservation, ethical debates and socio-economic development. Only a few studies have been conducted on this subject; thus, this study analyses scientific literature on recreational and trophy hunting by applying the systematic literature network analysis methodology. It uses bibliometric software Bibliometrix and VOSviewer© to analyse a total of 1,559 scientific publications short-listed from the Web of Science© and Scopus© databases from 1971 to 2024. Geographically, there is a lack of research in regions with a hunting tradition. The study contribution extends to the academic and policy areas, establishing a basis for guiding future research and informed policymaking on trophy hunting with socio-economic benefits.}, 
+  number  ={2 (68)}, 
+  journal ={Transformations In Business & Economics}, 
+  year  ={2026}, 
+  month ={Jul.}, 
+  pages ={460–483} 
+}
+```
+
+

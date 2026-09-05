@@ -1,0 +1,88 @@
+---
+title: "Projecting Spanish Fertility at Regional Level: A Hierarchical Bayesian Approach"
+date: 2022-10-18
+author:
+  - name: José R. Caro-Barrera
+    url: http://www.github.com/jrcarob
+    orcid: 0000-0001-6154-2493
+    affiliation: University of Córdoba, Spain
+  - name: María de los Baños García-Moreno García
+    orcid: 0000-0002-7981-8846
+    #url: https://marriottschool.byu.edu/directory/details?id=50683
+    affiliation: University of Córdoba, Spain
+  - name: Manuel Adolfo Pérez Priego
+    orcid: 0000-0003-0155-5510
+    affiliation: University of Córdoba, Spain
+categories: 
+  - Demography
+  - Fertility
+  - Simulation
+  - Bayesian
+pub-info:
+  reference: >-
+    <strong>José Rafael Caro-Barrera,</strong> María de los Baños García-Moreno García</a> and Manuel Pérez Priego</a>, “Projecting Spanish Fertility at Regional Level: A Hierarchical Bayesian Approach,” <em>PLoS One</em> 17(10) (October 2022): 1–27, doi: <a href="https://doi.org/10.1371/journal.pone.0275492"><code>10.1371/journal.pone.0275492</code></a>
+  links:
+    - name: Preprint
+      url: manuscript_vers_04-oct.pdf
+      icon: fa-solid fa-file-pdf
+      local: true
+    - name: Final version
+      url: https://doi.org/10.1371/journal.pone.0275492
+      icon: fa-solid fa-scroll
+    - name: Code
+      url: https://osf.io/9bnkh/
+      icon: fa-brands fa-osi
+    - name: Add to Zotero
+      url: https://www.zotero.org/save?type=doi&q=10.1371/journal.pone.0275492
+      icon: ai ai-zotero
+  extra: >-
+    Presented at the Royal Statistical Society International Conference, Harrogate, Manchester, UK, September 2023.
+doi: 10.1371/journal.pone.0275492
+haiku:
+  - Prolonged economic uncertainty,
+  - high cost of living,
+  - lifestyle changes and work decisions,
+  - are causing a drop in births.
+---
+
+![Preregistered](preregistered_large_color.png) &emsp; ![Open data](data_large_color.png) &emsp; ![Open](materials_large_color.png)
+
+## Important links
+
+- [Paper (preprint)](manuscript_vers_04-oct.pdf){target="_blank"}
+- [Appendix (preprint)](s1.pdf){target="_blank"}
+- [GitHub repository](https://github.com/jrcarob/Fertility_projection_modeling){target="_blank"}
+- [Experiment preregistration](https://osf.io/9bnkh/){target="_blank"} (fertility project)
+- University of Córdoba's official repository [![](helvia.png){width="150"}](https://helvia.uco.es/handle/10396/29398){target="_blank"}
+
+
+## Abstract
+
+The transition from a demographic regime of high mortality and high fertility to one with low mortality and low fertility is universal and comes along with the process of socio-economic modernization. The Spanish total fertility rate has decreased to below replacement levels in the last decades. The decline has persisted since the 1960s and is diverse across the country. Based on that diversity, the use of population forecasts, not only at national but at regional levels, for planning purposes (governments and private sector) with large horizons has become a must to provide essential services. Using a Bayesian hierarchical model we constructed probabilistic fertility forecasts for Spain at the regional level. Although this approach is already issued by the United Nations little research has been done focusing on the Spanish subnational level. Our objective is to disaggregate the national projections of the total fertility rate for Spain into regional forecasts. The results of this research will show the model fitting, first to the national level and then using a multifaceted and continuous evolution of fertility over time, at the regional level, to check its convergence.
+
+
+## Important figure
+
+Figure 3: Spanish TFR at the municipality level. This level shows that in most municipalities the TFR is lower than 2.0 and especially remarkable are those with a TFR close to 0. As the size of the municipalities has an impact on birth rates, the characteristics of these barren territories where TFR is almost 0, are usually quite similar: inland, sparsely populated and ageing.
+
+![Figure 3: Spanish TFR at the municipality level.](fig3.png)
+
+
+## Citation
+
+<p class="buttons" style="text-align:center;">
+<a class="btn btn-danger" target="_blank" href="https://www.zotero.org/save?type=doi&q=10.1371/journal.pone.0275492">{{< ai zotero >}}&emsp;Add to Zotero {{< fa square-arrow-up-right >}}</a>
+</p>
+
+```bibtex
+@article{CaroGarciaPerez:2022,
+    Author = {Caro-Barrera, JR and García-Moreno García, MB. and Pérez Priego, M.},
+    Doi = {10.1371/journal.pone.0275492},
+    Journal = {PLoS One},
+    Month = {10},
+    Number = {17},
+    Pages = {1--27},
+    Title = {Projecting Spanish Fertility at Regional Level: A Hierarchical Bayesian Approach},
+    Volume = {10},
+    Year = {2022}}
+```

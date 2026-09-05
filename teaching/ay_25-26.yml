@@ -1,0 +1,32 @@
+- title: Financial Mathematics (course in Spanish) 
+  description: "Financial Mathematics"
+  university: University of Córdoba, Spain
+  number: Degree in Business Administration and Degree in Law and Business Admninistration
+  url: https://www.uco.es/organiza/centros/derecho/es/doble-grado
+  logo: logos/finmaths.png
+  semester:
+  - name: Fall 2025
+    # url: https://www.uco.es
+  - name: Spring 2026
+    # url: https://www.uco.es
+    
+- title: Microeconomics (course in Spanish)
+  description: "Microeconomics"
+  university: University of Córdoba, Spain
+  number: Degree in Business Administration and Degree in Law and Business Admninistration
+  url: https://www.uco.es/organiza/centros/derecho/es/doble-grado
+  logo: logos/micro3.png
+  semester:
+  - name: Spring 2026
+    # url: https://www.uco.es
+    
+- title: Macroeconomics (course in Spanish)
+  description: "Macroeconomics"
+  university: University of Córdoba, Spain
+  number: Degree in Business Administration and Degree in Law and Business Admninistration
+  url: https://www.uco.es/organiza/centros/derecho/es/doble-grado
+  logo: logos/uco4.png
+  semester:
+  - name: Spring 2026
+    # url: https://www.uco.es
+    

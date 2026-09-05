@@ -1,0 +1,279 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Twenty Seconds Resume/CV
+% LaTeX Template
+% Version 1.1 (8/1/17)
+%
+% This template has been downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% Original author:
+% Carmine Spagnuolo (cspagnuolo@unisa.it) with major modifications by
+% Vel (vel@LaTeXTemplates.com)
+%
+% Adapted to be an Rmarkdown template by Rob J Hyndman
+% 23 November 2018
+%
+% License:
+% The MIT License (see included LICENSE file)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[10pt,a4paper,]{twentysecondcv}
+
+\usepackage[scaled=0.86]{DejaVuSansMono}
+
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{csquotes}
+\else % if luatex or xetex
+  \usepackage{fontspec}
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+\fi
+
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{0}
+
+\usepackage{booktabs}
+
+
+
+%----------------------------------------------------------------------------------------
+%	 PERSONAL INFORMATION
+%----------------------------------------------------------------------------------------
+
+% If you don't need one or more of the below, just remove the content leaving the command, e.g. \cvnumberphone{}
+
+% Profile pic
+\profilepic{jcaro1.png}
+
+\cvname{Jos\'e R. Caro-Barrera} % Your name
+
+\cvjobtitle{Assistant Professor\\ University of C\'ordoba,\\ Spain} % Job title/career
+\cvdate{Updated: September 2026} % Date of birth or date of CV??
+\cvaddress{Area of Applied Economics} % Short address/location, use \newline if more than 1 line is required
+%\cvpronouns{he/his} % Pronouns
+%\cvnumberphone{+34 957 XXX XXX} % Phone number
+\cvsite{\href{https://www.uco.es/organiza/departamentos/estadistica/index.php/personal/personal-docente-e-investigador/area-de-conocimiento-de-estadistica-e-investigacion-operativa}{www.uco.es}} % Personal website
+\cvmail{\href{mailto:jrcaro@uco.es}{\nolinkurl{z52cabaj@uco.es}}} % Email address
+\cvtwitter{\href{https://twitter.com/caroisallin}{@caroisallin}}
+\cvgithub{\href{https://github.com/jrcarob}{jrcarob}}
+%\cvlinkedin{\href{https://www.linkedin.com/in/jose-rafael-caro-barrera}{Jose Caro}}
+\cvorcid{\href{https://orcid.org/0000-0001-6154-2493}{ORCID: 0000-0001-6154-2493}}
+\cvscholar{\href{https://scholar.google.es/citations?user=NGV9ylEAAAAJ\&hl=es}{Jos\'e R. Caro-Barrera}}
+\cvresearchgate{\href{https://www.researchgate.net/profile/Jose-R-Caro-Barrera-2}{Researchgate}}
+
+\lfoot{\sf Curriculum Vitae: Jos\'e R. Caro-Barrera}
+\rfoot{\sf\thepage}
+
+% Pandoc CSL macros
+\newlength{\cslhangindent}
+\setlength{\cslhangindent}{1.5em}
+\newlength{\csllabelwidth}
+\setlength{\csllabelwidth}{3em}
+\newenvironment{CSLReferences}[3] % #1 hanging-ident, #2 entry spacing
+ {% don't indent paragraphs
+  \setlength{\parindent}{0pt}
+  % turn on hanging indent if param 1 is 1
+  \ifodd #1 \everypar{\setlength{\hangindent}{\cslhangindent}}\ignorespaces\fi
+  % set entry spacing
+  \ifnum #2 > 0
+  \setlength{\parskip}{#2\baselineskip}
+  \fi
+ }%
+ {}
+\usepackage{calc}
+\newcommand{\CSLBlock}[1]{#1\hfill\break}
+\newcommand{\CSLLeftMargin}[1]{\parbox[t]{\csllabelwidth}{#1}}
+\newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{#1}}
+\newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
+
+\begin{document}
+\aboutme{Postdoc researcher and assistant professor at the University of Córdoba, teaching \textit{\textbf{Statistics}} in the degrees of Tourism and Business Administration, \textit{\textbf{Quantitative methods in Management}} and \textit{\textbf{Microeconomics}} in the degree of business administration and \textit{\textbf{Operations Research}} in the Master of Business Administration. My dissertation was based on the development of mortality and fertility projection models and the role of longevity in financial planning for retirement. It was awarded \emph{\textbf{Cum Laude with International Mention}}.}
+
+% Skill bar section, each skill must have a value between 0 an 6 (float)
+%\skills{{pursuer of rabbits/5.8},{good manners/4},{outgoing/4.3},{polite/4},{Java/0.01}}
+
+% Skill text section, each skill must have a value between 0 an 6
+%\skillstext{{lovely/4},{narcissistic/3}}
+
+\makeprofile % Print the sidebar
+
+
+\hypertarget{education}{%
+\section{Education}\label{education}}
+
+\nopagebreak
+
+\begin{twenty}
+    %\twentyitem{2020}{Master of Applied Statistics}{University of Granada, Spain}{\par\empty}
+    \twentyitem{2019}{PhD in Social Sciences}{University of C\'ordoba, Spain}{Title: \emph{Pensions, Longevity and Mortality. Long-Term Financial Planning Resources: The Reverse Mortgage as a Complement to Retirement}, \textbf{Doctoral Dissertation}, University of C\'ordoba, Spain, \url{https://helvia.uco.es/xmlui/handle/10396/19025}}\par\empty
+    \twentyitem{2014}{Master in Financial Management}{ESIC Business \& Marketing School}{Seville, Spain\par\empty}
+    \twentyitem{2010}{Master in Finance (Major in Quantitative Finance)}{University of Lugano and ETH Z\"urich}{Lugano, Switzerland\par\empty}
+    \twentyitem{2003}{Degree in Business Administration}{University of C\'ordoba}{C\'ordoba, Spain\par\empty}
+\end{twenty}
+
+\hypertarget{research-interests}{%
+\section{Research Interests}\label{esearch-interests}}
+
+\begin{itemize}
+\tightlist
+\item
+  Demography and Demographic Models.
+\item
+  Applied Statistics and Econometrics to Financial Markets.
+\item
+  Computational Methods for Quantitative Finance.
+\item
+  Econophysics and Machine Learning for Economics and Finance.
+\end{itemize}
+
+\hypertarget{skills}{%
+\section{Skills}\label{skills}}
+
+\nopagebreak
+
+\begin{twentyshort}
+    \twentyitemshort{IT}{R \& Posit(R-Studio), Python, Markdown, Quarto, Latex, Tikz, Vscode}
+    \twentyitemshort{Languages}{Spanish, English, Italian.}
+\end{twentyshort}
+
+\hypertarget{Teaching}{%
+\section{Teaching}\label{teaching}}
+
+\begin{twentyshort}
+ \twentyitemshort{2025-2026}{\textbullet\ \emph{Microeconomics} (Degree in Business Administration). \\\textbullet\ \emph{Financial Mathematics} (Degree in Business Administration). \\\textbullet\ \emph{Macroeconomics} (Degree in Business Administration).}\\
+    \twentyitemshort{2024-2025}{\textbullet\ \emph{Microeconomics} (Degree in Business Administration). \\\textbullet\ \emph{Financial Mathematics} (Degree in Business Administration). \\\textbullet\ \emph{Foundations of Economics} (Degree in Tourism).}\\
+    \twentyitemshort{2023-2024}{\textbullet\ \emph{Applied Statistics to Tourism} (Bilingual Degree in Tourism). \\\textbullet\ \emph{Tourism Market Research} (Bilingual Degree in Tourism). \\\textbullet\ \emph{Statistics} (Degree in Biology). \\\textbullet\ \emph{Computer Data Analysis} (Degree in Labour Relationships and HR). \\\textbullet\ \emph{Operations and Production Management} (MBA).}\\
+    \twentyitemshort{2022-2023}{\textbullet\ \emph{Applied Statistics to Tourism} (Degree in Tourism). \\\textbullet\ \emph{Quantitative Methods for Business} (Degree in Business Administration). \\\textbullet\ \emph{Statistics} (Degree in Biology). \\\textbullet\ \emph{Computer Data Analysis} (Degree in Labour Relationships and HR).\\\textbullet\ \emph{Operations and Production Management} (MBA).}\\
+    \twentyitemshort{2021-2022}{\textbullet\ \emph{Statistics} (Degrees in Biology, Chemistry and Environmental Sciences).\\\textbullet\ \emph{Computer Data Analysis} (Degree in Labour Relationships and Human Resources).\\\textbullet\ \emph{Operations and Production Management} (MBA).}\\
+    \twentyitemshort{2018-2021}{\textbullet\ \emph{Quantitative Methods for Business} (Degree in Business Administration). \\\textbullet\ \emph{Statistics} (Degrees in Biology, Chemistry and Environmental Sciences). \\\textbullet\ \emph{Applied Statistical Methods in Engineering} (Degree in Mechanical Engineering).\\\textbullet\ \emph{Statistics Applied to Business Administration} (MBA).\\\textbullet\ \emph{Operations and Production Management} (MBA).}\\
+    %\twentyitemshort{2019-2020}{\textbullet\ \emph{Statistics} (Degrees in Biology, Chemistry and Environmental Sciences).}\\
+    %\twentyitemshort{2018-2019}{\textbullet\ \emph{Statistics} (Degrees in Biology, Chemistry and Environmental Sciences).}
+\end{twentyshort}
+
+\newpage
+
+\hypertarget{publications}{%
+\section{Selected Publications}\label{publications}}
+
+\hypertarget{bibliography}{}
+\leavevmode\vadjust pre{\hypertarget{ref-hunting}{}}%
+\CSLLeftMargin{1. }
+\CSLRightInline{Caro-Barrera, JR.; Garc\'ia-Moreno Garc\'ia, MB. \& P\'erez Priego, M., (2026). \emph{Exploring Trophy Hunting and Recreational Hunting Tourism: an Analysis from a Bibliometric Perspective (1971--2024)}, Transformations in Business and Economics, 25-2(68), pp. 460-483, \url{https://doi.org/10.15388/Tibe.2026.25.2.6}}
+
+\CSLLeftMargin{2. }
+\CSLRightInline{P\'erez Priego, MA.; Garc\'ia-Moreno Garc\'ia, MB.; Caridad L\'opez del R\'io, L. \& Caro-Barrera, JR., (2026). \emph{Testing the Weak Form of the Efficient Market Hypothesis and the Impact of COVID-19 in LAC countries}, Revista de Estudios Andaluces, 51, pp. 241-267, \url{https://doi.org/10.12795/rea.2026.i51}}
+
+\leavevmode\vadjust pre{\hypertarget{ref-gastronomyy}{}}%
+\CSLLeftMargin{3. }
+\CSLRightInline{P\'erez Priego, M.; Garc\'ia-Moreno Garc\'ia, MB.; \& Caro-Barrera, JR;  (2023) \emph{Local Gastronomy As a Destination Tourist Attraction: the Case of the 'Chiringuitos' on the Costa del Sol (Spain)}, International Journal of Gastronomy and Food Science, vol. 34,
+\url{https://doi.org/10.1016/j.ijgfs.2023.100882}}
+
+\leavevmode\vadjust pre{\hypertarget{ref-demography}{}}%
+\CSLLeftMargin{4. }
+\CSLRightInline{Caro-Barrera, JR; Garc\'ia-Moreno Garc\'ia, MB \& P\'erez Priego, M., (2022) \emph{Projecting Spanish fertility at regional level: A hierarchical Bayesian approach}, PLoS One, vol. 1, pp: 1-27,
+\url{https://doi.org/10.1371/journal.pone.0275492}}
+
+\leavevmode\vadjust pre{\hypertarget{ref-credit-risk}{}}%
+\CSLLeftMargin{5. }
+\CSLRightInline{Caridad y L\'opez del R\'io, L.; Garc\'ia-Moreno Garc\'ia, MB; Caro-Barrera, JR; P\'erez Priego, M. \& Caridad y L\'opez del R\'io, D., (2021). \emph{Moody's Ratings Statistical Forecasting for Industrial and Retail Firms}, Economies, 9-4, pp. 154, \url{https://doi.org/10.3390/economies9040154.}}
+
+\CSLLeftMargin{6. }
+\CSLRightInline{Fern\'andez-Carbonell, A.; Rodr\'iguez-Guerrero, E.; Merino Cejas, C.; \& Caro-Barrera, JR., (2021). \emph{Predictive Factors for
+Pulmonary Homograft Dysfunction After Ross Surgery: A 20-Year Follow-up}, The Annals of Thoracic Surgery, 111-4, pp. 1338-1344, \url{https://doi.org/10.1016/j.athoracsur.2020.06.032}}
+
+\CSLLeftMargin{7. }
+\CSLRightInline{Caro-Barrera, JR., (2020). \emph{Insurance Options: Beating the benchmark. Are Catastrophe Bonds more profitable than Corporate Bonds?}, Journal of Quantitative Methods for Economics and Business Administration, 29, pp. 3-17, \url{https://doi.org/10.46661/revmetodoscuanteconempresa.2978}}
+
+\CSLLeftMargin{8. }
+\CSLRightInline{Caro-Barrera, JR., (2019). \emph{Statistical physics applications for the valuation of financial assets: From the Fokker- Planck equation to the Black-Scholes model. Finite difference solution for European PUT options}, Estudios de Econom\'ia Aplicada, 37-2, \url{https://doi.org/10.25115/eea.v37i2.2609}}
+
+\CSLLeftMargin{9. }
+\CSLRightInline{Caro-Barrera, JR., (2019). \emph{Credit Risk Models: Practical Application to a Mortgage Refinancing Model}, Journal of Quantitative Methods for Economics and Business Administration, 29, pp. 3-17, \url{https://doi.org/10.46661/revmetodoscuanteconempresa.2976}}
+
+%\CSLLeftMargin{7. }
+%\CSLRightInline{Caro-Barrera, JR., (2019). \emph{Pensions, Longevity and Mortality. Long-Term Financial Planning Resources: The Reverse Mortgage as a Complement to Retirement}, \textbf{Doctoral Dissertation}, University of C\'ordoba, Spain, \url{https://helvia.uco.es/xmlui/handle/10396/19025}}
+
+%\CSLLeftMargin{3. }
+%\CSLRightInline{O'Hara-Wild, M., \& Hyndman, R. (2023). \emph{Vitae:
+%Curriculum vitae for r markdown}.
+%\url{https://CRAN.R-project.org/package=vitae}}
+%
+%\CSLLeftMargin{4. }
+%\CSLRightInline{O'Hara-Wild, M., \& Hyndman, R. (2023). \emph{Vitae:
+%Curriculum vitae for r markdown}.
+%\url{https://CRAN.R-project.org/package=vitae}}
+
+%\newpage
+
+\hypertarget{congresses}{%
+\section{Selected Talks}\label{congresses}}
+
+\begin{twenty}
+\twentyitem{2026-Jun}{23rd International Congress of Academy Innovation, Entrepeneurship and Knowledge (Aciek)}{M\'alaga, Spain}{\emph{Title: Intellectual Structure and Thematic Evolution of Research on Astrotourism: A Semantic-Thematic Bibliometric Analysis.}\par\empty}
+\twentyitem{2026-Mar}{20th Annual International Technology, Education and Development Conference (INTED)}{Valencia, Spain}{\emph{Title: Improving Microeconomics Teaching with an Interactive R Shiny Application.}\par\empty}
+\twentyitem{2025-Jun}{22nd International Congress of Academy Innovation, Entrepeneurship and Knowledge (Aciek)}{Alcal\'a de Henares, Madrid, Spain}{\emph{Title: Exploring Trophy Hunting and Recreational Hunting Tourism: An Analysis from a Bibliometric Perspective (1971-2024).}\par\empty}
+ \twentyitem{2023-Sept}{Royal Statistical Society International Conference}{Harrogate, UK}{\emph{Title: Projecting Spanish Fertility at Regional Level. A Hierarchical Bayesian Approach.}\par\empty}
+\end{twenty}
+
+\begin{twenty}
+\twentyitem{2022-Feb}{XXXI Jornadas Hispano-Lusas de Gesti\'on Cient\'ifica}{Toledo, Spain}{\emph{Title: Optimisation in the Distribution of Perishable Goods.}\par\empty}
+\twentyitem{2022-Feb}{XXXI Jornadas Hispano-Lusas de Gesti\'on Cient\'ifica}{Toledo, Spain}{\emph{Title: Testing the Weak Form of the Efficient Market Hypothesis and the Impact of Covid-19 on Spanish and Portuguese Financial Markets.}\par\empty}
+\twentyitem{2021-Sept}{Royal Statistical Society International Conference}{London, UK}{\emph{Title: Computational Methods for Modelling Mortality and Fertility Projections: Application to Spanish Demography.}\par\empty}
+\end{twenty}
+
+%\hypertarget{grants}{%
+%\section{Grants}\label{grants}}
+%
+%\begin{twenty}
+%    \twentyitem{2023}{Erasmus+ Mobility Teaching}{Ludwig Maximilian University}{M\"unich, Germany\par\empty}
+%\end{twenty}
+
+%\begin{twenty}
+%    \twentyitem{2024}{Erasmus+ Mobility Teaching}{UCLouvain}{Brussels, Netherlands\par\empty}
+%\end{twenty}
+
+\hypertarget{courses}{%
+\section{Selected Courses}\label{courses}}
+
+\begin{twenty}
+   \twentyitem{2023}{Topics in Digital and Computational Demography}{15 hours}{Max Planck Institute for Demographic Research (MPIDR)\par\empty}
+   \twentyitem{2023}{Basic Course in R for Historical Demography}{12 hours}{Italian Society of Historical Demography (SIDeS)\par\empty}
+   \twentyitem{2023}{Exploring Open Large-Scale Historical Demographic DB}{12 hours}{Italian Society of Historical Demography (SIDeS)\par\empty}
+   \twentyitem{2019}{Barcelona Summer School of Demography}{80 hours}{Centre d'Estudis Demografics (CED)\\
+   \textbullet\ \emph{Module 1: Introduction to R. Instructor: Tim Riffe} (20 hours).\\
+   \textbullet\ \emph{Module 2: Data Visualization with R Instructor: Ilya Kashnitsky} (20 hours).\\
+   \textbullet\ \emph{Module 3: Introduction to R. Instructor: Marie-Pier Bergeron-Boucher} (20 hours).\\
+   \textbullet\ \emph{Module 4: Introduction to R. Instructor: Juan Galeano} (20 hours).\par\empty}
+\end{twenty}
+
+%\newpage
+
+\hypertarget{memberships grants}{%
+\section{Grants \& Stays}\label{grants}}
+
+%\begin{twenty}
+%    \twentyitem{2024}{Erasmus+ Mobility Teaching Grant}{Université Catholique de Louvain}{Louvain, Belgium\par\empty}
+%\end{twenty}
+\begin{twenty}
+    \twentyitem{2025}{Erasmus+ Mobility Teaching Grant}{UCLouvain}{Brussels, Belgium\par\empty}
+\end{twenty}
+
+\begin{twenty}
+    \twentyitem{2023}{Erasmus+ Mobility Teaching Grant}{Ludwig Maximilian University}{M\"unich, Germany\par\empty}
+\end{twenty}
+
+%\begin{twenty}
+  %  \twentyitem{2023}{Societa Italiana di Demografia Storica (SIDeS)}{University of Bologna}{Bologna, Italy\par\empty}
+%\end{twenty}
+
+\end{document}

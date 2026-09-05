@@ -1,0 +1,77 @@
+---
+title: "Credit Risk Models: Practical Application to a Mortgage Refinancing Model"
+date: 2019-12-07
+author:
+  - name: José R. Caro-Barrera
+    url: http://www.github.com/jrcarob
+    orcid: 0000-0001-6154-2493
+    affiliation: University of Córdoba, Spain
+categories: 
+  - Credit Risk
+  - Mortgage Refinancing
+pub-info:
+  reference: >-
+    <strong>José Rafael Caro-Barrera</strong>, “Credit Risk Models: Practical Application to a Mortgage Refinancing Model”, <em>Revista de Métodos Cuantitativos para la Economía y la Empresa</em>. Vol. 28, (Dec 2019): 183–197, doi: <a href="https://dialnet.unirioja.es/servlet/articulo?codigo=7182058"><code>https://dialnet.unirioja.es/servlet/articulo?codigo=7182058</code></a>
+  links:
+    #- name: Preprint
+    #  url: 20191031.pdf
+    #  icon: fa-solid fa-file-pdf
+    #  local: true
+    - name: Final version
+      url: https://dialnet.unirioja.es/servlet/articulo?codigo=7182058
+      icon: fa-solid fa-scroll
+    #- name: Code
+    #  url: https://osf.io/eajru/
+    #  icon: fa-brands fa-osi
+    #- name: Add to Zotero
+    #  url: https://www.zotero.org/save?type=doi&q=10.25115/eea.v37i2.2609
+    #  icon: ai ai-zotero
+  #extra: >-
+  #  Presented at the Royal Statistical Society International Conference, Harrogate, Manchester, UK, September 2023.
+#doi: 10.25115/eea.v37i2.2609
+haiku:
+  - A mortgage refinancing model is presented
+  - for cases of default risk on a mortgage where
+  - borrowers have the possibility to minimize risks
+  - by selecting the best refinancing option.
+---
+
+![Preregistered](preregistered_large_color.png) <!--&emsp; ![Open data](data_large_color.png) &emsp; ![Open](materials_large_color.png)-->
+
+## Important links
+
+- [Paper (preprint)](20191031.pdf){target="_blank"}
+- University of Córdoba official repositories: [![](helvia.png){width="150"}](https://helvia.uco.es/handle/10396/29584){target="_blank"}
+
+
+## Abstract
+
+Facing an hypothetical, but increasingly, case of default risk on a mortgage or a fall in interest rates, an important issue raised by the borrower is the possibility of minimizing that risk by selecting the best refinancing option. In this paper, a mortgage refinancing model is presented, developing a purely quantitative programming method with a simulation based on an algorithm created especially for this case and that can be useful for mortgage debtors. Thus, we begin by explaining the theoretical basis on which the research is based, to proceed to develop the problem, continuing with its implementation. Finally, the results are analyzed and the most relevant conclusions are commented.
+
+
+## Important figure
+
+Figure 1: The optimal refinancing policy is expressed as a rule for transforming any possible configuration of the state variable into an action that consists of continuing or refinancing the mortgage. To get a concrete idea of the optimal policy, we plot a sample of the market rate process and indicate the four optimal refinancing times.
+
+![Figure 1: Market interest rate trajectory.](simu1.jpg)
+
+
+
+## Citation
+
+<p class="buttons" style="text-align:center;">
+<a class="btn btn-danger" target="_blank" href="https://www.zotero.org/save?type=doi&q=https://dialnet.unirioja.es/servlet/articulo?codigo=7182058">{{< ai zotero >}}&emsp;Add to Zotero {{< fa square-arrow-up-right >}}</a>
+</p>
+
+```bibtex
+@article{Caro2019,
+    Author = {Caro-Barrera, JR},
+    Doi = {https://dialnet.unirioja.es/servlet/articulo?codigo=7182058},
+    Journal = {Revista de Métodos Cuantitativos para la Economía y la Empresa},
+    Month = {12},
+    Number = {28},
+    Pages = {183--197},
+    Title = {Modelos de Riesgo de Crédito: Aplicación Práctica a un Modelo de Refinanciación de Hipotecas},
+    Volume = {2},
+    Year = {2019}}
+```

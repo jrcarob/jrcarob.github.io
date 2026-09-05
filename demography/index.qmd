@@ -1,0 +1,100 @@
+---
+title: Demography at the MPIDR
+date: 2026-08-26
+description-meta: José Caro is working on a bunch of exciting and groundbreaking demographic projects 
+title-block-banner: "#19733D"
+published-title: Last updated
+toc: true
+toc-location: right
+toc-title: "Contents"
+---
+
+
+> "_Life is a chemical incident._" (Paul Ehrlich, 1870)
+
+## Small Demographic Data Viz Projects
+
+My current research projects involve mortality and fertility forecasting, demographic modelling and computational demography. These areas 
+require extensive computational analyses, simulation studies, and the management of complex datasets. In 2026, during the stay at 
+the [**Max Planck Institute for Demographic Research (MPIDR)**](https://www.demogr.mpg.de){target="_blank"} I came up with the idea of 
+building this corner during long conversations with some researchers at the MPIDR to whom I am deeply grateful for their valuable contributions, 
+whose websites served as the inspiration for this small section dedicated to demography and data visualization.
+
+:::::: {.grid}
+
+::::: {.card .g-col-12 .g-col-sm-4}
+
+[![](img/cover.png){.card-img-top}](2025_life_expectancy/index.qmd)
+
+:::: {.card-body}
+#### Spanish Life Expectancy
+
+Take a look at **life expectancy in Spain** since the beginning of the century
+::::
+
+:::::
+
+::::: {.card .g-col-12 .g-col-sm-4}
+
+[![](img/demo_dividend.png){.card-img-top}](2026_demographic_dividend/index.qmd)
+
+:::: {.card-body}
+#### Demographic Dividend
+
+Check the shrinkage of the Spanish demographic dividend and the changing age structure
+
+::::
+
+:::::
+
+::::: {.card .g-col-12 .g-col-sm-4}
+
+[![](img/sticker.png){.card-img-top .mx-auto .d-block width=70%}](2026_shinyapp/index.qmd)
+
+:::: {.card-body}
+#### The Spanish Life Expectancy Dashboard
+
+Explore the interactive dashboard that visualizes life expectancy and mortality data for Spain
+
+[{{< fa arrow-up-right-from-square >}} Site](https://jrcaro.shinyapps.io/shiny-app/){.card-link} [{{< fa brands github >}} Source](https://github.com/jrcarob/Spanish_life_expectancy_Dashboard){.card-link}</br>
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21409180.svg)](https://doi.org/10.5281/zenodo.21409180)
+
+::::
+
+:::::
+
+
+::::::
+
+:::::: {.grid}
+
+::::: {.card .g-col-12 .g-col-sm-4}
+
+[![](img/world-le.png){.card-img-top}](2026_worldwide_lexp/index.qmd)
+
+:::: {.card-body}
+#### Worldwide Highest Life Expectancy
+
+Data Viz of **highest life expectancy** projections worldwide
+
+[{{< fa brands github >}} Source](https://github.com/jrcarob/Highest_Life_Expectancy){.card-link}
+
+<!--::: {.card-description}-->
+<!--Take a look at **life expectancy in Spain** since the beginning of the century"-->
+<!--:::-->
+::::
+
+:::::
+
+::::::
+
+<div style="background-color: #daf0e3; padding: 4px; border-left: 4px solid #19733D;">
+
+>This page is under construction, but most of my projects are open source and can be found in my [GitHub repositories](https://github.com/jrcarob). This includes all of the materials for my [course websites](../teaching/index.qmd) and course content, if you cannot find something you are interested in, please, write me an [e-mail](mailto:jrcaro@uco.es) and I will provide you the materials.
+
+</div>
+
+
+
+
+

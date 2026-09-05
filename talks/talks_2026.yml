@@ -1,0 +1,45 @@
+- title: "Improving Microeconomics Teaching with an Interactive R Shiny Application"
+  date: 2026-03-03
+  description: >-
+    20th Annual International Technology, Education and Development Conference
+  location: Valencia, Spain
+  authors: Caro-Barrera, J.R.; García-Moreno García, M.B.; Gómez Casero, G. & Pérez Gálvez, J.C.
+  links:
+  - name: Proceedings
+    url: https://library.iated.org/view/CAROBARRERA2026IMP
+    icon: fa-solid fa-up-right-from-square 
+  - name: Github repository
+    url: https://github.com/jrcarob/Inted2026
+    icon: fa-brands fa-github 
+  - name: Slides
+    url: https://github.com/jrcarob/Inted2026/blob/main/989_slides_Improving_Micro_teaching.pdf
+    icon: fa-solid fa-chalkboard-user
+  - name: Poster
+    url: https://github.com/jrcarob/Inted2026/blob/main/poster.png
+    icon: fa-file-image
+  - name: ShinyApp
+    url:  https://jrcaro.shinyapps.io/microeconomics/
+    icon: fa-brands fa-r-project
+
+- title: "Intellectual Structure and Thematic Evolution of Research on Astrotourism: A Semantic-Thematic Bibliometric Analysis"
+  date: 2026-06-17
+  description: >-
+    23rd International Congress of Academy Innovation, Entepeneurship and Knowledge, Aciek
+  location: Málaga, Spain
+  authors: Caro-Barrera, J.R.; Torres Naranjo, M. & Pérez Priego, M.
+  links:
+  #- name: Github repository
+  #  url:  https://github.com/jrcarob/Aciek/tree/main
+  #  icon: fa-brands fa-github 
+  #- name: Slides
+  #  url:  https://github.com/jrcarob/Aciek/blob/main/2025/keynote.pdf
+  #  icon: fa-solid fa-chalkboard-user
+  #- name: Video
+  #  url:  https://github.com/jrcarob/Aciek/blob/main/2025/trophy_hunting_Caro_Priego_Garcia.mp4
+  #  icon: fa-brands fa-youtube
+  #- name: Article
+  #  url:  http://localhost:5555/research/articles/2026_hunting/
+  #  icon: fa-solid fa-up-right-from-square
+
+
+

@@ -1,0 +1,19 @@
+- title: Microeconomics (course in Spanish)
+  description: "Microeconomic Analysis"
+  university: University of Córdoba, Spain
+  number: Degree in Law and Business Administration
+  url: https://www.uco.es/organiza/centros/derecho/es/grados/gr-derecho-y-a-d-e
+  logo: logos/micro3.png
+  semester:
+  - name: Spring 2025
+    #url: https://www.uco.es
+    
+- title: Financial Mathematics (course in Spanish) 
+  description: "Financial Mathematics for Decision Making"
+  university: University of Córdoba, Spain
+  number: Degree in Law and Business Admninistration
+  url: https://www.uco.es/organiza/centros/derecho/es/grados/gr-derecho-y-a-d-e
+  logo: logos/finmaths.png
+  semester:
+  - name: Spring 2025
+    #url: https://www.uco.es

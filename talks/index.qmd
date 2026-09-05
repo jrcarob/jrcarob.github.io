@@ -1,0 +1,92 @@
+---
+title: "Conferences, Workshops & Seminars"
+listing:
+  - id: talks_2026
+    contents: talks_2026.yml
+    sort: "date desc"
+    template: ../html/talks/listing.ejs
+  - id: talks_2025
+    contents: talks_2025.yml
+    sort: "date desc"
+    template: ../html/talks/listing.ejs
+  - id: talks_2024
+    contents: talks_2024.yml
+    sort: "date desc"
+    template: ../html/talks/listing.ejs
+  - id: talks_2023
+    contents: talks_2023.yml
+    sort: "date desc"
+    template: ../html/talks/listing.ejs
+  - id: talks_2022
+    contents: talks_2022.yml
+    sort: "date desc"
+    template: ../html/talks/listing.ejs
+  - id: talks_2021
+    contents: talks_2021.yml
+    sort: "date desc"
+    template: ../html/talks/listing.ejs
+  - id: talks_2019
+    contents: talks_2019.yml
+    sort: "date desc"
+    template: ../html/talks/listing.ejs
+title-block-banner: "#FB9E07"
+page-layout: full
+toc: true
+toc-location: right
+toc-title: Year
+date-format: "MMMM D, YYYY"
+---
+
+
+This page contains the source code, links, and slides for the **most relevant** workshops, seminars, talks, conferences and presentations I've given. Research presentations given at conferences are typically stored in their respective repositories on GitHub; one-off workshops and talks can all be found in a [catch-all GitHub repository](https://github.com/jrcarob).
+
+::: {.callout-note}
+### Copyright
+
+Except where noted, all content is © José Caro and licensed under [Creative Commons](https://creativecommons.org/licenses/by-sa/4.0/).
+:::
+
+## 2026
+
+:::{#talks_2026}
+:::
+
+
+## 2025
+
+:::{#talks_2025}
+:::
+
+## 2024
+
+:::{#talks_2024}
+:::
+
+
+## 2023
+
+:::{#talks_2023}
+:::
+
+
+## 2022
+
+:::{#talks_2022}
+:::
+
+## 2021
+
+:::{#talks_2021}
+:::
+
+<!--## 2020
+
+:::{#talks_2020}
+:::
+-->
+
+## 2019
+
+:::{#talks_2019}
+:::
+

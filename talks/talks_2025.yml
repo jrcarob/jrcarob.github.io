@@ -1,0 +1,56 @@
+- title: "Astrotourism: A Bibliometric Review"
+  date: 2025-11-14
+  description: >-
+    V International Congress Tourism Heritage Management Cultural and Natural Inland Destinations (CIGESTUR)
+  location: Córdoba, Spain
+  authors: Caro-Barrera, J.R.; Naranjo Torres, M. & Pérez Priego, M.
+  links:
+  - name: Github repository
+    url: https://github.com/jrcarob/Cigestur/tree/main
+    icon: fa-brands fa-github 
+  - name: Slides
+    url: https://github.com/jrcarob/Cigestur/blob/main/2025/cigestur25.pdf
+    icon: fa-solid fa-chalkboard-user
+
+- title: "airqualityES: An R Package to Access Air Pollution Data for Spain"
+  date: 2025-11-06
+  description: >-
+    IV Congress & XV R Users Workshop
+  location: Valencia, Spain
+  authors: Die Ramón, J.V. & Caro-Barrera, J.R.
+  links:
+  - name: Github repository
+    url:  https://github.com/jrcarob/RValencia
+    icon: fa-brands fa-github 
+  - name: Slides (in Spanish)
+    url:  https://jrcarob.github.io/RValencia/RValencia.html#1
+    icon: fa-solid fa-chalkboard-user
+  - name: Proceedings
+    url:  https://github.com/jrcarob/RValencia/blob/main/airqualityES_proceedings.pdf
+    icon: fa-solid fa-file-lines
+  - name: CRAN
+    url:  https://cran.r-project.org/web/packages/airqualityES/index.html
+    icon: fa-brands fa-r-project
+    
+- title: "Exploring Trophy Hunting and Recreational Hunting Tourism: An Analysis from a Bibliometric Perspective (1971-2024)"
+  date: 2025-06-18
+  description: >-
+    22nd International Congress of Academy Innovation, Entepeneurship and Knowledge, Aciek
+  location: Alcalá de Henares, Madrid, Spain
+  authors: Caro-Barrera, J.R.; García-Moreno García & Pérez Priego, M
+  links:
+  - name: Github repository
+    url:  https://github.com/jrcarob/Aciek/tree/main
+    icon: fa-brands fa-github 
+  - name: Slides
+    url:  https://github.com/jrcarob/Aciek/blob/main/2025/keynote.pdf
+    icon: fa-solid fa-chalkboard-user
+  - name: Video
+    url:  https://github.com/jrcarob/Aciek/blob/main/2025/trophy_hunting_Caro_Priego_Garcia.mp4
+    icon: fa-brands fa-youtube
+  - name: Article
+    url:  /research/articles/2026_hunting/
+    icon: fa-solid fa-up-right-from-square
+
+
+

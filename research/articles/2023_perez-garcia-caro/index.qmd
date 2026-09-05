@@ -1,0 +1,88 @@
+---
+title: "Local Gastronomy As a Destination Tourist Attraction: the Case of the 'Chiringuitos' on the Costa del Sol (Spain)"
+date: 2023-12-15
+author:
+  - name: Manuel Adolfo Pérez Priego
+    #url: http://www.github.com/jrcarob
+    orcid: 0000-0003-0155-5510
+    affiliation: University of Córdoba, Spain
+  - name: María de los Baños García-Moreno García
+    orcid: 0000-0002-7981-8846
+    #url: https://marriottschool.byu.edu/directory/details?id=50683
+    affiliation: University of Córdoba, Spain
+  - name: Carol Angélica Jara Alba
+    orcid: 0000-0003-1365-4735
+    #url: https://marriottschool.byu.edu/directory/details?id=50683
+    affiliation: University of Córdoba, Spain
+  - name: José R. Caro-Barrera
+    url: http://www.github.com/jrcarob
+    orcid: 0000-0001-6154-2493
+    affiliation: University of Córdoba, Spain
+categories: 
+  - Gastronomic Tourism
+  - Gastronomic Attributes
+  - Segmentation
+  - Local Gastronomy
+pub-info:
+  reference: >-
+    Manuel Pérez Priego, María de los Baños García-Moreno García, <a href="http://localhost:5555/now/">Carol A. Jara Alba</a> and <strong>José Rafael Caro-Barrera</strong></a>, “Local Gastronomy As a Destination Tourist Attraction: the Case of the 'Chiringuitos' on the Costa del Sol (Spain),” <em>International Journal of Gastronomy and Food Science</em> vol. 34 (December 2023), doi: <a href="https://doi.org/10.1016/j.ijgfs.2023.100822"><code>10.1016/j.ijgfs.2023.100822</code></a>
+  links:
+    - name: Preprint
+      url: elsarticle-template-harv.pdf
+      icon: fa-solid fa-file-pdf
+      local: true
+    - name: Final version
+      url: https://doi.org/10.1016/j.ijgfs.2023.100822
+      icon: fa-solid fa-scroll
+    - name: Add to Zotero
+      url: https://www.zotero.org/save?type=doi&q=10.1016/j.ijgfs.2023.100822
+      icon: ai ai-zotero
+  #extra: >-
+  #  Presented at the Royal Statistical Society International Conference, Harrogate, Manchester, UK, September 2023.
+doi: 10.1016/j.ijgfs.2023.100822
+haiku:
+  - Local gastronomy of the Costa del Sol
+  - and its attributes,
+  - increase the tourists' perceived value.
+---
+
+![Preregistered](preregistered_large_color.png) <!--&emsp; ![Open data](data_large_color.png) &emsp; ![Open](materials_large_color.png)-->
+
+## Important links
+
+- [Paper (preprint)](elsarticle-template-harv.pdf){target="_blank"}
+- University of Córdoba's official repository [![](helvia.png){width="150"}](https://helvia.uco.es/handle/10396/29399){target="_blank"}
+
+
+## Abstract
+
+The purpose of this study is to analyse whether the local gastronomy of the Costa del Sol in Malaga (Spain) is a relevant factor in the choice of destination by foreign tourists. Specifically, it analyses the culinary offer and the gastronomic characteristics of the food and the service offered in the typical beach-bars: the Chiringuitos. The authors began their research with fieldwork based on opinions of tourists collected through questionnaires completed after their gastronomic experience. The results revealed three different groups of tourists according to their attitudes towards local gastronomy, with different predispositions and gastronomic knowledge. The authors concluded that tourists have different levels of satisfaction and motivation depending on whether the tourists were identified as being in one particular segment or another. This research aims to fill the literature gap on gastronomic interest in a destination traditionally focused on sunshine tourism.
+
+
+## Graphical Abstract
+
+Main overview of the structure of the research: context and indicators, methodology proposed and main findings and results.
+
+![Graphical abstract.](graphical-abstract.png)
+
+
+
+## Citation
+
+<p class="buttons" style="text-align:center;">
+<a class="btn btn-danger" target="_blank" href="https://www.zotero.org/save?type=doi&q=10.1016/j.ijgfs.2023.100822">{{< ai zotero >}}&emsp;Add to Zotero {{< fa square-arrow-up-right >}}</a>
+</p>
+
+```bibtex
+@article{PEREZPRIEGO2023100822,
+title = {Local gastronomy as a destination tourist attraction: The case of the ‘Chiringuitos’ on the Costa del Sol (Spain)},
+journal = {International Journal of Gastronomy and Food Science},
+volume = {34},
+pages = {100822},
+year = {2023},
+issn = {1878-450X},
+doi = {https://doi.org/10.1016/j.ijgfs.2023.100822},
+url = {https://www.sciencedirect.com/science/article/pii/S1878450X23001646},
+author = {Manuel Adolfo Pérez-Priego and María de los Baños {García-Moreno García} and Carol Jara-Alba and José Rafael Caro-Barrera}
+}
+```

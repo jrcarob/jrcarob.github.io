@@ -1,0 +1,131 @@
+project:
+  type: website
+
+  preview: 
+    port: 5555
+    browser: true
+    watch-inputs: true
+    navigate: true
+
+  render:
+    - "*.qmd"
+    - "*.md"
+    - "!etc/"
+    - "!CLAUDE.md"
+
+  resources:
+    - "files/**"
+    - "etc/**"
+
+    # Things that need to be at the site root
+    - ".htaccess"
+    - "LiveSearchSiteAuth.xml"
+    - "y_key_31e0c4105fc75710.html"
+
+freeze: true
+
+bibliography: files/bib/references.bib
+csl: files/bib/chicago-author-date.csl
+
+# Metadata stuff
+pagetitle: "{{< meta title >}} | José Caro"
+author-meta: "José Caro"
+
+website:
+  title: "José Caro"
+  description: "José Caro is an assistant professor at Córdoba University, researcher and teaching statistics."  
+  favicon: "/files/favicon-512.png"
+  site-url: "https://github.com/jrcarob"
+  repo-url: "https://github.com/jrcarob"
+
+  google-analytics: "UA-527449-5"
+
+  twitter-card: 
+    image: "/files/profiles/myAvatar.png"
+    description: "{{< meta description-meta >}}"
+    card-style: summary_large_image
+    creator: "@acaroisallin"
+    site: "@acaroisallin"
+
+  open-graph: 
+    image: "/files/profiles/myAvatar.png"
+    description: "{{< meta description-meta >}}"
+    locale: en_US
+  
+  navbar:
+    pinned: true
+
+    left:
+      - text: "About"
+        href: index.qmd
+      - text: "Teaching"
+        href: teaching/index.qmd
+      - text: "Research"
+        file: research/index.qmd
+      - text: "Conferences"
+        href: talks/index.qmd
+      - text: "Resources"
+        file: apps/index.qmd
+      - text: "Demography"
+        file: demography/index.qmd
+      - text: "SEJ-670"
+        href: now/index.qmd
+      - text: "CV"
+        href: cv/index.qmd
+      - text: "Blog"
+        file: blog/index.qmd
+   #  - text: "R Packages"
+   #    file: packages/index.qmd
+    
+    right:
+    #  - icon: rss
+    #    aria-label: rss
+    #    href: atom.xml
+      - icon: envelope
+        aria-label: email
+        href: "mailto:jrcaro@uco.es"
+      - text: "{{< ai google-scholar >}}"
+        aria-label: scholar
+        href: "https://scholar.google.es/citations?hl=es&user=NGV9ylEAAAAJ"
+      - icon: twitter
+        aria-label: twitter
+        href: "https://twitter.com/caroisallin"
+     #- text: "{{< iconify fa6-brands bluesky size=1.1em title='Bluesky' >}}"
+     #  aria-label: bluesky
+     #  href: "https://bsky.app/profile/jrcarobarrera.bsky.social"
+    #   rel: me
+     # - icon: mastodon
+     #   aria-label: mastodon
+     #   href: "https://fediscience.org/users/andrew/"
+        #rel: me
+      - icon: github
+        aria-label: github
+        href: "https://github.com/jrcarob"
+        #rel: me
+      - icon: linkedin
+        aria-label: linkedin
+        href: "https://www.linkedin.com/in/jose-rafael-caro-barrera-0128917b/"
+        #rel: me
+  
+  page-footer:
+    left: |
+      <span class="faux-block"> © {{< var years >}} José Rafael Caro-Barrera</span>
+      <span class="faux-block">{{< fa brands orcid >}} <strong>ORCID</strong> [{{< var orcid >}}](https://orcid.org/{{< var orcid >}})</span>
+       <span class="faux-block">[View the source at {{< fa brands github >}} GitHub]({{< var github-url >}})</span>
+    #center: |
+    right: |
+      <span class="faux-block">Made with {{< fa brands r-project >}} and [Quarto](https://quarto.org/)</span>
+      <span class="faux-block">All content licensed under<br>[{{< fa brands creative-commons >}} {{< fa brands creative-commons-by >}} {{< fa brands creative-commons-sa >}} Creative Commons CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/)</span>      
+  
+
+format:
+  html:
+    theme: 
+      - html/ath.scss #journal
+    toc: false
+    code-link: true
+    anchor-sections: true
+    fig-cap-location: margin
+    reference-location: margin
+    footnotes-hover: true
+    highlight-style: monokai

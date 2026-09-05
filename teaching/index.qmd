@@ -1,0 +1,54 @@
+---
+title: "Teaching"
+listing:
+  - id: ay_26-27
+    contents: ay_26-27.yml
+    sort: "date desc"
+    template: ../html/teaching/listing.ejs
+  - id: ay_25-26
+    contents: ay_25-26.yml
+    sort: "date desc"
+    template: ../html/teaching/listing.ejs
+  - id: ay_24-25
+    contents: ay_24-25.yml
+    sort: "date desc"
+    template: ../html/teaching/listing.ejs
+  - id: ay_23-24
+    contents: ay_23-24.yml
+    sort: "date desc"
+    template: ../html/teaching/listing.ejs
+  #- id: ay_22-23
+  #  contents: ay_22-23.yml
+  #  sort: "date desc"
+  #  template: ../html/teaching/listing.ejs
+title-block-banner: "#EE6A24"
+page-layout: full
+toc: true
+toc-location: right
+toc-title: Academic year
+---
+
+As of October, 2024, I am in the _Applied Economics_ area where I teach the following courses for the academic year 2026-2027.
+
+## 2026–27
+
+:::{#ay_26-27}
+:::
+
+## 2025–26
+
+:::{#ay_25-26}
+:::
+
+## 2024–25
+
+:::{#ay_24-25}
+:::
+
+#### In previous academic courses, as member of the _Statistics_ area I have teaching:
+
+## 2019–24
+
+:::{#ay_23-24}
+:::
+

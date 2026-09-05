@@ -1,0 +1,83 @@
+---
+title: "Statistical Physics Applications for the Valuation of Financial Assets: From the Fokker-Planck Equation to the Black-Scholes Model. Finite Difference Solution for European Put Options"
+date: 2019-10-08
+author:
+  - name: José R. Caro-Barrera
+    url: http://www.github.com/jrcarob
+    orcid: 0000-0001-6154-2493
+    affiliation: University of Córdoba, Spain
+categories: 
+  - Econophysics
+  - Finite Elements
+  - Financial Derivatives
+pub-info:
+  reference: >-
+    <strong>José Rafael Caro-Barrera</strong>, “Statistical Physics Applications for the Valuation of Financial Assets: From the Fokker-Planck Equation to the Black-Scholes Model. Finite Difference Solution for European Put Options”, <em>Estudios de Economía Aplicada</em>. Vol. 37(2) (May 2019): 6–21, doi: <a href="https://doi.org/10.25115/eea.v37i2.2609"><code>10.25115/eea.v37i2.2609</code></a>
+  links:
+    - name: Preprint
+      url: 37201.pdf
+      icon: fa-solid fa-file-pdf
+      local: true
+    - name: Final version
+      url: https://doi.org/10.25115/eea.v37i2.2609
+      icon: fa-solid fa-scroll
+    - name: Code
+      url: https://osf.io/eajru/
+      icon: fa-brands fa-osi
+    - name: Data
+      url: "#data-and-code"
+      icon: fa-solid fa-table
+    - name: Add to Zotero
+      url: https://www.zotero.org/save?type=doi&q=10.25115/eea.v37i2.2609
+      icon: ai ai-zotero
+  #extra: >-
+  #  Presented at the Royal Statistical Society International Conference, Harrogate, Manchester, UK, September 2023.
+doi: 10.25115/eea.v37i2.2609
+haiku:
+  - Since the Black-Scholes equation
+  - is modeled by a stochastic differential
+  - equation, we can establish similarities with
+  - some diffusion processes observed in physics.
+---
+
+![Preregistered](preregistered_large_color.png) &emsp; ![Open data](data_large_color.png) &emsp; ![Open](materials_large_color.png)
+
+## Important links
+
+- [Paper (preprint)](art-EEA_JR_Caro_Barrera_aceptado.pdf)
+- [GitHub repository](https://github.com/jrcarob/Computational-Method-4-QF){target="_blank"} (testing versions with Python)
+- [Experiment preregistration](https://osf.io/eajru/){target="_blank"} (simulation of pricing options with finite differences)
+- University of Córdoba official repositories: [![](helvia.png){width="150"}](https://helvia.uco.es/handle/10396/29455){target="_blank"}
+
+
+## Abstract
+
+The stochastic and probabilistic techniques play a fundamental role in the mathematical modeling of aspects related to the natural and social sciences. In physics, stochastic models are often used in areas as diverse as climatology, molecular biology, biochemistry, as well as economics.
+The purpose of this paper is to propose the application to finance of models and processes used in the field of statistical physics, through techniques and results of the stochastic theory of processes and in particular of diffusion processes that, directly emerged and applied in the field of physics are useful in the field of financial economics. In our case, we intend to relate the Fokker-Planck equation to the model proposed by Black and Scholes, since the latter is modeled by a stochastic differential partial equation and similarities can be established with the stochastic and diffusion processes observed in physics.
+
+
+## Important figure
+
+Figure 1: The performance and accuracy of the numerical solution is performing simulations or tests for the values of $\theta$ both when condition (15) is satisfied and when it is not satisfied and we will compare the numerical solution with the Black-Scholes formula by plotting the absolute nodal error.
+
+![Figure 1: Left: stability criterion $k\leq\frac{2}{\lambda_{N,N}}$ non-satisfied. Right: Stability criterion satisfied.](a.png)
+
+
+## Citation
+
+<p class="buttons" style="text-align:center;">
+<a class="btn btn-danger" target="_blank" href="https://www.zotero.org/save?type=doi&q=10.25115/eea.v37i2.2609">{{< ai zotero >}}&emsp;Add to Zotero {{< fa square-arrow-up-right >}}</a>
+</p>
+
+```bibtex
+@article{Caro2019,
+    Author = {Caro-Barrera, JR},
+    Doi = {10.25115/eea.v37i2.2609},
+    Journal = {Estudios de Economía Aplicada},
+    Month = {10},
+    Number = {37},
+    Pages = {6--21},
+    Title = {Projecting Spanish Fertility at Regional Level: A Hierarchical Bayesian Approach},
+    Volume = {2},
+    Year = {2019}}
+```
