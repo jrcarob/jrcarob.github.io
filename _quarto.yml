@@ -21,6 +21,7 @@ project:
     - ".htaccess"
     - "LiveSearchSiteAuth.xml"
     - "y_key_31e0c4105fc75710.html"
+    - "CNAME"
 
 freeze: true
 
@@ -35,7 +36,7 @@ website:
   title: "José Caro"
   description: "José Caro is an assistant professor at Córdoba University, researcher and teaching statistics."  
   favicon: "/files/favicon-512.png"
-  site-url: "https://github.com/jrcarob"
+  site-url: "https://carobarrera.com"
   repo-url: "https://github.com/jrcarob"
 
   google-analytics: "UA-527449-5"
