@@ -1,7 +1,0 @@
-REMOTE_HOST="cloud"
-REMOTE_DIR="~/sites/REPLACE_WITH_YOUR_DOMAIN/public_html"
-REMOTE_DEST=$REMOTE_HOST:$REMOTE_DIR
-
-echo "Uploading new changes to remote server..."
-echo
-rsync -crvP --exclude='.DS_Store' --exclude='.Rproj.user/' --delete _site/ $REMOTE_DEST
