@@ -1,0 +1,1787 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.25">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="José Caro">
+<meta name="description" content="Example of scientific maps for bibliometric analysis">
+
+<title>Scientific Maps Analysis with the &lt;code&gt;R&lt;/code&gt; package &lt;code&gt;bibliometrix&lt;/code&gt; | José Caro – José Caro</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../../">
+<link href="../../../..//files/favicon-512.png" rel="icon" type="image/png">
+<script src="../../../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting-4c7b890cc350be7067044af900615741.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../../site_libs/bootstrap/bootstrap-518c0b22ba42e977bde395bf4a19c2bb.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../../../site_libs/quarto-contrib/fontawesome6-6.7.2/all.min.css" rel="stylesheet">
+<link href="../../../../site_libs/quarto-contrib/fontawesome6-6.7.2/latex-fontsize.css" rel="stylesheet">
+<link href="../../../../site_libs/quarto-contrib/academicons-1.9.2/all.css" rel="stylesheet">
+<link href="../../../../site_libs/quarto-contrib/academicons-1.9.2/size.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+<script type="text/javascript">
+
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-527449-5', 'auto');
+
+ga('send', {
+  hitType: 'pageview',
+  'anonymizeIp': true,
+});
+</script>
+<style>
+
+      .quarto-title-block .quarto-title-banner {
+        background: #170C3A;
+      }
+</style>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<meta property="og:title" content="Scientific Maps Analysis with the R package bibliometrix | José Caro">
+<meta property="og:description" content="?meta:description-meta">
+<meta property="og:image" content="https://github.com/jrcarob/blog/2022/09/bibliometric/graph.png">
+<meta property="og:site_name" content="José Caro">
+<meta property="og:locale" content="en_US">
+<meta property="og:image:height" content="443">
+<meta property="og:image:width" content="460">
+<meta name="twitter:title" content="Scientific Maps Analysis with the R package bibliometrix | José Caro">
+<meta name="twitter:description" content="?meta:description-meta">
+<meta name="twitter:image" content="https://github.com/jrcarob/blog/2022/09/bibliometric/graph.png">
+<meta name="twitter:creator" content="@acaroisallin">
+<meta name="twitter:site" content="@acaroisallin">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image-height" content="443">
+<meta name="twitter:image-width" content="460">
+</head>
+
+<body class="floating nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="../../../../index.html" class="navbar-brand navbar-brand-logo">
+    </a>
+    <a class="navbar-brand" href="../../../../index.html">
+    <span class="navbar-title">José Caro</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../../../index.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../../teaching/index.html"> 
+<span class="menu-text">Teaching</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../../research/index.html"> 
+<span class="menu-text">Research</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../../talks/index.html"> 
+<span class="menu-text">Conferences</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../../apps/index.html"> 
+<span class="menu-text">Resources</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../../demography/index.html"> 
+<span class="menu-text">Demography</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../../now/index.html"> 
+<span class="menu-text">SEJ-670</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../../cv/index.html"> 
+<span class="menu-text">CV</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../../blog/index.html"> 
+<span class="menu-text">Blog</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="mailto:jrcaro@uco.es"> <i class="bi bi-envelope" role="img" aria-label="email">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://scholar.google.es/citations?hl=es&amp;user=NGV9ylEAAAAJ"> 
+<span class="menu-text"><i class="ai  ai-google-scholar" title="" style="color:"></i></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/caroisallin"> <i class="bi bi-twitter" role="img" aria-label="twitter">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/jrcarob"> <i class="bi bi-github" role="img" aria-label="github">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://www.linkedin.com/in/jose-rafael-caro-barrera-0128917b/"> <i class="bi bi-linkedin" role="img" aria-label="linkedin">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default blog-post page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <div class="quarto-title-block"><div><h1 class="title">Scientific Maps Analysis with the <code>R</code> package <code>bibliometrix</code></h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+                  <div>
+        <div class="description">
+          Example of scientific maps for bibliometric analysis
+        </div>
+      </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">bibliometry</div>
+                <div class="quarto-category">mapping</div>
+                <div class="quarto-category">bibliometric analysis</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p><a href="https://www.github.com/jrcarob">José Caro</a> <a href="https://orcid.org/0000-0001-6154-2493" class="quarto-title-author-orcid"> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a></p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">Friday, September 9, 2022</p>
+      </div>
+    </div>
+    
+      
+      <div>
+      <div class="quarto-title-meta-heading">Doi</div>
+      <div class="quarto-title-meta-contents">
+        <p class="doi">
+          <a href="https://doi.org/10.5281/zenodo.10079724">10.5281/zenodo.10079724</a>
+        </p>
+      </div>
+    </div>
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Contents</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#bibliographic-data" id="toc-bibliographic-data" class="nav-link" data-scroll-target="#bibliographic-data">Bibliographic Data</a></li>
+  <li><a href="#package-installation-data-loading-and-conversion" id="toc-package-installation-data-loading-and-conversion" class="nav-link" data-scroll-target="#package-installation-data-loading-and-conversion">Package installation, data loading and conversion</a></li>
+  <li><a href="#descriptive-analysis" id="toc-descriptive-analysis" class="nav-link" data-scroll-target="#descriptive-analysis">1. Descriptive Analysis</a>
+  <ul class="collapse">
+  <li><a href="#main-findings-on-the-database-analysed" id="toc-main-findings-on-the-database-analysed" class="nav-link" data-scroll-target="#main-findings-on-the-database-analysed">1.1. Main findings on the database analysed</a></li>
+  <li><a href="#most-cited-references" id="toc-most-cited-references" class="nav-link" data-scroll-target="#most-cited-references">1.2. Most cited references</a></li>
+  </ul></li>
+  <li><a href="#co-citation-analysis-structure" id="toc-co-citation-analysis-structure" class="nav-link" data-scroll-target="#co-citation-analysis-structure">2: Co-citation analysis structure</a>
+  <ul class="collapse">
+  <li><a href="#analysis-of-co-citations-of-articles-references" id="toc-analysis-of-co-citations-of-articles-references" class="nav-link" data-scroll-target="#analysis-of-co-citations-of-articles-references">Analysis of co-citations of articles (references)</a></li>
+  <li><a href="#analysis-of-journal-co-citations-source" id="toc-analysis-of-journal-co-citations-source" class="nav-link" data-scroll-target="#analysis-of-journal-co-citations-source">Analysis of journal co-citations (source)</a></li>
+  </ul></li>
+  <li><a href="#historiography---direct-citation-links" id="toc-historiography---direct-citation-links" class="nav-link" data-scroll-target="#historiography---direct-citation-links">3: Historiography - Direct citation links</a></li>
+  <li><a href="#conceptual-structure---co-word-analysis" id="toc-conceptual-structure---co-word-analysis" class="nav-link" data-scroll-target="#conceptual-structure---co-word-analysis">4: Conceptual structure - Co-word analysis</a>
+  <ul class="collapse">
+  <li><a href="#joint-word-analysis-using-keyword-co-occurrences" id="toc-joint-word-analysis-using-keyword-co-occurrences" class="nav-link" data-scroll-target="#joint-word-analysis-using-keyword-co-occurrences">Joint word analysis using keyword co-occurrences</a></li>
+  <li><a href="#joint-word-analysis-by-means-of-correspondence-analysis" id="toc-joint-word-analysis-by-means-of-correspondence-analysis" class="nav-link" data-scroll-target="#joint-word-analysis-by-means-of-correspondence-analysis">Joint word analysis by means of correspondence analysis</a></li>
+  </ul></li>
+  <li><a href="#thematic-maps" id="toc-thematic-maps" class="nav-link" data-scroll-target="#thematic-maps">5: Thematic maps</a></li>
+  <li><a href="#social-structure---collaboration-analysis" id="toc-social-structure---collaboration-analysis" class="nav-link" data-scroll-target="#social-structure---collaboration-analysis">6: Social structure - Collaboration analysis</a>
+  <ul class="collapse">
+  <li><a href="#author-collaboration-network" id="toc-author-collaboration-network" class="nav-link" data-scroll-target="#author-collaboration-network">Author collaboration network</a></li>
+  <li><a href="#educational-collaboration-network" id="toc-educational-collaboration-network" class="nav-link" data-scroll-target="#educational-collaboration-network">Educational collaboration network</a></li>
+  <li><a href="#collaboration-network-between-countries" id="toc-collaboration-network-between-countries" class="nav-link" data-scroll-target="#collaboration-network-between-countries">Collaboration network between countries</a></li>
+  </ul></li>
+  <li><a href="#final-comments" id="toc-final-comments" class="nav-link" data-scroll-target="#final-comments">Final comments</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  </ul>
+</nav>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+
+<p><img src="preregistered_large_color.png" class="img-fluid" alt="Preregistered">   <img src="data_large_color.png" class="img-fluid" alt="Open data">   <img src="materials_large_color.png" class="img-fluid" alt="Open"></p>
+<section id="introduction" class="level1">
+<h1>Introduction</h1>
+</section>
+<section id="bibliographic-data" class="level1">
+<h1>Bibliographic Data</h1>
+<p>The bibliographic data are based on the search query that has been made. For the moment we have focused on one of the lines of the <a href="../../../../now/index.html">SEJ670</a> UCO Research Group, <strong>neophilia/neophobia in tourism</strong>. Needles to say that it would be applied to other research lines; however, watch out when filtering and redefining the database because we have to remove areas that are not of our interest, for example, in our selection there were references about zoology, biology, etc…, given that there is also neophilia and neophobia, especially the latter, specifically in animals, well, we must be careful because some area can sneak in the form of journals and references not related to our research area.</p>
+<p><strong>Data source</strong>: Clarivate Analytics Web of Science (<a href="http://apps.webofknowledge.com" class="uri">http://apps.webofknowledge.com</a>)</p>
+<p><strong>Format</strong>: Bibtex</p>
+<p><strong>Query</strong>: “Web of Science Core Collection”</p>
+<p><strong>Range</strong>: 1995-2022</p>
+<p><strong>Document type</strong>: All</p>
+<p><strong>Query date</strong>: September, 2022</p>
+</section>
+<section id="package-installation-data-loading-and-conversion" class="level1">
+<h1>Package installation, data loading and conversion</h1>
+<p>As the objective is to see what analysis the tool does and how it does it, the steps of installation, data loading and conversion have been omitted, although it is an important step since it must be done in <code>R</code>, after downloading the data from WoS or Scopus, which also has its own technique. After a lot of research we managed to find a way to merge both databases and it works perfectly, and it also automatically omits duplicate references. <strong>With this procedure we can have both databases in a single file and although WoS has more references (as a general rule, although not always), Scopus almost always has some different one/s and even if they are few, at least we practically cover the two most important sources of articles.</strong> It is worth mentioning that in the last updates of this <code>Bibliometrix</code> package other open bibliographic databases such as <em>OpenAlex</em>, <em>Dimensions</em>, <em>Lens</em>, and from the medical field such as <em>PubMed</em> and <em>Cochrane</em> have been included.</p>
+</section>
+<section id="descriptive-analysis" class="level1">
+<h1>1. Descriptive Analysis</h1>
+<p>The descriptive analysis of the package provides a lot of information on the annual development of research, the most productive <span class="math inline">\(k\)</span> authors, articles, countries and relevant keywords.</p>
+<section id="main-findings-on-the-database-analysed" class="level2">
+<h2 class="anchored" data-anchor-id="main-findings-on-the-database-analysed">1.1. Main findings on the database analysed</h2>
+<p>The following table shows a summary of the data and other interesting classifications: <em>n_umber of authors</em>, <em>number of documents</em>, <em>scientific production for each year</em> (and its average growth), the <em>most productive authors</em>, the <em>countries</em> and the <em>corresponding citations</em>, the <em>most relevant journals</em>, the <em>most relevant keywords</em>, etc…</p>
+<p>Moreover, this information can also be obtained in graphs.</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>
+
+MAIN INFORMATION ABOUT DATA
+
+ Timespan                              1995 : 2022 
+ Sources (Journals, Books, etc)        69 
+ Documents                             152 
+ Annual Growth Rate %                  9.64 
+ Document Average Age                  9.52 
+ Average citations per doc             29.24 
+ Average citations per year per doc    2.425 
+ References                            7867 
+ 
+DOCUMENT TYPES                     
+ article                         130 
+ article; book chapter           2 
+ article; early access           5 
+ article; proceedings paper      1 
+ editorial material              4 
+ letter                          1 
+ proceedings paper               3 
+ review                          6 
+ 
+DOCUMENT CONTENTS
+ Keywords Plus (ID)                    617 
+ Author's Keywords (DE)                512 
+ 
+AUTHORS
+ Authors                               467 
+ Author Appearances                    531 
+ Authors of single-authored docs       18 
+ 
+AUTHORS COLLABORATION
+ Single-authored docs                  19 
+ Documents per Author                  0.325 
+ Co-Authors per Doc                    3.49 
+ International co-authorships %        36.18 
+ 
+
+Annual Scientific Production
+
+ Year    Articles
+    1995        1
+    2000        2
+    2003        2
+    2005        3
+    2006        2
+    2007        3
+    2008        5
+    2009        3
+    2010        7
+    2011        2
+    2012        6
+    2013        5
+    2014        8
+    2015       11
+    2016       11
+    2017       13
+    2018       13
+    2019       11
+    2020       17
+    2021       10
+    2022       12
+
+Annual Percentage Growth Rate 9.64 
+
+
+Most Productive Authors
+
+     Authors        Articles   Authors        Articles Fractionalized
+1  METTKE-HOFMANN C        8 METTKE-HOFMANN C                    3.53
+2  BUGNYAR T               4 STHAPIT E                           1.33
+3  EVES A                  4 EVES A                              1.20
+4  MORAND-FERRON J         4 MORAND-FERRON J                     1.20
+5  BISAZZA A               3 [ANONYMOUS] A                       1.00
+6  CARACCIOLO F            3 AKYUZ BG                            1.00
+7  GRIFFIN AS              3 ANTONAKIS J                         1.00
+8  KIM YG                  3 ARMELAGOS GJ                        1.00
+9  VERNEAU F               3 BERTI I                             1.00
+10 WIDDIG A                3 CHAKRABARTI B                       1.00
+
+
+Top manuscripts per citations
+
+                                 Paper                                      DOI  TC TCperYear  NTC
+1  KIM YG, 2009, INT J HOSP MANAG               10.1016/j.ijhm.2008.11.005      346     20.35 2.38
+2  CHANG RCY, 2010, ANN TOURIS RES              10.1016/j.annals.2010.03.007    276     17.25 3.21
+3  ANTONAKIS J, 2017, LEADERSH Q                10.1016/j.leaqua.2017.01.006    192     21.33 4.79
+4  VERBEKE W, 2005, BR FOOD J                   10.1108/00070700510629779       183      8.71 1.97
+5  KIM YG, 2010, INT J HOSP MANAG               10.1016/j.ijhm.2009.10.015      178     11.12 2.07
+6  CAVIGELLI SA, 2003, PROC NATL ACAD SCI U S A 10.1073/pnas.2535721100         161      7.00 1.22
+7  HUGHES RN, 2007, NEUROSCI BIOBEHAV REV       10.1016/j.neubiorev.2006.11.004 110      5.79 2.84
+8  MORAND-FERRON J, 2011, BEHAV ECOL            10.1093/beheco/arr120           106      7.07 1.49
+9  DAY RL, 2003, ANIM BEHAV                     10.1006/anbe.2003.2074          103      4.48 0.78
+10 REVERDY C, 2008, APPETITE                    10.1016/j.appet.2008.01.010     101      5.61 1.51
+
+
+Corresponding Author's Countries
+
+          Country Articles   Freq SCP MCP MCP_Ratio
+1  UNITED KINGDOM       24 0.1622  17   7     0.292
+2  USA                  18 0.1216  12   6     0.333
+3  CHINA                14 0.0946   5   9     0.643
+4  AUSTRALIA            13 0.0878   9   4     0.308
+5  GERMANY               9 0.0608   4   5     0.556
+6  CANADA                8 0.0541   5   3     0.375
+7  ITALY                 7 0.0473   7   0     0.000
+8  AUSTRIA               6 0.0405   2   4     0.667
+9  BELGIUM               3 0.0203   1   2     0.667
+10 BRAZIL                3 0.0203   2   1     0.333
+
+
+SCP: Single Country Publications
+
+MCP: Multiple Country Publications
+
+
+Total Citations per Country
+
+      Country      Total Citations Average Article Citations
+1  UNITED KINGDOM             1122                     46.75
+2  USA                         639                     35.50
+3  CHINA                       490                     35.00
+4  AUSTRALIA                   275                     21.15
+5  BELGIUM                     193                     64.33
+6  SWITZERLAND                 192                     96.00
+7  AUSTRIA                     187                     31.17
+8  GERMANY                     158                     17.56
+9  ARGENTINA                   143                     71.50
+10 ITALY                       143                     20.43
+
+
+Most Relevant Sources
+
+                                    Sources        Articles
+1  ANIMAL BEHAVIOUR                                      17
+2  ETHOLOGY                                               8
+3  ANIMAL COGNITION                                       7
+4  FOOD QUALITY AND PREFERENCE                            7
+5  BEHAVIORAL ECOLOGY                                     6
+6  BRITISH FOOD JOURNAL                                   6
+7  SCIENTIFIC REPORTS                                     6
+8  APPETITE                                               5
+9  INTERNATIONAL JOURNAL OF HOSPITALITY MANAGEMENT        5
+10 PLOS ONE                                               5
+
+
+Most Relevant Keywords
+
+   Author Keywords (DE)      Articles Keywords-Plus (ID)     Articles
+1             NEOPHILIA            24           NEOPHOBIA          48
+2             FOOD NEOPHOBIA       23           BEHAVIOR           29
+3             NEOPHOBIA            22           NEOPHILIA          21
+4             EXPLORATION          13           ATTITUDES          17
+5             FOOD                 11           SCALE              17
+6             FOOD TOURISM         11           SATISFACTION       16
+7             FOOD NEOPHILIA       10           TOURISM            15
+8             PERSONALITY           9           EVOLUTION          13
+9             INNOVATION            8           INFORMATION        13
+10            LOCAL FOOD            8           MODEL              13</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/Descriptive Analysis-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/Descriptive Analysis-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/Descriptive Analysis-3.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/Descriptive Analysis-4.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/Descriptive Analysis-5.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="most-cited-references" class="level2">
+<h2 class="anchored" data-anchor-id="most-cited-references">1.2. Most cited references</h2>
+<p>We can also obtain the most cited references and their number:</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>                                                                                   [,1]
+PLINER P, 1992, APPETITE, V19, P105, DOI 10.1016/0195-6663(92)90014-W                55
+GREENBERG R, 2001, CURR ORNITHOL, V16, P119                                          32
+COHEN E, 2004, ANN TOURISM RES, V31, P755, DOI 10.1016/J.ANNALS.2004.02.003          29
+RITCHEY PN, 2003, APPETITE, V40, P163, DOI 10.1016/S0195-6663(02)00134-4             27
+METTKE-HOFMANN C, 2002, ETHOLOGY, V108, P249, DOI 10.1046/J.1439-0310.2002.00773.X   24
+TUORILA H, 2001, FOOD QUAL PREFER, V12, P29, DOI 10.1016/S0950-3293(00)00025-2       24
+KIM YG, 2009, INT J HOSP MANAG, V28, P423, DOI 10.1016/J.IJHM.2008.11.005            21
+KIM YG, 2010, INT J HOSP MANAG, V29, P216, DOI 10.1016/J.IJHM.2009.10.015            19
+QUAN S, 2004, TOURISM MANAGE, V25, P297, DOI 10.1016/S0261-5177(03)00130-4           19
+REALE D, 2007, BIOL REV, V82, P291, DOI 10.1111/J.1469-185X.2007.00010.X             19
+CHANG RCY, 2010, ANN TOURISM RES, V37, P989, DOI 10.1016/J.ANNALS.2010.03.007        16
+PLINER P, 2006, FRONT NUTR SCI, P75, DOI 10.1079/9780851990323.0075                  16
+FORNELL C, 1981, J MARKETING RES, V18, P39, DOI 10.2307/3151312                      15
+JI MJ, 2016, TOURISM MANAGE, V57, P387, DOI 10.1016/J.TOURMAN.2016.06.003            15
+MAK AHN, 2012, INT J HOSP MANAG, V31, P928, DOI 10.1016/J.IJHM.2011.10.012           15
+CHANG RCY, 2011, TOURISM MANAGE, V32, P307, DOI 10.1016/J.TOURMAN.2010.02.009        14
+FISCHLER C, 1988, SOC SCI INFORM, V27, P275, DOI 10.1177/053901888027002005          14
+GREENBERG RUSSELL, 2003, P175                                                        14
+MARTIN LB, 2005, BEHAV ECOL, V16, P702, DOI 10.1093/BEHECO/ARI044                    14
+SOL D, 2011, PLOS ONE, V6, DOI 10.1371/JOURNAL.PONE.0019535                          14</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="co-citation-analysis-structure" class="level1">
+<h1>2: Co-citation analysis structure</h1>
+<p>Citation analysis is another remarkable tool of the bibliometric analysis offered by the package. It shows the structure of a specific field through the links between nodes (e.g.&nbsp;authors, articles, journal). The interesting option is that the edges can be interpreted differently depending on the type of network, i.e.&nbsp;co-citations, direct citations, bibliographic linking, etc…. This is very useful and can be exploited quite a lot.</p>
+<p>Below we have taken the three standard examples shown in the original reference but adapted them to our database.</p>
+<p><em>First</em>, a co-citation network showing the relationships between the cited-referred works (nodes).</p>
+<p><em>Second</em>, a co-citation network that uses the cited journals as the unit of analysis.</p>
+<p>The dimensions useful for commenting on co-citation networks are: <strong>(i)</strong> centrality and peripherality of nodes, <strong>(ii)</strong> their proximity and distance, <strong>(iii)</strong> strength of links, <strong>(iv)</strong> clusters, <strong>(v)</strong> bridging contributions.</p>
+<p><em>Third</em>, a historiography that is built on direct quotations. It traces the intellectual links in a historical order. The cited works of thousands of authors contained in a collection of published scientific articles are sufficient to reconstruct the historiographical structure of the field, pointing out the basic works in it.</p>
+<section id="analysis-of-co-citations-of-articles-references" class="level2">
+<h2 class="anchored" data-anchor-id="analysis-of-co-citations-of-articles-references">Analysis of co-citations of articles (references)</h2>
+<p>This is the typical <em>VosViewer</em> graph, in this case for a visualization of the co-cite network. The graph parameters have not been modified to make it clearer but the <strong>graph options</strong> shown below are mainly for visual fine tuning. Without seeing the code this may be useless but it is interesting to know that it can be tweaked and made more readable. The interesting thing would be to be able to eliminate those co-citations that appear isolated and focus only on those where there are relationships.</p>
+<ul>
+<li><p><code>n = 50</code> (this function traces the top 50 cited references)</p></li>
+<li><p><code>type = "fruchterman"</code> (the network layout is generated by the <a href="https://github.com/gephi/gephi/wiki/Fruchterman-Reingold">Fruchterman-Reingold algorithm</a>, there is the option of other types of algorithms, although I have not tested them and I do not know if they would work for us)</p></li>
+<li><p><code>size.cex = TRUE</code> (the size of the vertices is proportional to its degree)</p></li>
+<li><p><code>size = 20</code> (maximum size of the vertices)</p></li>
+<li><p><code>remove.multiple = FALSE</code> (multiple edges are not eliminated, the opposite is <code>TRUE</code>)</p></li>
+<li><p><code>labelsize = 1</code> (defines the size of the vertices labels)</p></li>
+<li><p><code>edgesize = 10</code> (the thickness of the edges is proportional to their strength. <code>Edgesize</code> defines the maximum value of the thickness)</p></li>
+<li><p><code>edges.min = 5</code> (only traces edges with a force greater than or equal to 5)</p></li>
+<li><p>all other arguments assume default values.</p></li>
+</ul>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/Co-citation network-1.png" class="img-fluid figure-img" width="960"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="analysis-of-journal-co-citations-source" class="level2">
+<h2 class="anchored" data-anchor-id="analysis-of-journal-co-citations-source">Analysis of journal co-citations (source)</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>wos<span class="ot">=</span><span class="fu">metaTagExtraction</span>(wos,<span class="st">"CR_SO"</span>,<span class="at">sep=</span><span class="st">";"</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>NetMatrix <span class="ot">&lt;-</span> <span class="fu">biblioNetwork</span>(wos, <span class="at">analysis =</span> <span class="st">"co-citation"</span>, <span class="at">network =</span> <span class="st">"sources"</span>, <span class="at">sep =</span> <span class="st">";"</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>net<span class="ot">=</span><span class="fu">networkPlot</span>(NetMatrix, <span class="at">n =</span> <span class="dv">50</span>, <span class="at">Title =</span> <span class="st">"Co-Citation Network"</span>, <span class="at">type =</span> <span class="st">"auto"</span>, <span class="at">size.cex=</span><span class="cn">TRUE</span>, <span class="at">size=</span><span class="dv">15</span>, <span class="at">remove.multiple=</span><span class="cn">FALSE</span>, <span class="at">labelsize=</span><span class="dv">1</span>,<span class="at">edgesize =</span> <span class="dv">10</span>, <span class="at">edges.min=</span><span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/Co-citation source network-1.png" class="img-fluid figure-img" width="960"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Descriptive analysis of the characteristics of the journal citation network.</p>
+<p>This analysis is similar to the previous one but with journal citations.</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>
+
+Main statistics about the network
+
+ Size                                  2876 
+ Density                               0.034 
+ Transitivity                          0.364 
+ Diameter                              4 
+ Degree Centralization                 0.481 
+ Average path length                   2.284 
+ </code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="historiography---direct-citation-links" class="level1">
+<h1>3: Historiography - Direct citation links</h1>
+<p>This analysis provides us with direct citation links by author and year, which is interesting to see who cites whom and when.</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>
+WOS DB:
+Searching local citations (LCS) by reference items (SR) and DOIs...
+
+Analyzing 10475 reference items...
+
+Found 49 documents with no empty Local Citations (LCS)</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/Historiograph-1.png" class="img-fluid figure-img" width="960"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+ Legend
+
+                                                                       Label
+1              HEINRICH B, 1995, ANIM BEHAV DOI 10.1016/0003-3472(95)80130-8
+2                        DAY RL, 2003, ANIM BEHAV DOI 10.1006/ANBE.2003.2074
+3           METTKE-HOFMANN C, 2005, BEHAVIOUR DOI 10.1163/156853905774539427
+4               METTKE-HOFMANN C, 2005, BEHAV ECOL DOI 10.1093/BEHECO/ARH159
+5         ECHEVERRIA AI, 2008, ETHOLOGY DOI 10.1111/J.1439-0310.2008.01512.X
+6              KIM YG, 2009, INT J HOSP MANAG DOI 10.1016/J.IJHM.2008.11.005
+7      METTKE-HOFMANN C, 2009, ETHOLOGY DOI 10.1111/J.1439-0310.2009.01632.X
+8                  BERGMAN TJ, 2009, ANIM COGN DOI 10.1007/S10071-008-0171-2
+9              KIM YG, 2010, INT J HOSP MANAG DOI 10.1016/J.IJHM.2009.10.015
+10               MORAND-FERRON J, 2011, BEHAV ECOL DOI 10.1093/BEHECO/ARR120
+11              RAUDENBUSH B, 2012, APPETITE DOI 10.1016/J.APPET.2012.02.042
+12             KIM YG, 2013, INT J HOSP MANAG DOI 10.1016/J.IJHM.2012.06.005
+13 DIMITROVSKI D, 2017, J TRAVEL TOUR MARK DOI 10.1080/10548408.2016.1193100
+14      MAK AHN, 2017, ASIA PAC J TOUR RES DOI 10.1080/10941665.2016.1175488
+15    GRIFFIN AS, 2017, CURR OPIN BEHAV SCI DOI 10.1016/J.COBEHA.2017.01.004
+16          HSU FC, 2018, TOUR RECREAT RES DOI 10.1080/02508281.2018.1475879
+17                AKYUZ BG, 2019, ANATOLIA DOI 10.1080/13032917.2019.1595072
+18         BAAH NG, 2020, CURR ISSUES TOUR DOI 10.1080/13683500.2019.1619676
+19                   LAI MY, 2020, J TRAVEL RES DOI 10.1177/0047287519867144
+20         OKUMUS B, 2021, TOUR MANAG PERSPECT DOI 10.1016/J.TMP.2020.100773
+                                                                                                                            Author_Keywords
+1                                                                                                                                      &lt;NA&gt;
+2                                                                                                                                      &lt;NA&gt;
+3                                                                             CONTEXT SPECIFICITY; EXPLORATION; NEOPHILIA; NEOPHOBIA; BIRDS
+4                                                              ENVIRONMENTAL ASSESSMENT; NEOPHILIA; NOMADS; PARROTS; PSITTACIDAE; RESIDENTS
+5                                                                                                                                      &lt;NA&gt;
+6                                                 LOCAL FOOD; FOOD CONSUMPTION; FOOD TOURISM; CULINARY TOURISM; MOTIVATION; GROUNDED THEORY
+7                                                                                                                                      &lt;NA&gt;
+8                        NOVEL OBJECTS; NEOPHILIA; EXPLORATION; PRIMATE; NEOPHOBIA; THEROPITHECUS; GELADA; PAPIO URSINUS; BABOON; COGNITION
+9                                                                          FOOD INVOLVEMENT; FOOD NEOPHOBIA; LOCAL FOOD; FESTIVALS; LOYALTY
+10                                                       AGE DIFFERENCES; INNOVATION; PERSONALITY; PROBLEM SOLVING; SOCIAL; LEARNING; STATE
+11                                                                                        PSYCHOLOGY; FOOD NEOPHOBIA; PHYSIOLOGICAL AROUSAL
+12                                                                       EMPIRICAL VERIFICATION; LOCAL FOOD; FOOD CONSUMPTION; FOOD TOURISM
+13                       FOOD MARKETS; SATISFACTION; TOURIST ATTRACTION; MOTIVATIONS; FOOD MARKET; LOVERS; FOOD NEOPHILIA; BARCELONA; SPAIN
+14 TOURIST FOOD CONSUMPTION; FOOD-RELATED PERSONALITY TRAITS; FOOD; NEOPHOBIA; VARIETY-SEEKING; TOURIST'S PARADOX; SENSORY-SPECIFIC SATIETY
+15                                                                                                                                     &lt;NA&gt;
+16                                                      FOOD TOURISM; FOOD NEOPHOBIA; SENSATION-SEEKING; TRADITIONAL FOOD CHOICE; BEHAVIOUR
+17                                                  CULINARY TOURISM; GASTRONOMY TOURISM; LOCAL FOOD; TRAVEL MOTIVATIONS; TRAVEL INTENTIONS
+18                                                               GASTRONOMY TOURISM; FOOD TOURISM; NEOPHOBIA; NEOPHILIC TENDENCY; ATTITUDES
+19                              DESTINATION FOOD IMAGE; FOOD TOURISM; FOOD NEOPHOBIA; POTENTIAL CHINESE; TOURIST; FORMATIVE IMAGE CONSTRUCT
+20                                        GENDER; GENERATION; FOOD NEOPHOBIA; FOOD NEOPHILIA; FOOD TOURISM; ETHNIC; FOOD; CHINESE TRAVELERS
+                                                                                                                                                            KeywordsPlus
+1                                                                                                                                                                   &lt;NA&gt;
+2                       TAMARINS LEONTOPITHECUS-ROSALIA; PRIMATE COGNITION; FEEDING NEOPHOBIA; CALLITHRIX-KUHLI; TOOL USE; BEHAVIOR; EVOLUTION; PATTERNS; SAGUINUS; SIZE
+3         GUPPY POECILIA-RETICULATA; INDIVIDUAL-DIFFERENCES; EXPLORATORY-BEHAVIOR; GREAT TITS; REALIZED HERITABILITY; RISK-TAKING; PARUS-MAJOR; ANIMALS; PIGS; NEOPHOBIA
+4                                       NUCLEOTIDE-SEQUENCES; DECISION-MAKING; BIRD COMMUNITY; PHYLOGENY; INFORMATION; STRATEGIES; NEOPHOBIA; BEHAVIOR; STIMULUS; GUINEA
+5                                                                                  HOUSE SPARROWS; GROUP-SIZE; NEOPHOBIA; EXPLORATION; RAVENS; NEOPHILIA; BEHAVIOR; SONG
+6                                                                                                      TOURISM; CHOICE; PERCEPTION; SELECTION; PATTERNS; HERITAGE; TASTE
+7                                                       REALIZED HERITABILITY; MEMORY; EXPLORATION; BEHAVIOR; INFORMATION; HIPPOCAMPUS; FAMILIARITY; SUCCESS; LIFE; CUES
+8                                         BEHAVIORAL ECOLOGY; FEEDING NEOPHOBIA; GREAT TITS; TRADE-OFFS; EVOLUTION; MONKEYS; EXPLORATION; HABITAT; BIRDS; RESPONSIVENESS
+9                                                         CONSUMER INVOLVEMENT; NEOPHOBIA; TOURISM; CHOICE; SCALE; FAMILIAR; UNFAMILIAR; ATTITUDES; VARIABLES; SELECTION
+10                  TIT PARUS-MAJOR; BEHAVIORAL FLEXIBILITY; INDIVIDUAL VARIATION; FORAGING; INNOVATION; SOCIAL RANK; GREAT TITS; BODY-SIZE; NEOPHOBIA; NEOPHILIA; BIRDS
+11                                                                                                                                                                  &lt;NA&gt;
+12                                                                                                                                          SCALE DEVELOPMENT; NEOPHOBIA
+13                                       STRUCTURAL MODEL; CULINARY TOURISM; FARMERS MARKETS; NEOPHOBIA; FESTIVAL; ATTITUDES; VISITORS; SCALE; SATISFACTION; DESTINATION
+14                                                              HONG-KONG; NEOPHOBIA; SCALE; CHOICE; MODEL; ANTECEDENTS; INFORMATION; EXPERIENCES; ACCEPTANCE; ATTITUDES
+15       INVASION SUCCESS; BEHAVIORAL FLEXIBILITY; REPRODUCTIVE OUTPUT; PERSONALITY-TRAITS; TROPHIC DYNAMICS; NEST PREDATION; RISK-TAKING; LAND-COVER; BRAIN SIZE; BIRDS
+16                                 SENSATION SEEKING; PLANNED BEHAVIOR; LOCAL FOOD; PERSONALITY-TRAITS; EUROPEAN FOOD; TOURISM; ATTITUDES; CHOICE; NEOPHOBIA; ACCEPTANCE
+17                                  CULINARY TOURISM; CONSUMER INVOLVEMENT; DESTINATION; SEGMENTATION; NEOPHOBIA; SCALE; NATIONALITY; INFORMATION; ATTRACTION; NUTRITION
+18                                             PURCHASE INTENTIONS; CONSUMER ATTITUDES; NOVELTY-SEEKING; HONG-KONG; FOOD; BEHAVIOR; ANTECEDENTS; GASTRONOMY; CHOICE; FIT
+19 PARTIAL LEAST-SQUARES; STRUCTURAL EQUATION MODELS; LOCAL FOOD; CULINARY; TOURISM; FORMATIVE MEASUREMENT; PSYCHOLOGICAL-FACTORS; PLS; SATISFACTION; INFORMATION; PLACE
+20                                        EATING BEHAVIOR; NOVELTY-SEEKING; FAMILIAR; CHILDREN; HABITS; SATISFACTION; WILLINGNESS; RESEMBLANCE; PERSONALITY; INVOLVEMENT
+                                DOI Year LCS GCS
+1      10.1016/0003-3472(95)80130-8 1995  10  71
+2            10.1006/anbe.2003.2074 2003   8 103
+3        10.1163/156853905774539427 2005   7  54
+4             10.1093/beheco/arh159 2005   7  42
+5  10.1111/j.1439-0310.2008.01512.x 2008   6  44
+6        10.1016/j.ijhm.2008.11.005 2009  21 346
+7  10.1111/j.1439-0310.2009.01632.x 2009   5  33
+8         10.1007/s10071-008-0171-2 2009   5  58
+9        10.1016/j.ijhm.2009.10.015 2010  19 178
+10            10.1093/beheco/arr120 2011   5 106
+11      10.1016/j.appet.2012.02.042 2012   5  41
+12       10.1016/j.ijhm.2012.06.005 2013   8  85
+13    10.1080/10548408.2016.1193100 2017   8  40
+14    10.1080/10941665.2016.1175488 2017  13  73
+15     10.1016/j.cobeha.2017.01.004 2017   6  51
+16    10.1080/02508281.2018.1475879 2018   6  21
+17    10.1080/13032917.2019.1595072 2019   4  10
+18    10.1080/13683500.2019.1619676 2020   5  13
+19         10.1177/0047287519867144 2020   6  34
+20        10.1016/j.tmp.2020.100773 2021   5  11</code></pre>
+</div>
+</div>
+</section>
+<section id="conceptual-structure---co-word-analysis" class="level1">
+<h1>4: Conceptual structure - Co-word analysis</h1>
+<p>Co-Word Networks show the conceptual structure, which uncovers the links between concepts through co-occurrences of terms.</p>
+<p>The conceptual structure can be used to understand the topics being discussed (research front) and to identify which are the most important and most recent topics.</p>
+<p>The tool divides the whole time span into different periods and compares the conceptual structures which is useful to analyze the evolution of the topics over time.</p>
+<p>The package is able to analyze keywords, but also terms in article titles and abstracts. It does this by means of network analysis or correspondence analysis (CA) or multiple correspondence analysis (MCA). CA and MCA visualize the conceptual structure in a two-dimensional graph, which I also show below.</p>
+<section id="joint-word-analysis-using-keyword-co-occurrences" class="level2">
+<h2 class="anchored" data-anchor-id="joint-word-analysis-using-keyword-co-occurrences">Joint word analysis using keyword co-occurrences</h2>
+<p>As with the previous graph, the <strong>options</strong> are to make the graph more readable:</p>
+<ul>
+<li><p><code>normalize = "association"</code> (the vertex similarities are normalized using association strength)</p></li>
+<li><p><code>n = 50</code> (the function traces the top 50 cited references)</p></li>
+<li><p><code>type = "fruchterman"</code> (The network trace is generated using the <em>Fruchterman-Reingold</em> algorithm)</p></li>
+<li><p><code>size.cex = TRUE</code> (the size of the vertices is proportional to their degree)</p></li>
+<li><p><code>size = 20</code> (maximum size of the vertices)</p></li>
+<li><p><code>remove.multiple = FALSE</code> (multiple edges are not removed)</p></li>
+<li><p><code>labelsize = 3</code> (defines the maximum size of the vertices labels)</p></li>
+<li><p><code>label.cex = TRUE</code> (size of vertices labels is proportional to their degree)</p></li>
+<li><p><code>edgesize = 10</code> (thickness of the edges is proportional to their degree. <code>Edgesize</code> defines the maximum value of the thickness)</p></li>
+<li><p><code>label.n = 30</code> (labels are drawn only for the top 30 vertices)</p></li>
+<li><p><code>edges.min = 25</code> (Only plot edges with a strength greater than or equal to 25)</p></li>
+<li><p>all other arguments assume default values.</p></li>
+</ul>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>NetMatrix <span class="ot">&lt;-</span> <span class="fu">biblioNetwork</span>(wos, <span class="at">analysis =</span> <span class="st">"co-occurrences"</span>, <span class="at">network =</span> <span class="st">"keywords"</span>, <span class="at">sep =</span> <span class="st">";"</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>net<span class="ot">=</span><span class="fu">networkPlot</span>(NetMatrix, <span class="at">normalize=</span><span class="st">"association"</span>, <span class="at">n =</span> <span class="dv">50</span>, <span class="at">Title =</span> <span class="st">"Keyword Co-occurrences"</span>, <span class="at">type =</span> <span class="st">"fruchterman"</span>, <span class="at">size.cex=</span><span class="cn">TRUE</span>, <span class="at">size=</span><span class="dv">20</span>, <span class="at">remove.multiple=</span>F, <span class="at">edgesize =</span> <span class="dv">10</span>, <span class="at">labelsize=</span><span class="dv">5</span>,<span class="at">label.cex=</span><span class="cn">TRUE</span>,<span class="at">label.n=</span><span class="dv">30</span>,<span class="at">edges.min=</span><span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/Keyword co-occurrences-1.png" class="img-fluid figure-img" width="960"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="joint-word-analysis-by-means-of-correspondence-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="joint-word-analysis-by-means-of-correspondence-analysis">Joint word analysis by means of correspondence analysis</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressWarnings</span>(</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>CS <span class="ot">&lt;-</span> <span class="fu">conceptualStructure</span>(wos, <span class="at">method=</span><span class="st">"MCA"</span>, <span class="at">field=</span><span class="st">"ID"</span>, <span class="at">minDegree=</span><span class="dv">15</span>, <span class="at">clust=</span><span class="dv">5</span>, <span class="at">stemming=</span><span class="cn">FALSE</span>, <span class="at">labelsize=</span><span class="dv">15</span>,<span class="at">documents=</span><span class="dv">20</span>)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/Co-word Analysis-1.png" class="img-fluid figure-img" width="960"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/Co-word Analysis-2.png" class="img-fluid figure-img" width="960"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/Co-word Analysis-3.png" class="img-fluid figure-img" width="960"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/Co-word Analysis-4.png" class="img-fluid figure-img" width="960"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="thematic-maps" class="level1">
+<h1>5: Thematic maps</h1>
+<p>The co-word analysis draws clusters of the keywords. Themes are considered, whose density and centrality can be used to classify the themes and draw a two-dimensional diagram.</p>
+<p>The thematic map is a very intuitive diagram and we can analyze the topics according to the quadrant in which they are placed: <em>(1)</em> upper right quadrant: <em>main topics</em> (as qualified by the authors of the tool); <em>(2)</em> lower right quadrant: <strong>basic topics</strong>; <em>(3)</em> lower left quadrant: <strong>emerging or disappearing topics</strong>; <em>(4)</em> upper left quadrant: <strong>very specialized/niche topics</strong>.</p>
+<p>El análisis de co-palabras dibuja clusters de las palabras clave. Se consideran temas, cuya densidad y centralidad pueden utilizarse para clasificar los temas y trazar un diagrama bidimensional.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>Map<span class="ot">=</span><span class="fu">thematicMap</span>(wos, <span class="at">field =</span> <span class="st">"ID"</span>, <span class="at">n =</span> <span class="dv">250</span>, <span class="at">minfreq =</span> <span class="dv">4</span>,</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">stemming =</span> <span class="cn">FALSE</span>, <span class="at">size =</span> <span class="fl">0.7</span>, <span class="at">n.labels=</span><span class="dv">5</span>, <span class="at">repel =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(Map<span class="sc">$</span>map)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/ThematicMap-1.png" class="img-fluid figure-img" width="864"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The description of the cluster can then be requested from the program:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>Clusters<span class="ot">=</span>Map<span class="sc">$</span>words[<span class="fu">order</span>(Map<span class="sc">$</span>words<span class="sc">$</span>Cluster,<span class="sc">-</span>Map<span class="sc">$</span>words<span class="sc">$</span>Occurrences),]</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'dplyr'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:stats':
+
+    filter, lag</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:base':
+
+    intersect, setdiff, setequal, union</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>CL <span class="ot">&lt;-</span> Clusters <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(.data<span class="sc">$</span>Cluster_Label) <span class="sc">%&gt;%</span> <span class="fu">top_n</span>(<span class="dv">5</span>, .data<span class="sc">$</span>Occurrences)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>CL</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 24 × 9
+# Groups:   Cluster_Label [4]
+   Occurrences Words           Cluster Color    Cluster_Label Cluster_Frequency btw_centrality clos_centrality pagerank_centrality
+         &lt;dbl&gt; &lt;chr&gt;             &lt;dbl&gt; &lt;chr&gt;    &lt;chr&gt;                     &lt;dbl&gt;          &lt;dbl&gt;           &lt;dbl&gt;               &lt;dbl&gt;
+ 1           9 willingness           1 #E41A1C… willingness                 106           579.         0.00193             0.0112 
+ 2           7 acceptance            1 #E41A1C… willingness                 106           565.         0.00189             0.00872
+ 3           6 familiar              1 #E41A1C… willingness                 106           159.         0.00176             0.00660
+ 4           5 eating behavior       1 #E41A1C… willingness                 106           334.         0.00180             0.00572
+ 5           5 food neophobia        1 #E41A1C… willingness                 106           226.         0.00181             0.00480
+ 6          48 neophobia             2 #377EB8… neophobia                   416          4804.         0.00242             0.0438 
+ 7          29 behavior              2 #377EB8… neophobia                   416          4508.         0.00239             0.0271 
+ 8          21 neophilia             2 #377EB8… neophobia                   416          1163.         0.00205             0.0219 
+ 9          13 evolution             2 #377EB8… neophobia                   416          1001.         0.00204             0.0130 
+10          12 exploration           2 #377EB8… neophobia                   416           936.         0.00204             0.0136 
+# ℹ 14 more rows</code></pre>
+</div>
+</div>
+</section>
+<section id="social-structure---collaboration-analysis" class="level1">
+<h1>6: Social structure - Collaboration analysis</h1>
+<p>This last section is also interesting. Collaborative networks show how authors, institutions (e.g., universities or departments) and countries relate to others in the field we are analyzing, in this case neophilia/neophobia in tourism. For example, the first figure below is a “Co-author network”. It uncovers regular study groups, hidden groups of scholars and key authors. The second figure is called an “Educational Collaboration Network” and uncovers relevant institutions in a specific research field and their relationships.</p>
+<section id="author-collaboration-network" class="level2">
+<h2 class="anchored" data-anchor-id="author-collaboration-network">Author collaboration network</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>NetMatrix <span class="ot">&lt;-</span> <span class="fu">biblioNetwork</span>(wos, <span class="at">analysis =</span> <span class="st">"collaboration"</span>,  <span class="at">network =</span> <span class="st">"authors"</span>, <span class="at">sep =</span> <span class="st">";"</span>)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>net<span class="ot">=</span><span class="fu">networkPlot</span>(NetMatrix,  <span class="at">n =</span> <span class="dv">50</span>, <span class="at">Title =</span> <span class="st">"Author collaboration"</span>,<span class="at">type =</span> <span class="st">"auto"</span>, <span class="at">size=</span><span class="dv">10</span>,<span class="at">size.cex=</span>T,<span class="at">edgesize =</span> <span class="dv">3</span>,<span class="at">labelsize=</span><span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/Au collaboration network-1.png" class="img-fluid figure-img" width="960"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="educational-collaboration-network" class="level2">
+<h2 class="anchored" data-anchor-id="educational-collaboration-network">Educational collaboration network</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>NetMatrix <span class="ot">&lt;-</span> <span class="fu">biblioNetwork</span>(wos, <span class="at">analysis =</span> <span class="st">"collaboration"</span>,  <span class="at">network =</span> <span class="st">"universities"</span>, <span class="at">sep =</span> <span class="st">";"</span>)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>net<span class="ot">=</span><span class="fu">networkPlot</span>(NetMatrix,  <span class="at">n =</span> <span class="dv">50</span>, <span class="at">Title =</span> <span class="st">"Edu collaboration"</span>,<span class="at">type =</span> <span class="st">"auto"</span>, <span class="at">size=</span><span class="dv">4</span>,<span class="at">size.cex=</span>F,<span class="at">edgesize =</span> <span class="dv">3</span>,<span class="at">labelsize=</span><span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/Edu collaboration network-1.png" class="img-fluid figure-img" width="960"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="collaboration-network-between-countries" class="level2">
+<h2 class="anchored" data-anchor-id="collaboration-network-between-countries">Collaboration network between countries</h2>
+<p>Finally, we can also obtain a graph of the collaboration network between countries, which can be useful to see between which countries there is more collaboration on the topic in question. For example, it can be seen that the country that has the most relationships is the United Kingdom. Spain, on the other hand, establishes collaborations with Japan, South Africa, Indonesia, Germany and China.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>wos <span class="ot">&lt;-</span> <span class="fu">metaTagExtraction</span>(wos, <span class="at">Field =</span> <span class="st">"AU_CO"</span>, <span class="at">sep =</span> <span class="st">";"</span>)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>NetMatrix <span class="ot">&lt;-</span> <span class="fu">biblioNetwork</span>(wos, <span class="at">analysis =</span> <span class="st">"collaboration"</span>,  <span class="at">network =</span> <span class="st">"countries"</span>, <span class="at">sep =</span> <span class="st">";"</span>)</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>net<span class="ot">=</span><span class="fu">networkPlot</span>(NetMatrix,  <span class="at">n =</span> <span class="fu">dim</span>(NetMatrix)[<span class="dv">1</span>], <span class="at">Title =</span> <span class="st">"Country collaboration"</span>,<span class="at">type =</span> <span class="st">"circle"</span>, <span class="at">size=</span><span class="dv">10</span>,<span class="at">size.cex=</span>T,<span class="at">edgesize =</span> <span class="dv">1</span>,<span class="at">labelsize=</span><span class="fl">0.6</span>, <span class="at">cluster=</span><span class="st">"none"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/Co collaboration network-1.png" class="img-fluid figure-img" width="960"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="final-comments" class="level1">
+<h1>Final comments</h1>
+<p>Apart from this library that works in <code>R</code>, the authors have created an application that does the same without programming, and there is even an additional tool, also useful. The only thing you need is to have the DB in the correct format (merged WoS and Scopus, if you want, etc…) because otherwise, it does not read it but if you do it right, the result is the same as we have shown here but without programming <code>R</code> practically (only to transform the files).</p>
+</section>
+<section id="references" class="level1">
+<h1>References</h1>
+<p>This work is done with the <strong>R</strong> package <code>bibliometrix</code> and on the basis proposed by Aria and Cuccurullo, adapted and modified for our research line.</p>
+<p>Aria, M., &amp; Cuccurullo, C. (2017). <strong>bibliometrix: An R-tool for comprehensive science mapping analysis</strong>, <em>Journal of Informetrics</em>, 11(4), pp 959-9753643, (<a href="https://www.bibliometrix.org" class="uri">https://www.bibliometrix.org</a>).</p>
+
+
+<!-- -->
+
+</section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{caro2022,
+  author = {Caro, José},
+  title = {Scientific {Maps} {Analysis} with the {`R`} Package
+    `Bibliometrix`},
+  date = {2022-09-09},
+  url = {https://github.com/jrcarob/blog/2022/09/bibliometric/},
+  doi = {10.5281/zenodo.10079724},
+  langid = {en}
+}
+</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-caro2022" class="csl-entry quarto-appendix-citeas" role="listitem">
+Caro, José. 2022. <span>“Scientific Maps Analysis with the `R` Package
+`Bibliometrix`.”</span> September 9, 2022. <a href="https://doi.org/10.5281/zenodo.10079724">https://doi.org/10.5281/zenodo.10079724</a>.
+</div></div></section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+    const viewSource = window.document.getElementById('quarto-view-source') ||
+                       window.document.getElementById('quarto-code-tools-source');
+    if (viewSource) {
+      const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+      viewSource.addEventListener("click", function(e) {
+        if (sourceUrl) {
+          // rstudio viewer pane
+          if (/\bcapabilities=\b/.test(window.location)) {
+            window.open(sourceUrl);
+          } else {
+            window.location.href = sourceUrl;
+          }
+        } else {
+          const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+          modal.show();
+        }
+        return false;
+      });
+    }
+    function toggleCodeHandler(show) {
+      return function(e) {
+        const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+        for (let i=0; i<detailsSrc.length; i++) {
+          const details = detailsSrc[i].parentElement;
+          if (show) {
+            details.open = true;
+          } else {
+            details.removeAttribute("open");
+          }
+        }
+        const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+        const fromCls = show ? "hidden" : "unhidden";
+        const toCls = show ? "unhidden" : "hidden";
+        for (let i=0; i<cellCodeDivs.length; i++) {
+          const codeDiv = cellCodeDivs[i];
+          if (codeDiv.classList.contains(fromCls)) {
+            codeDiv.classList.remove(fromCls);
+            codeDiv.classList.add(toCls);
+          } 
+        }
+        return false;
+      }
+    }
+    const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+    if (hideAllCode) {
+      hideAllCode.addEventListener("click", toggleCodeHandler(false));
+    }
+    const showAllCode = window.document.getElementById("quarto-show-all-code");
+    if (showAllCode) {
+      showAllCode.addEventListener("click", toggleCodeHandler(true));
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/github\.com\/jrcarob");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Scientific Maps Analysis with the `R` package `bibliometrix`"</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="an">date:</span><span class="co"> 09-09-2022</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="an">description:</span><span class="co"> "Example of scientific maps for bibliometric analysis"</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="an">image:</span><span class="co"> graph.png</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a><span class="an">categories:</span><span class="co"> </span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a><span class="co">  - bibliometry</span></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a><span class="co">  - mapping</span></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a><span class="co">  - bibliometric analysis</span></span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span></span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a><span class="co">  html</span></span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a><span class="co">    #code-fold: show</span></span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a><span class="co">    </span></span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a><span class="an">doi:</span><span class="co"> 10.5281/zenodo.10079724</span></span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a><span class="an">citation:</span><span class="co"> true</span></span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a><span class="in">```{r include=FALSE}</span></span>
+<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Installation of some useful packages</span></span>
+<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">isTRUE</span>(<span class="fu">require</span>(<span class="st">"prettydoc"</span>))){<span class="fu">install.packages</span>(<span class="st">"prettydoc"</span>)}</span>
+<span id="cb19-21"><a href="#cb19-21" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">isTRUE</span>(<span class="fu">require</span>(<span class="st">"rio"</span>))){<span class="fu">install.packages</span>(<span class="st">"rio"</span>)}</span>
+<span id="cb19-22"><a href="#cb19-22" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(prettydoc)</span>
+<span id="cb19-23"><a href="#cb19-23" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rio)</span>
+<span id="cb19-24"><a href="#cb19-24" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb19-25"><a href="#cb19-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-26"><a href="#cb19-26" aria-hidden="true" tabindex="-1"></a><span class="al">![Preregistered](preregistered_large_color.png)</span> <span class="dv">&amp;emsp;</span> <span class="al">![Open data](data_large_color.png)</span> <span class="dv">&amp;emsp;</span> <span class="al">![Open](materials_large_color.png)</span></span>
+<span id="cb19-27"><a href="#cb19-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-28"><a href="#cb19-28" aria-hidden="true" tabindex="-1"></a><span class="fu"># Introduction</span></span>
+<span id="cb19-29"><a href="#cb19-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-30"><a href="#cb19-30" aria-hidden="true" tabindex="-1"></a><span class="fu"># Bibliographic Data</span></span>
+<span id="cb19-31"><a href="#cb19-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-32"><a href="#cb19-32" aria-hidden="true" tabindex="-1"></a>The bibliographic data are based on the search query that has been made. For the moment we have focused on one of the lines of the <span class="co">[</span><span class="ot">SEJ670</span><span class="co">](/now/index.qmd)</span> UCO Research Group, **neophilia/neophobia in tourism**. Needles to say that it would be applied to other research lines; however, watch out when filtering and redefining the database because we have to remove areas that are not of our interest, for example, in our selection there were references about zoology, biology, etc..., given that there is also neophilia and neophobia, especially the latter, specifically in animals, well, we must be careful because some area can sneak in the form of journals and references not related to our research area.</span>
+<span id="cb19-33"><a href="#cb19-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-34"><a href="#cb19-34" aria-hidden="true" tabindex="-1"></a>**Data source**: Clarivate Analytics Web of Science (<span class="ot">&lt;http://apps.webofknowledge.com&gt;</span>)</span>
+<span id="cb19-35"><a href="#cb19-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-36"><a href="#cb19-36" aria-hidden="true" tabindex="-1"></a>**Format**: Bibtex</span>
+<span id="cb19-37"><a href="#cb19-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-38"><a href="#cb19-38" aria-hidden="true" tabindex="-1"></a>**Query**: "Web of Science Core Collection"</span>
+<span id="cb19-39"><a href="#cb19-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-40"><a href="#cb19-40" aria-hidden="true" tabindex="-1"></a>**Range**: 1995-2022</span>
+<span id="cb19-41"><a href="#cb19-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-42"><a href="#cb19-42" aria-hidden="true" tabindex="-1"></a>**Document type**: All</span>
+<span id="cb19-43"><a href="#cb19-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-44"><a href="#cb19-44" aria-hidden="true" tabindex="-1"></a>**Query date**: September, 2022</span>
+<span id="cb19-45"><a href="#cb19-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-46"><a href="#cb19-46" aria-hidden="true" tabindex="-1"></a><span class="fu"># Package installation, data loading and conversion</span></span>
+<span id="cb19-47"><a href="#cb19-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-48"><a href="#cb19-48" aria-hidden="true" tabindex="-1"></a>As the objective is to see what analysis the tool does and how it does it, the steps of installation, data loading and conversion have been omitted, although it is an important step since it must be done in <span class="in">`R`</span>, after downloading the data from WoS or Scopus, which also has its own technique. After a lot of research we managed to find a way to merge both databases and it works perfectly, and it also automatically omits duplicate references. **With this procedure we can have both databases in a single file and although WoS has more references (as a general rule, although not always), Scopus almost always has some different one/s and even if they are few, at least we practically cover the two most important sources of articles.** It is worth mentioning that in the last updates of this <span class="in">`Bibliometrix`</span> package other open bibliographic databases such as _OpenAlex_, _Dimensions_, _Lens_, and from the medical field such as _PubMed_ and _Cochrane_ have been included.</span>
+<span id="cb19-49"><a href="#cb19-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-50"><a href="#cb19-50" aria-hidden="true" tabindex="-1"></a><span class="in">```{r load bibliometrix, message=FALSE, include=FALSE}</span></span>
+<span id="cb19-51"><a href="#cb19-51" aria-hidden="true" tabindex="-1"></a><span class="co"># Stable version from CRAN (Comprehensive R Archive Network)</span></span>
+<span id="cb19-52"><a href="#cb19-52" aria-hidden="true" tabindex="-1"></a><span class="co"># if you need to execute the code, remove # from the beginning of the next line</span></span>
+<span id="cb19-53"><a href="#cb19-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-54"><a href="#cb19-54" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages("bibliometrix")</span></span>
+<span id="cb19-55"><a href="#cb19-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-56"><a href="#cb19-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-57"><a href="#cb19-57" aria-hidden="true" tabindex="-1"></a><span class="co"># Most updated version from GitHub</span></span>
+<span id="cb19-58"><a href="#cb19-58" aria-hidden="true" tabindex="-1"></a><span class="co"># if you need to execute the code, remove # from the beginning of the next lines</span></span>
+<span id="cb19-59"><a href="#cb19-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-60"><a href="#cb19-60" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages("devtools")</span></span>
+<span id="cb19-61"><a href="#cb19-61" aria-hidden="true" tabindex="-1"></a><span class="co"># devtools::install_github("massimoaria/bibliometrix")</span></span>
+<span id="cb19-62"><a href="#cb19-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-63"><a href="#cb19-63" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(bibliometrix)</span>
+<span id="cb19-64"><a href="#cb19-64" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb19-65"><a href="#cb19-65" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-66"><a href="#cb19-66" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-67"><a href="#cb19-67" aria-hidden="true" tabindex="-1"></a><span class="in">```{r Data loading, warning=FALSE, include=FALSE}</span></span>
+<span id="cb19-68"><a href="#cb19-68" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-69"><a href="#cb19-69" aria-hidden="true" tabindex="-1"></a><span class="co"># Convertimos el fichero obtenido de WoS en un dataframe bibliográfico con R</span></span>
+<span id="cb19-70"><a href="#cb19-70" aria-hidden="true" tabindex="-1"></a>wos <span class="ot">&lt;-</span> <span class="fu">convert2df</span>(<span class="st">"wos.bib"</span>, <span class="at">dbsource =</span> <span class="st">"wos"</span>, <span class="at">format =</span> <span class="st">"bibtex"</span>)</span>
+<span id="cb19-71"><a href="#cb19-71" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-72"><a href="#cb19-72" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb19-73"><a href="#cb19-73" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-74"><a href="#cb19-74" aria-hidden="true" tabindex="-1"></a><span class="fu"># 1. Descriptive Analysis</span></span>
+<span id="cb19-75"><a href="#cb19-75" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-76"><a href="#cb19-76" aria-hidden="true" tabindex="-1"></a>The descriptive analysis of the package provides a lot of information on the annual development of research, the most productive $k$ authors, articles, countries and relevant keywords.</span>
+<span id="cb19-77"><a href="#cb19-77" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-78"><a href="#cb19-78" aria-hidden="true" tabindex="-1"></a><span class="fu">## 1.1. Main findings on the database analysed</span></span>
+<span id="cb19-79"><a href="#cb19-79" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-80"><a href="#cb19-80" aria-hidden="true" tabindex="-1"></a>The following table shows a summary of the data and other interesting classifications: _n_umber of authors_, _number of documents_, _scientific production for each year_ (and its average growth), the _most productive authors_, the _countries_ and the _corresponding citations_, the _most relevant journals_, the _most relevant keywords_, etc... </span>
+<span id="cb19-81"><a href="#cb19-81" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-82"><a href="#cb19-82" aria-hidden="true" tabindex="-1"></a>Moreover, this information can also be obtained in graphs.</span>
+<span id="cb19-83"><a href="#cb19-83" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-84"><a href="#cb19-84" aria-hidden="true" tabindex="-1"></a><span class="in">```{r Descriptive Analysis, echo=FALSE, comment=NA}</span></span>
+<span id="cb19-85"><a href="#cb19-85" aria-hidden="true" tabindex="-1"></a><span class="co">#options(width=160)</span></span>
+<span id="cb19-86"><a href="#cb19-86" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">biblioAnalysis</span>(wos)</span>
+<span id="cb19-87"><a href="#cb19-87" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(results, <span class="at">k=</span><span class="dv">10</span>, <span class="at">pause=</span>F, <span class="at">width=</span><span class="dv">130</span>)</span>
+<span id="cb19-88"><a href="#cb19-88" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">x=</span>results, <span class="at">k=</span><span class="dv">10</span>, <span class="at">pause=</span>F)</span>
+<span id="cb19-89"><a href="#cb19-89" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb19-90"><a href="#cb19-90" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-91"><a href="#cb19-91" aria-hidden="true" tabindex="-1"></a><span class="fu">## 1.2. Most cited references</span></span>
+<span id="cb19-92"><a href="#cb19-92" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-93"><a href="#cb19-93" aria-hidden="true" tabindex="-1"></a>We can also obtain the most cited references and their number:  </span>
+<span id="cb19-94"><a href="#cb19-94" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-95"><a href="#cb19-95" aria-hidden="true" tabindex="-1"></a><span class="in">```{r Most cited references, echo=FALSE, comment=NA}</span></span>
+<span id="cb19-96"><a href="#cb19-96" aria-hidden="true" tabindex="-1"></a>CR <span class="ot">&lt;-</span> <span class="fu">citations</span>(wos, <span class="at">field =</span> <span class="st">"article"</span>, <span class="at">sep =</span> <span class="st">";"</span>)</span>
+<span id="cb19-97"><a href="#cb19-97" aria-hidden="true" tabindex="-1"></a><span class="fu">cbind</span>(CR<span class="sc">$</span>Cited[<span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>])</span>
+<span id="cb19-98"><a href="#cb19-98" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb19-99"><a href="#cb19-99" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-100"><a href="#cb19-100" aria-hidden="true" tabindex="-1"></a><span class="fu"># 2: Co-citation analysis structure</span></span>
+<span id="cb19-101"><a href="#cb19-101" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-102"><a href="#cb19-102" aria-hidden="true" tabindex="-1"></a>Citation analysis is another remarkable tool of the bibliometric analysis offered by the package. It shows the structure of a specific field through the links between nodes (e.g. authors, articles, journal). The interesting option is that the edges can be interpreted differently depending on the type of network, i.e. co-citations, direct citations, bibliographic linking, etc.... This is very useful and can be exploited quite a lot.</span>
+<span id="cb19-103"><a href="#cb19-103" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-104"><a href="#cb19-104" aria-hidden="true" tabindex="-1"></a>Below we have taken the three standard examples shown in the original reference but adapted them to our database.  </span>
+<span id="cb19-105"><a href="#cb19-105" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-106"><a href="#cb19-106" aria-hidden="true" tabindex="-1"></a>_First_, a co-citation network showing the relationships between the cited-referred works (nodes).</span>
+<span id="cb19-107"><a href="#cb19-107" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-108"><a href="#cb19-108" aria-hidden="true" tabindex="-1"></a>_Second_, a co-citation network that uses the cited journals as the unit of analysis.</span>
+<span id="cb19-109"><a href="#cb19-109" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-110"><a href="#cb19-110" aria-hidden="true" tabindex="-1"></a>The dimensions useful for commenting on co-citation networks are: **(i)** centrality and peripherality of nodes, **(ii)** their proximity and distance, **(iii)** strength of links, **(iv)** clusters, **(v)** bridging contributions.</span>
+<span id="cb19-111"><a href="#cb19-111" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-112"><a href="#cb19-112" aria-hidden="true" tabindex="-1"></a>_Third_, a historiography that is built on direct quotations. It traces the intellectual links in a historical order. The cited works of thousands of authors contained in a collection of published scientific articles are sufficient to reconstruct the historiographical structure of the field, pointing out the basic works in it.</span>
+<span id="cb19-113"><a href="#cb19-113" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-114"><a href="#cb19-114" aria-hidden="true" tabindex="-1"></a><span class="fu">## Analysis of co-citations of articles (references)</span></span>
+<span id="cb19-115"><a href="#cb19-115" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-116"><a href="#cb19-116" aria-hidden="true" tabindex="-1"></a>This is the typical _VosViewer_ graph, in this case for a visualization of the co-cite network. The graph parameters have not been modified to make it clearer but the **graph options** shown below are mainly for visual fine tuning. Without seeing the code this may be useless but it is interesting to know that it can be tweaked and made more readable. The interesting thing would be to be able to eliminate those co-citations that appear isolated and focus only on those where there are relationships.</span>
+<span id="cb19-117"><a href="#cb19-117" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-118"><a href="#cb19-118" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`n = 50`</span> (this function traces the top 50 cited references)</span>
+<span id="cb19-119"><a href="#cb19-119" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-120"><a href="#cb19-120" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`type = "fruchterman"`</span> (the network layout is generated by the <span class="co">[</span><span class="ot">Fruchterman-Reingold algorithm</span><span class="co">](https://github.com/gephi/gephi/wiki/Fruchterman-Reingold)</span>, there is the option of other types of algorithms, although I have not tested them and I do not know if they would work for us)</span>
+<span id="cb19-121"><a href="#cb19-121" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-122"><a href="#cb19-122" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`size.cex = TRUE`</span> (the size of the vertices is proportional to its degree)</span>
+<span id="cb19-123"><a href="#cb19-123" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-124"><a href="#cb19-124" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`size = 20`</span> (maximum size of the vertices)</span>
+<span id="cb19-125"><a href="#cb19-125" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-126"><a href="#cb19-126" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`remove.multiple = FALSE`</span> (multiple edges are not eliminated, the opposite is <span class="in">`TRUE`</span>)</span>
+<span id="cb19-127"><a href="#cb19-127" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-128"><a href="#cb19-128" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`labelsize = 1`</span> (defines the size of the vertices labels)</span>
+<span id="cb19-129"><a href="#cb19-129" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-130"><a href="#cb19-130" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`edgesize = 10`</span> (the thickness of the edges is proportional to their strength. <span class="in">`Edgesize`</span> defines the maximum value of the thickness)</span>
+<span id="cb19-131"><a href="#cb19-131" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-132"><a href="#cb19-132" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`edges.min = 5`</span> (only traces edges with a force greater than or equal to 5)</span>
+<span id="cb19-133"><a href="#cb19-133" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-134"><a href="#cb19-134" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>all other arguments assume default values.</span>
+<span id="cb19-135"><a href="#cb19-135" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-136"><a href="#cb19-136" aria-hidden="true" tabindex="-1"></a><span class="in">```{r Co-citation network, echo=FALSE, fig.height=10, fig.width=10, comment=NA}</span></span>
+<span id="cb19-137"><a href="#cb19-137" aria-hidden="true" tabindex="-1"></a>NetMatrix <span class="ot">&lt;-</span> <span class="fu">biblioNetwork</span>(wos, <span class="at">analysis =</span> <span class="st">"co-citation"</span>, <span class="at">network =</span> <span class="st">"references"</span>, <span class="at">sep =</span> <span class="st">";"</span>)</span>
+<span id="cb19-138"><a href="#cb19-138" aria-hidden="true" tabindex="-1"></a>net<span class="ot">=</span><span class="fu">networkPlot</span>(NetMatrix, <span class="at">n =</span> <span class="dv">50</span>, <span class="at">Title =</span> <span class="st">"Co-Citation Network"</span>, <span class="at">type =</span> <span class="st">"fruchterman"</span>, <span class="at">size.cex =</span> <span class="cn">TRUE</span>, <span class="at">size =</span> <span class="dv">20</span>, <span class="at">remove.multiple =</span> <span class="cn">FALSE</span>, <span class="at">labelsize =</span> <span class="dv">1</span>, <span class="at">edgesize =</span> <span class="dv">10</span>, <span class="at">edges.min =</span> <span class="dv">5</span>)</span>
+<span id="cb19-139"><a href="#cb19-139" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb19-140"><a href="#cb19-140" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-141"><a href="#cb19-141" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-142"><a href="#cb19-142" aria-hidden="true" tabindex="-1"></a><span class="in">```{r Co-citation net stat, eval=FALSE, comment=NA, include=FALSE}</span></span>
+<span id="cb19-143"><a href="#cb19-143" aria-hidden="true" tabindex="-1"></a><span class="co"># El cuadro resumen Análisis descriptivo de las características de la red de citación de artículos</span></span>
+<span id="cb19-144"><a href="#cb19-144" aria-hidden="true" tabindex="-1"></a><span class="co"># netstat &lt;- networkStat(NetMatrix)</span></span>
+<span id="cb19-145"><a href="#cb19-145" aria-hidden="true" tabindex="-1"></a><span class="co">#summary(netstat,k=10)</span></span>
+<span id="cb19-146"><a href="#cb19-146" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb19-147"><a href="#cb19-147" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-148"><a href="#cb19-148" aria-hidden="true" tabindex="-1"></a><span class="fu">## Analysis of journal co-citations (source)</span></span>
+<span id="cb19-149"><a href="#cb19-149" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-150"><a href="#cb19-150" aria-hidden="true" tabindex="-1"></a><span class="in">```{r Co-citation source network, comment=NA, fig.height=10, fig.width=10}</span></span>
+<span id="cb19-151"><a href="#cb19-151" aria-hidden="true" tabindex="-1"></a>wos<span class="ot">=</span><span class="fu">metaTagExtraction</span>(wos,<span class="st">"CR_SO"</span>,<span class="at">sep=</span><span class="st">";"</span>)</span>
+<span id="cb19-152"><a href="#cb19-152" aria-hidden="true" tabindex="-1"></a>NetMatrix <span class="ot">&lt;-</span> <span class="fu">biblioNetwork</span>(wos, <span class="at">analysis =</span> <span class="st">"co-citation"</span>, <span class="at">network =</span> <span class="st">"sources"</span>, <span class="at">sep =</span> <span class="st">";"</span>)</span>
+<span id="cb19-153"><a href="#cb19-153" aria-hidden="true" tabindex="-1"></a>net<span class="ot">=</span><span class="fu">networkPlot</span>(NetMatrix, <span class="at">n =</span> <span class="dv">50</span>, <span class="at">Title =</span> <span class="st">"Co-Citation Network"</span>, <span class="at">type =</span> <span class="st">"auto"</span>, <span class="at">size.cex=</span><span class="cn">TRUE</span>, <span class="at">size=</span><span class="dv">15</span>, <span class="at">remove.multiple=</span><span class="cn">FALSE</span>, <span class="at">labelsize=</span><span class="dv">1</span>,<span class="at">edgesize =</span> <span class="dv">10</span>, <span class="at">edges.min=</span><span class="dv">5</span>)</span>
+<span id="cb19-154"><a href="#cb19-154" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb19-155"><a href="#cb19-155" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-156"><a href="#cb19-156" aria-hidden="true" tabindex="-1"></a>Descriptive analysis of the characteristics of the journal citation network.</span>
+<span id="cb19-157"><a href="#cb19-157" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-158"><a href="#cb19-158" aria-hidden="true" tabindex="-1"></a>This analysis is similar to the previous one but with journal citations.</span>
+<span id="cb19-159"><a href="#cb19-159" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-160"><a href="#cb19-160" aria-hidden="true" tabindex="-1"></a><span class="in">```{r So Co-citation net stat, echo=FALSE, comment=NA}</span></span>
+<span id="cb19-161"><a href="#cb19-161" aria-hidden="true" tabindex="-1"></a>netstat <span class="ot">&lt;-</span> <span class="fu">networkStat</span>(NetMatrix)</span>
+<span id="cb19-162"><a href="#cb19-162" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(netstat,<span class="at">k=</span><span class="dv">10</span>)</span>
+<span id="cb19-163"><a href="#cb19-163" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb19-164"><a href="#cb19-164" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-165"><a href="#cb19-165" aria-hidden="true" tabindex="-1"></a><span class="fu"># 3: Historiography - Direct citation links</span></span>
+<span id="cb19-166"><a href="#cb19-166" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-167"><a href="#cb19-167" aria-hidden="true" tabindex="-1"></a>This analysis provides us with direct citation links by author and year, which is interesting to see who cites whom and when.</span>
+<span id="cb19-168"><a href="#cb19-168" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-169"><a href="#cb19-169" aria-hidden="true" tabindex="-1"></a><span class="in">```{r Direct citation network, echo=FALSE, fig.height=10, fig.width=10}</span></span>
+<span id="cb19-170"><a href="#cb19-170" aria-hidden="true" tabindex="-1"></a>histResults <span class="ot">&lt;-</span> <span class="fu">histNetwork</span>(wos, <span class="at">sep =</span> <span class="st">";"</span>)</span>
+<span id="cb19-171"><a href="#cb19-171" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-172"><a href="#cb19-172" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb19-173"><a href="#cb19-173" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-174"><a href="#cb19-174" aria-hidden="true" tabindex="-1"></a><span class="in">```{r Historiograph, echo=FALSE, fig.height=7, fig.width=10, comment=NA}</span></span>
+<span id="cb19-175"><a href="#cb19-175" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">width =</span> <span class="dv">130</span>)</span>
+<span id="cb19-176"><a href="#cb19-176" aria-hidden="true" tabindex="-1"></a>net <span class="ot">&lt;-</span> <span class="fu">histPlot</span>(histResults, <span class="at">n=</span><span class="dv">20</span>, <span class="at">size =</span> <span class="dv">5</span>, <span class="at">labelsize =</span> <span class="dv">4</span>)</span>
+<span id="cb19-177"><a href="#cb19-177" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb19-178"><a href="#cb19-178" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-179"><a href="#cb19-179" aria-hidden="true" tabindex="-1"></a><span class="fu"># 4: Conceptual structure - Co-word analysis</span></span>
+<span id="cb19-180"><a href="#cb19-180" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-181"><a href="#cb19-181" aria-hidden="true" tabindex="-1"></a>Co-Word Networks show the conceptual structure, which uncovers the links between concepts through co-occurrences of terms.</span>
+<span id="cb19-182"><a href="#cb19-182" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-183"><a href="#cb19-183" aria-hidden="true" tabindex="-1"></a>The conceptual structure can be used to understand the topics being discussed (research front) and to identify which are the most important and most recent topics.</span>
+<span id="cb19-184"><a href="#cb19-184" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-185"><a href="#cb19-185" aria-hidden="true" tabindex="-1"></a>The tool divides the whole time span into different periods and compares the conceptual structures which is useful to analyze the evolution of the topics over time.</span>
+<span id="cb19-186"><a href="#cb19-186" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-187"><a href="#cb19-187" aria-hidden="true" tabindex="-1"></a>The package is able to analyze keywords, but also terms in article titles and abstracts. It does this by means of network analysis or correspondence analysis (CA) or multiple correspondence analysis (MCA). CA and MCA visualize the conceptual structure in a two-dimensional graph, which I also show below.</span>
+<span id="cb19-188"><a href="#cb19-188" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-189"><a href="#cb19-189" aria-hidden="true" tabindex="-1"></a><span class="fu">## Joint word analysis using keyword co-occurrences</span></span>
+<span id="cb19-190"><a href="#cb19-190" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-191"><a href="#cb19-191" aria-hidden="true" tabindex="-1"></a>As with the previous graph, the **options** are to make the graph more readable:</span>
+<span id="cb19-192"><a href="#cb19-192" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-193"><a href="#cb19-193" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`normalize = "association"`</span> (the vertex similarities are normalized using association strength)</span>
+<span id="cb19-194"><a href="#cb19-194" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-195"><a href="#cb19-195" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`n = 50`</span> (the function traces the top 50 cited references)</span>
+<span id="cb19-196"><a href="#cb19-196" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-197"><a href="#cb19-197" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`type = "fruchterman"`</span> (The network trace is generated using the _Fruchterman-Reingold_ algorithm)</span>
+<span id="cb19-198"><a href="#cb19-198" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-199"><a href="#cb19-199" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`size.cex = TRUE`</span> (the size of the vertices is proportional to their degree)</span>
+<span id="cb19-200"><a href="#cb19-200" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-201"><a href="#cb19-201" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`size = 20`</span> (maximum size of the vertices)</span>
+<span id="cb19-202"><a href="#cb19-202" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-203"><a href="#cb19-203" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`remove.multiple = FALSE`</span> (multiple edges are not removed)</span>
+<span id="cb19-204"><a href="#cb19-204" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-205"><a href="#cb19-205" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`labelsize = 3`</span> (defines the maximum size of the vertices labels)</span>
+<span id="cb19-206"><a href="#cb19-206" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-207"><a href="#cb19-207" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`label.cex = TRUE`</span> (size of vertices labels is proportional to their degree)</span>
+<span id="cb19-208"><a href="#cb19-208" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-209"><a href="#cb19-209" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`edgesize = 10`</span> (thickness of the edges is proportional to their degree. <span class="in">`Edgesize`</span> defines the maximum value of the thickness)</span>
+<span id="cb19-210"><a href="#cb19-210" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-211"><a href="#cb19-211" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`label.n = 30`</span> (labels are drawn only for the top 30 vertices)</span>
+<span id="cb19-212"><a href="#cb19-212" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-213"><a href="#cb19-213" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`edges.min = 25`</span> (Only plot edges with a strength greater than or equal to 25)</span>
+<span id="cb19-214"><a href="#cb19-214" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-215"><a href="#cb19-215" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>all other arguments assume default values.</span>
+<span id="cb19-216"><a href="#cb19-216" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-217"><a href="#cb19-217" aria-hidden="true" tabindex="-1"></a><span class="in">```{r Keyword co-occurrences, comment=NA, fig.height=10, fig.width=10}</span></span>
+<span id="cb19-218"><a href="#cb19-218" aria-hidden="true" tabindex="-1"></a>NetMatrix <span class="ot">&lt;-</span> <span class="fu">biblioNetwork</span>(wos, <span class="at">analysis =</span> <span class="st">"co-occurrences"</span>, <span class="at">network =</span> <span class="st">"keywords"</span>, <span class="at">sep =</span> <span class="st">";"</span>)</span>
+<span id="cb19-219"><a href="#cb19-219" aria-hidden="true" tabindex="-1"></a>net<span class="ot">=</span><span class="fu">networkPlot</span>(NetMatrix, <span class="at">normalize=</span><span class="st">"association"</span>, <span class="at">n =</span> <span class="dv">50</span>, <span class="at">Title =</span> <span class="st">"Keyword Co-occurrences"</span>, <span class="at">type =</span> <span class="st">"fruchterman"</span>, <span class="at">size.cex=</span><span class="cn">TRUE</span>, <span class="at">size=</span><span class="dv">20</span>, <span class="at">remove.multiple=</span>F, <span class="at">edgesize =</span> <span class="dv">10</span>, <span class="at">labelsize=</span><span class="dv">5</span>,<span class="at">label.cex=</span><span class="cn">TRUE</span>,<span class="at">label.n=</span><span class="dv">30</span>,<span class="at">edges.min=</span><span class="dv">2</span>)</span>
+<span id="cb19-220"><a href="#cb19-220" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb19-221"><a href="#cb19-221" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-222"><a href="#cb19-222" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-223"><a href="#cb19-223" aria-hidden="true" tabindex="-1"></a><span class="in">```{r Keyword net stat, eval=FALSE, comment=NA, include=FALSE}</span></span>
+<span id="cb19-224"><a href="#cb19-224" aria-hidden="true" tabindex="-1"></a><span class="co"># Descriptive analysis of keyword co-occurrences network characteristics</span></span>
+<span id="cb19-225"><a href="#cb19-225" aria-hidden="true" tabindex="-1"></a><span class="co"># netstat &lt;- networkStat(NetMatrix)</span></span>
+<span id="cb19-226"><a href="#cb19-226" aria-hidden="true" tabindex="-1"></a><span class="co"># summary(netstat,k=10)</span></span>
+<span id="cb19-227"><a href="#cb19-227" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb19-228"><a href="#cb19-228" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-229"><a href="#cb19-229" aria-hidden="true" tabindex="-1"></a><span class="fu">## Joint word analysis by means of correspondence analysis</span></span>
+<span id="cb19-230"><a href="#cb19-230" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-231"><a href="#cb19-231" aria-hidden="true" tabindex="-1"></a><span class="in">```{r Co-word Analysis, fig.height=10, fig.width=10}</span></span>
+<span id="cb19-232"><a href="#cb19-232" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressWarnings</span>(</span>
+<span id="cb19-233"><a href="#cb19-233" aria-hidden="true" tabindex="-1"></a>CS <span class="ot">&lt;-</span> <span class="fu">conceptualStructure</span>(wos, <span class="at">method=</span><span class="st">"MCA"</span>, <span class="at">field=</span><span class="st">"ID"</span>, <span class="at">minDegree=</span><span class="dv">15</span>, <span class="at">clust=</span><span class="dv">5</span>, <span class="at">stemming=</span><span class="cn">FALSE</span>, <span class="at">labelsize=</span><span class="dv">15</span>,<span class="at">documents=</span><span class="dv">20</span>)</span>
+<span id="cb19-234"><a href="#cb19-234" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb19-235"><a href="#cb19-235" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb19-236"><a href="#cb19-236" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-237"><a href="#cb19-237" aria-hidden="true" tabindex="-1"></a><span class="fu"># 5: Thematic maps</span></span>
+<span id="cb19-238"><a href="#cb19-238" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-239"><a href="#cb19-239" aria-hidden="true" tabindex="-1"></a>The co-word analysis draws clusters of the keywords. Themes are considered, whose density and centrality can be used to classify the themes and draw a two-dimensional diagram.</span>
+<span id="cb19-240"><a href="#cb19-240" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-241"><a href="#cb19-241" aria-hidden="true" tabindex="-1"></a>The thematic map is a very intuitive diagram and we can analyze the topics according to the quadrant in which they are placed: *(1)* upper right quadrant: *main topics* (as qualified by the authors of the tool); *(2)* lower right quadrant: **basic topics**; *(3)* lower left quadrant: **emerging or disappearing topics**; *(4)* upper left quadrant: **very specialized/niche topics**.</span>
+<span id="cb19-242"><a href="#cb19-242" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-243"><a href="#cb19-243" aria-hidden="true" tabindex="-1"></a>El análisis de co-palabras dibuja clusters de las palabras clave. Se consideran temas, cuya densidad y centralidad pueden utilizarse para clasificar los temas y trazar un diagrama bidimensional.</span>
+<span id="cb19-244"><a href="#cb19-244" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-245"><a href="#cb19-245" aria-hidden="true" tabindex="-1"></a><span class="in">```{r ThematicMap, echo=TRUE, fig.height=9, fig.width=9}</span></span>
+<span id="cb19-246"><a href="#cb19-246" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-247"><a href="#cb19-247" aria-hidden="true" tabindex="-1"></a>Map<span class="ot">=</span><span class="fu">thematicMap</span>(wos, <span class="at">field =</span> <span class="st">"ID"</span>, <span class="at">n =</span> <span class="dv">250</span>, <span class="at">minfreq =</span> <span class="dv">4</span>,</span>
+<span id="cb19-248"><a href="#cb19-248" aria-hidden="true" tabindex="-1"></a>  <span class="at">stemming =</span> <span class="cn">FALSE</span>, <span class="at">size =</span> <span class="fl">0.7</span>, <span class="at">n.labels=</span><span class="dv">5</span>, <span class="at">repel =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb19-249"><a href="#cb19-249" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(Map<span class="sc">$</span>map)</span>
+<span id="cb19-250"><a href="#cb19-250" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb19-251"><a href="#cb19-251" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-252"><a href="#cb19-252" aria-hidden="true" tabindex="-1"></a>The description of the cluster can then be requested from the program:</span>
+<span id="cb19-253"><a href="#cb19-253" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-256"><a href="#cb19-256" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb19-257"><a href="#cb19-257" aria-hidden="true" tabindex="-1"></a>Clusters<span class="ot">=</span>Map<span class="sc">$</span>words[<span class="fu">order</span>(Map<span class="sc">$</span>words<span class="sc">$</span>Cluster,<span class="sc">-</span>Map<span class="sc">$</span>words<span class="sc">$</span>Occurrences),]</span>
+<span id="cb19-258"><a href="#cb19-258" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb19-259"><a href="#cb19-259" aria-hidden="true" tabindex="-1"></a>CL <span class="ot">&lt;-</span> Clusters <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(.data<span class="sc">$</span>Cluster_Label) <span class="sc">%&gt;%</span> <span class="fu">top_n</span>(<span class="dv">5</span>, .data<span class="sc">$</span>Occurrences)</span>
+<span id="cb19-260"><a href="#cb19-260" aria-hidden="true" tabindex="-1"></a>CL</span>
+<span id="cb19-261"><a href="#cb19-261" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb19-262"><a href="#cb19-262" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-263"><a href="#cb19-263" aria-hidden="true" tabindex="-1"></a><span class="fu"># 6: Social structure - Collaboration analysis</span></span>
+<span id="cb19-264"><a href="#cb19-264" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-265"><a href="#cb19-265" aria-hidden="true" tabindex="-1"></a>This last section is also interesting. Collaborative networks show how authors, institutions (e.g., universities or departments) and countries relate to others in the field we are analyzing, in this case neophilia/neophobia in tourism. For example, the first figure below is a “Co-author network”. It uncovers regular study groups, hidden groups of scholars and key authors. The second figure is called an “Educational Collaboration Network” and uncovers relevant institutions in a specific research field and their relationships.</span>
+<span id="cb19-266"><a href="#cb19-266" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-267"><a href="#cb19-267" aria-hidden="true" tabindex="-1"></a><span class="fu">## Author collaboration network</span></span>
+<span id="cb19-268"><a href="#cb19-268" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-269"><a href="#cb19-269" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, Au collaboration network, fig.height=10, fig.width=10}</span></span>
+<span id="cb19-270"><a href="#cb19-270" aria-hidden="true" tabindex="-1"></a>NetMatrix <span class="ot">&lt;-</span> <span class="fu">biblioNetwork</span>(wos, <span class="at">analysis =</span> <span class="st">"collaboration"</span>,  <span class="at">network =</span> <span class="st">"authors"</span>, <span class="at">sep =</span> <span class="st">";"</span>)</span>
+<span id="cb19-271"><a href="#cb19-271" aria-hidden="true" tabindex="-1"></a>net<span class="ot">=</span><span class="fu">networkPlot</span>(NetMatrix,  <span class="at">n =</span> <span class="dv">50</span>, <span class="at">Title =</span> <span class="st">"Author collaboration"</span>,<span class="at">type =</span> <span class="st">"auto"</span>, <span class="at">size=</span><span class="dv">10</span>,<span class="at">size.cex=</span>T,<span class="at">edgesize =</span> <span class="dv">3</span>,<span class="at">labelsize=</span><span class="dv">1</span>)</span>
+<span id="cb19-272"><a href="#cb19-272" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb19-273"><a href="#cb19-273" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-274"><a href="#cb19-274" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-275"><a href="#cb19-275" aria-hidden="true" tabindex="-1"></a><span class="in">```{r Au coll stat, eval=FALSE, comment=NA, include=FALSE}</span></span>
+<span id="cb19-276"><a href="#cb19-276" aria-hidden="true" tabindex="-1"></a><span class="co"># Análisis descriptivo de las características de la red de colaboración de los autores</span></span>
+<span id="cb19-277"><a href="#cb19-277" aria-hidden="true" tabindex="-1"></a><span class="co"># netstat &lt;- networkStat(NetMatrix)</span></span>
+<span id="cb19-278"><a href="#cb19-278" aria-hidden="true" tabindex="-1"></a><span class="co"># summary(netstat,k=15)</span></span>
+<span id="cb19-279"><a href="#cb19-279" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb19-280"><a href="#cb19-280" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-281"><a href="#cb19-281" aria-hidden="true" tabindex="-1"></a><span class="fu">## Educational collaboration network</span></span>
+<span id="cb19-282"><a href="#cb19-282" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-283"><a href="#cb19-283" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, Edu collaboration network, fig.height=10, fig.width=10}</span></span>
+<span id="cb19-284"><a href="#cb19-284" aria-hidden="true" tabindex="-1"></a>NetMatrix <span class="ot">&lt;-</span> <span class="fu">biblioNetwork</span>(wos, <span class="at">analysis =</span> <span class="st">"collaboration"</span>,  <span class="at">network =</span> <span class="st">"universities"</span>, <span class="at">sep =</span> <span class="st">";"</span>)</span>
+<span id="cb19-285"><a href="#cb19-285" aria-hidden="true" tabindex="-1"></a>net<span class="ot">=</span><span class="fu">networkPlot</span>(NetMatrix,  <span class="at">n =</span> <span class="dv">50</span>, <span class="at">Title =</span> <span class="st">"Edu collaboration"</span>,<span class="at">type =</span> <span class="st">"auto"</span>, <span class="at">size=</span><span class="dv">4</span>,<span class="at">size.cex=</span>F,<span class="at">edgesize =</span> <span class="dv">3</span>,<span class="at">labelsize=</span><span class="dv">1</span>)</span>
+<span id="cb19-286"><a href="#cb19-286" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb19-287"><a href="#cb19-287" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-288"><a href="#cb19-288" aria-hidden="true" tabindex="-1"></a><span class="in">```{r Edu coll stat, eval=FALSE, comment=NA, include=FALSE}</span></span>
+<span id="cb19-289"><a href="#cb19-289" aria-hidden="true" tabindex="-1"></a><span class="co"># Análisis descriptivo de las características de la red de colaboración educativa</span></span>
+<span id="cb19-290"><a href="#cb19-290" aria-hidden="true" tabindex="-1"></a><span class="co"># netstat &lt;- networkStat(NetMatrix)</span></span>
+<span id="cb19-291"><a href="#cb19-291" aria-hidden="true" tabindex="-1"></a><span class="co"># summary(netstat,k=15)</span></span>
+<span id="cb19-292"><a href="#cb19-292" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb19-293"><a href="#cb19-293" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-294"><a href="#cb19-294" aria-hidden="true" tabindex="-1"></a><span class="fu">## Collaboration network between countries</span></span>
+<span id="cb19-295"><a href="#cb19-295" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-296"><a href="#cb19-296" aria-hidden="true" tabindex="-1"></a>Finally, we can also obtain a graph of the collaboration network between countries, which can be useful to see between which countries there is more collaboration on the topic in question. For example, it can be seen that the country that has the most relationships is the United Kingdom. Spain, on the other hand, establishes collaborations with Japan, South Africa, Indonesia, Germany and China. </span>
+<span id="cb19-297"><a href="#cb19-297" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-298"><a href="#cb19-298" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, Co collaboration network, fig.height=10, fig.width=10}</span></span>
+<span id="cb19-299"><a href="#cb19-299" aria-hidden="true" tabindex="-1"></a>wos <span class="ot">&lt;-</span> <span class="fu">metaTagExtraction</span>(wos, <span class="at">Field =</span> <span class="st">"AU_CO"</span>, <span class="at">sep =</span> <span class="st">";"</span>)</span>
+<span id="cb19-300"><a href="#cb19-300" aria-hidden="true" tabindex="-1"></a>NetMatrix <span class="ot">&lt;-</span> <span class="fu">biblioNetwork</span>(wos, <span class="at">analysis =</span> <span class="st">"collaboration"</span>,  <span class="at">network =</span> <span class="st">"countries"</span>, <span class="at">sep =</span> <span class="st">";"</span>)</span>
+<span id="cb19-301"><a href="#cb19-301" aria-hidden="true" tabindex="-1"></a>net<span class="ot">=</span><span class="fu">networkPlot</span>(NetMatrix,  <span class="at">n =</span> <span class="fu">dim</span>(NetMatrix)[<span class="dv">1</span>], <span class="at">Title =</span> <span class="st">"Country collaboration"</span>,<span class="at">type =</span> <span class="st">"circle"</span>, <span class="at">size=</span><span class="dv">10</span>,<span class="at">size.cex=</span>T,<span class="at">edgesize =</span> <span class="dv">1</span>,<span class="at">labelsize=</span><span class="fl">0.6</span>, <span class="at">cluster=</span><span class="st">"none"</span>)</span>
+<span id="cb19-302"><a href="#cb19-302" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb19-303"><a href="#cb19-303" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-304"><a href="#cb19-304" aria-hidden="true" tabindex="-1"></a><span class="in">```{r Co coll stat, eval=FALSE, comment=NA, include=FALSE}</span></span>
+<span id="cb19-305"><a href="#cb19-305" aria-hidden="true" tabindex="-1"></a><span class="co">#Análisis descriptivo de las características de las redes de colaboración de los países</span></span>
+<span id="cb19-306"><a href="#cb19-306" aria-hidden="true" tabindex="-1"></a><span class="co">#netstat &lt;- networkStat(NetMatrix)</span></span>
+<span id="cb19-307"><a href="#cb19-307" aria-hidden="true" tabindex="-1"></a><span class="co">#summary(netstat,k=15)</span></span>
+<span id="cb19-308"><a href="#cb19-308" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb19-309"><a href="#cb19-309" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-310"><a href="#cb19-310" aria-hidden="true" tabindex="-1"></a><span class="fu"># Final comments</span></span>
+<span id="cb19-311"><a href="#cb19-311" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-312"><a href="#cb19-312" aria-hidden="true" tabindex="-1"></a>Apart from this library that works in <span class="in">`R`</span>, the authors have created an application that does the same without programming, and there is even an additional tool, also useful. The only thing you need is to have the DB in the correct format (merged WoS and Scopus, if you want, etc...) because otherwise, it does not read it but if you do it right, the result is the same as we have shown here but without programming <span class="in">`R`</span> practically (only to transform the files).</span>
+<span id="cb19-313"><a href="#cb19-313" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-314"><a href="#cb19-314" aria-hidden="true" tabindex="-1"></a><span class="fu"># References</span></span>
+<span id="cb19-315"><a href="#cb19-315" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-316"><a href="#cb19-316" aria-hidden="true" tabindex="-1"></a>This work is done with the **R** package <span class="in">`bibliometrix`</span> and on the basis proposed by Aria and Cuccurullo, adapted and modified for our research line.</span>
+<span id="cb19-317"><a href="#cb19-317" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-318"><a href="#cb19-318" aria-hidden="true" tabindex="-1"></a>Aria, M., &amp; Cuccurullo, C. (2017). **bibliometrix: An R-tool for comprehensive science mapping analysis**, *Journal of Informetrics*, 11(4), pp 959-9753643, (<span class="ot">&lt;https://www.bibliometrix.org&gt;</span>).</span>
+</code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+</div></div></div></div></div>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p><span class="faux-block"> © 2018–2026 José Rafael Caro-Barrera</span> <span class="faux-block"><i class="fa-brands fa-orcid" aria-label="orcid"></i> <strong>ORCID</strong> <a href="https://orcid.org/0000-0001-6154-2493">0000-0001-6154-2493</a></span> <span class="faux-block"><a href="https://github.com/jrcarob">View the source at <i class="fa-brands fa-github" aria-label="github"></i> GitHub</a></span></p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+<p><span class="faux-block">Made with <i class="fa-brands fa-r-project" aria-label="r-project"></i> and <a href="https://quarto.org/">Quarto</a></span> <span class="faux-block">All content licensed under<br><a href="https://creativecommons.org/licenses/by-sa/4.0/"><i class="fa-brands fa-creative-commons" aria-label="creative-commons"></i> <i class="fa-brands fa-creative-commons-by" aria-label="creative-commons-by"></i> <i class="fa-brands fa-creative-commons-sa" aria-label="creative-commons-sa"></i> Creative Commons CC BY-SA 4.0</a></span></p>
+</div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

@@ -1,0 +1,1764 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.25">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="José Caro">
+<meta name="description" content="Application in R of the XGBoost machine learning algorithm for predictive modelling">
+
+<title>Forecasting with XGBoost: An implementation in R | José Caro – José Caro</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../../">
+<link href="../../../..//files/favicon-512.png" rel="icon" type="image/png">
+<script src="../../../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting-4c7b890cc350be7067044af900615741.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../../site_libs/bootstrap/bootstrap-518c0b22ba42e977bde395bf4a19c2bb.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../../../site_libs/quarto-contrib/fontawesome6-6.7.2/all.min.css" rel="stylesheet">
+<link href="../../../../site_libs/quarto-contrib/fontawesome6-6.7.2/latex-fontsize.css" rel="stylesheet">
+<link href="../../../../site_libs/quarto-contrib/academicons-1.9.2/all.css" rel="stylesheet">
+<link href="../../../../site_libs/quarto-contrib/academicons-1.9.2/size.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+<script type="text/javascript">
+
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-527449-5', 'auto');
+
+ga('send', {
+  hitType: 'pageview',
+  'anonymizeIp': true,
+});
+</script>
+<style>
+
+      .quarto-title-block .quarto-title-banner {
+        background: #170C3A;
+      }
+</style>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<meta property="og:title" content="Forecasting with XGBoost: An implementation in R | José Caro">
+<meta property="og:description" content="?meta:description-meta">
+<meta property="og:image" content="https://github.com/jrcarob/files/profiles/myAvatar.png">
+<meta property="og:site_name" content="José Caro">
+<meta property="og:locale" content="en_US">
+<meta property="og:image:height" content="1200">
+<meta property="og:image:width" content="1200">
+<meta name="twitter:title" content="Forecasting with XGBoost: An implementation in R | José Caro">
+<meta name="twitter:description" content="?meta:description-meta">
+<meta name="twitter:image" content="https://github.com/jrcarob/files/profiles/myAvatar.png">
+<meta name="twitter:creator" content="@acaroisallin">
+<meta name="twitter:site" content="@acaroisallin">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image-height" content="1200">
+<meta name="twitter:image-width" content="1200">
+</head>
+
+<body class="floating nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="../../../../index.html" class="navbar-brand navbar-brand-logo">
+    </a>
+    <a class="navbar-brand" href="../../../../index.html">
+    <span class="navbar-title">José Caro</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../../../index.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../../teaching/index.html"> 
+<span class="menu-text">Teaching</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../../research/index.html"> 
+<span class="menu-text">Research</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../../talks/index.html"> 
+<span class="menu-text">Conferences</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../../apps/index.html"> 
+<span class="menu-text">Resources</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../../demography/index.html"> 
+<span class="menu-text">Demography</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../../now/index.html"> 
+<span class="menu-text">SEJ-670</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../../cv/index.html"> 
+<span class="menu-text">CV</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../../blog/index.html"> 
+<span class="menu-text">Blog</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="mailto:jrcaro@uco.es"> <i class="bi bi-envelope" role="img" aria-label="email">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://scholar.google.es/citations?hl=es&amp;user=NGV9ylEAAAAJ"> 
+<span class="menu-text"><i class="ai  ai-google-scholar" title="" style="color:"></i></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/caroisallin"> <i class="bi bi-twitter" role="img" aria-label="twitter">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/jrcarob"> <i class="bi bi-github" role="img" aria-label="github">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://www.linkedin.com/in/jose-rafael-caro-barrera-0128917b/"> <i class="bi bi-linkedin" role="img" aria-label="linkedin">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default blog-post page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <div class="quarto-title-block"><div><h1 class="title">Forecasting with XGBoost: An implementation in R</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+                  <div>
+        <div class="description">
+          Application in <code>R</code> of the XGBoost machine learning algorithm for predictive modelling
+        </div>
+      </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">XGBoost</div>
+                <div class="quarto-category">data analysis</div>
+                <div class="quarto-category">forecasting</div>
+                <div class="quarto-category">machine learning</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p><a href="https://www.github.com/jrcarob">José Caro</a> <a href="https://orcid.org/0000-0001-6154-2493" class="quarto-title-author-orcid"> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a></p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">Tuesday, November 8, 2022</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Contents</h2>
+   
+  <ul>
+  <li><a href="#introduction-to-the-xgboost-algorithm" id="toc-introduction-to-the-xgboost-algorithm" class="nav-link active" data-scroll-target="#introduction-to-the-xgboost-algorithm">1. Introduction to the XGBoost algorithm</a></li>
+  <li><a href="#objectives-and-data-preparation" id="toc-objectives-and-data-preparation" class="nav-link" data-scroll-target="#objectives-and-data-preparation">2. Objectives and data preparation</a>
+  <ul class="collapse">
+  <li><a href="#data-load-for-modelling" id="toc-data-load-for-modelling" class="nav-link" data-scroll-target="#data-load-for-modelling">2.1. Data load for modelling</a></li>
+  </ul></li>
+  <li><a href="#xgboost-process" id="toc-xgboost-process" class="nav-link" data-scroll-target="#xgboost-process">3. XGBoost Process</a>
+  <ul class="collapse">
+  <li><a href="#exploratory-data-analysis." id="toc-exploratory-data-analysis." class="nav-link" data-scroll-target="#exploratory-data-analysis.">3.1. Exploratory Data Analysis.</a></li>
+  <li><a href="#splitting-the-data." id="toc-splitting-the-data." class="nav-link" data-scroll-target="#splitting-the-data.">3.2. Splitting the Data.</a></li>
+  <li><a href="#pre-processing." id="toc-pre-processing." class="nav-link" data-scroll-target="#pre-processing.">3.3. Pre-processing.</a></li>
+  <li><a href="#cross-validation-split." id="toc-cross-validation-split." class="nav-link" data-scroll-target="#cross-validation-split.">3.4. Cross-validation split.</a></li>
+  <li><a href="#xgboost-model-specification." id="toc-xgboost-model-specification." class="nav-link" data-scroll-target="#xgboost-model-specification.">3.5. XGBoost model specification.</a></li>
+  <li><a href="#grid-specification." id="toc-grid-specification." class="nav-link" data-scroll-target="#grid-specification.">3.6. Grid specification.</a></li>
+  <li><a href="#workflow-setup" id="toc-workflow-setup" class="nav-link" data-scroll-target="#workflow-setup">3.7. Workflow setup</a></li>
+  <li><a href="#model-fitting" id="toc-model-fitting" class="nav-link" data-scroll-target="#model-fitting">3.8. Model fitting</a></li>
+  <li><a href="#performance-evaluation-with-test-data." id="toc-performance-evaluation-with-test-data." class="nav-link" data-scroll-target="#performance-evaluation-with-test-data.">3.9. Performance Evaluation with Test Data.</a></li>
+  </ul></li>
+  <li><a href="#conclusions" id="toc-conclusions" class="nav-link" data-scroll-target="#conclusions">Conclusions</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  </ul>
+</nav>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+
+<p><img src="dplyr.png" alt="dplyr_sticker" style="height: 75px; width:75px;"> <img src="dials.png" alt="dial_sticker" style="height: 75px; width:75px;"> <img src="parsnip.png" alt="parsnip_sticker" style="height: 75px; width:75px;"> <img src="recipes.png" alt="recipes_sticker" style="height: 75px; width:75px;"> <img src="rsample.png" alt="rsample_sticker" style="height: 75px; width:75px;"> <img src="tune.png" alt="tune_sticker" style="height: 75px; width:75px;"> <img src="workflows.png" alt="workflows_sticker" style="height: 75px; width:75px;"> <img src="yardstick.png" alt="yardstick_sticker" style="height: 75px; width:75px;"></p>
+<section id="introduction-to-the-xgboost-algorithm" class="level1">
+<h1>1. Introduction to the XGBoost algorithm</h1>
+<p>XGBoost, (<em>Extreme Gradient Boosting</em>), is one of the most widely used supervised <em>machine learning</em> algorithms that uses the <em>boosting</em> principle.</p>
+<p>Supervised learning is one that has input variables <span class="math inline">\((x)\)</span> and an output variable and an output variable <span class="math inline">\((Y)\)</span> and uses an algorithm to learn the mapping function of the input <span class="math display">\[Y=f(X)\]</span> to the output.The objective is to approximate the mapping function as accurately as possible so that when you have new input data <span class="math inline">\((x)\)</span>, the output variables <span class="math inline">\((Y)\)</span> can be predicted for that data.</p>
+<p>It is called supervised learning because the process of an algorithm learning from the training data set can be thought of as a teacher supervising the learning process. We know the correct answers, the algorithm iteratively makes predictions on the training data and is corrected by the teacher. Learning stops when the algorithm reaches an acceptable level of performance.</p>
+<p>Supervised learning problems can be grouped into regression and classification problems.</p>
+<p><span class="math inline">\(\bullet\)</span> <strong>Classification:</strong> A classification problem is when the output variable is a category, such as “red” or “blue” or “disease” and “no disease”.</p>
+<p><span class="math inline">\(\bullet\)</span> <strong>Regression:</strong> A regression problem is when the output variable is a real value, such as “euros” or “kilograms”. Some common types of problems built on classification and regression include recommendation and time series prediction, respectively. Some popular examples of supervised machine learning algorithms are:</p>
+<p><strong><em>Linear regression</em></strong> for regression problems.</p>
+<p><strong><em>Random forest</em></strong> for classification and regression problems.</p>
+<p><strong><em>Support vector machine</em></strong> for classification problems.</p>
+<p>The <em>xgboost</em> algorithm is similar to <em>gradient boosting</em> but more efficient. It has linear model solutions and tree learning algorithms and is at least 10 times faster than existing implementations of <em>gradient boosting</em>. It supports several objective functions, including regression, classification and ranking. and what makes it fast is its ability to do parallel computations on a single machine.</p>
+<p>In terms of efficiency, accuracy and feasibility it is more powerful than the <em>random forest</em> algorithm, for example or a neural network and since it has very high predictive power but relatively slow implementation, <em>xgboost</em> becomes a suitable choice for solving most regression, classification and ranking problems as well as user-created objective functions. It also has additional features to do cross validation and find the most important variables, which makes it interesting for <strong>credit scoring models</strong>, <strong>insurance claims</strong>, or where there are many parameters to be controlled to optimize the model.</p>
+<p>As can be seen in the following graph (1), the XGBoost model has the best combination of prediction performance and processing time compared to other algorithms.</p>
+<p><a href="performance.png"><img src="performance.png" class="img-fluid"></a></p>
+<p>Chollet and Allaire, (2018) (2) summarize the value of XGBoost as follows:</p>
+<blockquote class="blockquote">
+<p>“<em>XGBoost</em> is used for problems where there is the availability of structured data is very wide, while <em>deep learning</em> is used for perceptual problems such as image classification. Users of the former almost always use the XGBoost library.”</p>
+</blockquote>
+<blockquote class="blockquote">
+<p>“These are the two techniques that one should be most familiar with to be successful in applied machine learning today: gradient boosting machines, for shallow learning problems; and deep learning, for perceptual problems. In technical terms, this means that one should be familiar with XGBoost and Keras.”</p>
+</blockquote>
+<blockquote class="blockquote">
+<footer>
+– Francoise Chollet and J.J. Allaire
+</footer>
+</blockquote>
+<p>Originally, XGBoost is a library written in C++ and exported to <strong>R</strong> in the <code>xgboost</code> package in our case, the XGBoost model has been trained using the package in <strong>R</strong> <code>caret</code>(3).</p>
+</section>
+<section id="objectives-and-data-preparation" class="level1">
+<h1>2. Objectives and data preparation</h1>
+<p>In this post and preliminary preview of the project with data application to the Spanish real estate market we train and tune a model based on the XGBoost algorithm using the <em>tidymodels</em> library of <code>R</code>. For this purpose and as data source we use the <a href="https://cran.r-project.org/web/packages/AmesHousing/AmesHousing.pdf">AmesHousing dataset</a> (4) which contains data of 82 variables for 2,930 properties in Ames County, Iowa. Our model will attempt to predict the selling price of the home.</p>
+<div class="fold s">
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Data load</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(AmesHousing)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Cleaning and data preparation libraries</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(janitor)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Libraries needed</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rsample)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(recipes)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(parsnip)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tune)</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dials)</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(workflows)</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(yardstick)</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="co"># acceleration of calculations with parallel processing (optional but useful)</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(doParallel)</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>all_cores <span class="ot">&lt;-</span> parallel<span class="sc">::</span><span class="fu">detectCores</span>(<span class="at">logical =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="fu">registerDoParallel</span>(<span class="at">cores =</span> all_cores)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<section id="data-load-for-modelling" class="level3">
+<h3 class="anchored" data-anchor-id="data-load-for-modelling">2.1. Data load for modelling</h3>
+<div class="fold s">
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># random seed set.seed() for results to be replicable</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co"># data load and cleaning names</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>ames_data <span class="ot">&lt;-</span> <span class="fu">make_ames</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  janitor<span class="sc">::</span><span class="fu">clean_names</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+</section>
+</section>
+<section id="xgboost-process" class="level1">
+<h1>3. XGBoost Process</h1>
+<section id="exploratory-data-analysis." class="level2">
+<h2 class="anchored" data-anchor-id="exploratory-data-analysis.">3.1. Exploratory Data Analysis.</h2>
+<p>At this initial point, we would do summaries of the data and some simple graphs to get as detailed an understanding of the data as possible. For simplicity, we are going to skip this step but, in a real-world analysis, understanding the business issues and doing an effective EDA are often the crucial aspects that require the most time and analysis.</p>
+</section>
+<section id="splitting-the-data." class="level2">
+<h2 class="anchored" data-anchor-id="splitting-the-data.">3.2. Splitting the Data.</h2>
+<p>We now divide the data into training and test data. The training data is used for model training and hyperparameter fitting. Once trained, the model can be evaluated against the test data to assess accuracy. Typically, 80% of the data is used for model training, while simulation or testing is done with the remaining 20%.</p>
+<div class="fold s">
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Data split for training and testing. Stratification by sales price</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>ames_split <span class="ot">&lt;-</span> rsample<span class="sc">::</span><span class="fu">initial_split</span>(</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  ames_data, </span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">prop =</span> <span class="fl">0.8</span>, </span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">strata =</span> sale_price</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+</section>
+<section id="pre-processing." class="level2">
+<h2 class="anchored" data-anchor-id="pre-processing.">3.3. Pre-processing.</h2>
+<p>Preprocessing alters the data to make our model more predictive and the training process requires less computational calculations. Many models require careful and extensive variable preprocessing to produce accurate predictions. However, XGBoost is more robust to highly asymmetric and/or correlated data, so the amount of preprocessing required with XGBoost is minimal. However, we can still make use of some preprocessing, and in <strong>R</strong>, with the libraries that <code>tidymodels</code> uses, we use the <code>recipes</code> package to define these aforementioned preprocessing steps:</p>
+<div class="fold s">
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># preprocessing routine</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>preprocessing_recipe <span class="ot">&lt;-</span> </span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  recipes<span class="sc">::</span><span class="fu">recipe</span>(sale_price <span class="sc">~</span> ., <span class="at">data =</span> <span class="fu">training</span>(ames_split)) <span class="sc">%&gt;%</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># categorical variables to factor variables conversion</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  recipes<span class="sc">::</span><span class="fu">step_string2factor</span>(<span class="fu">all_nominal</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="co"># low frequency factor levels combination</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  recipes<span class="sc">::</span><span class="fu">step_other</span>(<span class="fu">all_nominal</span>(), <span class="at">threshold =</span> <span class="fl">0.01</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="co"># remove of predictors without variance that do not provide predicitive information</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  recipes<span class="sc">::</span><span class="fu">step_nzv</span>(<span class="fu">all_nominal</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">prep</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<p>As can be seen in the graph below, for the <code>neighborhood</code> variable, several of the factor levels with the smallest number of observations (less than 1% of the total number of observations) have been grouped into an <code>other</code> factor level. We did this preprocessing with the <code>step_other()</code> command in the previous section.</p>
+<p><a href="others.png"><img src="others.png" class="img-fluid"></a></p>
+</section>
+<section id="cross-validation-split." class="level2">
+<h2 class="anchored" data-anchor-id="cross-validation-split.">3.4. Cross-validation split.</h2>
+<p>We apply the preprocessing previously defined with the <code>bake()</code> command. Then, we use cross-validation to randomly split the training data into additional training and test sets. We will use these additional cross-validation folds to adjust our hyperparameters in a later step.</p>
+<div class="fold s">
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>ames_cv_folds <span class="ot">&lt;-</span> </span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  recipes<span class="sc">::</span><span class="fu">bake</span>(</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    preprocessing_recipe, </span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">new_data =</span> <span class="fu">training</span>(ames_split)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span>  </span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  rsample<span class="sc">::</span><span class="fu">vfold_cv</span>(<span class="at">v =</span> <span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+</section>
+<section id="xgboost-model-specification." class="level2">
+<h2 class="anchored" data-anchor-id="xgboost-model-specification.">3.5. XGBoost model specification.</h2>
+<p>We use the <code>parsnip</code> package to define the XGBoost model specification. We then use <code>boost_tree()</code> together with <code>tune()</code> to define the hyperparameters for tuning in a later step.</p>
+<div class="fold s">
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Model specification</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>xgboost_model <span class="ot">&lt;-</span> </span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  parsnip<span class="sc">::</span><span class="fu">boost_tree</span>(</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">mode =</span> <span class="st">"regression"</span>,</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">trees =</span> <span class="dv">1000</span>,</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">min_n =</span> <span class="fu">tune</span>(),</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">tree_depth =</span> <span class="fu">tune</span>(),</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">learn_rate =</span> <span class="fu">tune</span>(),</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">loss_reduction =</span> <span class="fu">tune</span>()</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">set_engine</span>(<span class="st">"xgboost"</span>, <span class="at">objective =</span> <span class="st">"reg:squarederror"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+</section>
+<section id="grid-specification." class="level2">
+<h2 class="anchored" data-anchor-id="grid-specification.">3.6. Grid specification.</h2>
+<p>Next, we use the <code>dials</code> package to specify the set of parameters.</p>
+<div class="fold s">
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Grid setup</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>xgboost_params <span class="ot">&lt;-</span> </span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  dials<span class="sc">::</span><span class="fu">parameters</span>(</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">min_n</span>(),</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">tree_depth</span>(),</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">learn_rate</span>(),</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">loss_reduction</span>()</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<p>Then we set up the <em>grid</em> space. The <code>dials::grid_*</code> functions support several methods to define this space.Using the <code>dials::grid_max_entropy()</code> function covers the hyperparameter space so that any part of the space has an observed combination that does not lie too far from it.</p>
+<div class="fold s">
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>xgboost_grid <span class="ot">&lt;-</span> </span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  dials<span class="sc">::</span><span class="fu">grid_max_entropy</span>(</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    xgboost_params, </span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">size =</span> <span class="dv">60</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(<span class="fu">head</span>(xgboost_grid))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: center;">min_n</th>
+<th style="text-align: center;">tree_depth</th>
+<th style="text-align: center;">learn_rate</th>
+<th style="text-align: center;">loss_reduction</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">34</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0.0118682</td>
+<td style="text-align: center;">29.9649253</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">38</td>
+<td style="text-align: center;">12</td>
+<td style="text-align: center;">0.0001291</td>
+<td style="text-align: center;">0.6156496</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">6</td>
+<td style="text-align: center;">7</td>
+<td style="text-align: center;">0.0000949</td>
+<td style="text-align: center;">0.0000000</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">32</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">0.0000005</td>
+<td style="text-align: center;">0.0000367</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">14</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">0.0001833</td>
+<td style="text-align: center;">0.0000000</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">31</td>
+<td style="text-align: center;">8</td>
+<td style="text-align: center;">0.0000000</td>
+<td style="text-align: center;">1.4345098</td>
+</tr>
+</tbody>
+</table>
+<p>To fit our model, we perform a <em>grid</em> search over that <code>xgboost_grid</code> grid space to identify the hyperparameter values that have the lowest prediction error.</p>
+</section>
+<section id="workflow-setup" class="level2">
+<h2 class="anchored" data-anchor-id="workflow-setup">3.7. Workflow setup</h2>
+<p>We use the new <code>tidymodel</code> workflow package to add a formula to our XGBoost model specification.</p>
+<div class="fold s">
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>xgboost_wf <span class="ot">&lt;-</span> </span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  workflows<span class="sc">::</span><span class="fu">workflow</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_model</span>(xgboost_model) <span class="sc">%&gt;%</span> </span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_formula</span>(sale_price <span class="sc">~</span> .)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+</section>
+<section id="model-fitting" class="level2">
+<h2 class="anchored" data-anchor-id="model-fitting">3.8. Model fitting</h2>
+<p>The “fitting” is where the <code>tidymodels</code> package <em>ecosystem</em> actually comes into play. Here’s a quick breakdown of the objects passed to the first 4 arguments of our <code>tune_grid()</code> call below:</p>
+<p><span class="math inline">\(\bullet\)</span> “object”: <code>xgboost_wf</code>, which is a workflow we defined by the <code>parsnip</code> and <code>workflows</code> packages.</p>
+<p><span class="math inline">\(\bullet\)</span> “resamples”: <code>ames_cv_folds</code> as defined by the <code>rsample</code> and <code>recipes</code> packages.</p>
+<p><span class="math inline">\(\bullet\)</span> “grid”: <code>xgboost_grid</code> our space as defined by the <code>dials</code> package.</p>
+<p><span class="math inline">\(\bullet\)</span> “metrics”: the <code>yardstick</code> package defines the set of metrics used to evaluate model performance.</p>
+<div class="fold s">
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># hyperparameters tuning</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>xgboost_tuned <span class="ot">&lt;-</span> tune<span class="sc">::</span><span class="fu">tune_grid</span>(</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">object =</span> xgboost_wf,</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">resamples =</span> ames_cv_folds,</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">grid =</span> xgboost_grid,</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">metrics =</span> yardstick<span class="sc">::</span><span class="fu">metric_set</span>(rmse, rsq, mae),</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">control =</span> tune<span class="sc">::</span><span class="fu">control_grid</span>(<span class="at">verbose =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<p>In the above code block, <code>tune_grid()</code> performed a search for the <em>grid</em> on all 60 parameter combinations defined with <code>xgboost_grid</code> and used 5-fold cross-validation along with the <em>rmse</em> (root mean square error), <em>rsq</em> (<span class="math inline">\(R^{2}\)</span>) and <em>mae</em> (mean absolute error) to measure prediction accuracy. Therefore, our fit only fits (worth the redundancy) <span class="math inline">\(60\times 5=300\)</span> XGBoost models, each with 1,000 trees, all in search of the optimal hyperparameters. The computation was considerably time consuming and not without its share of problems. The hyperparameter values that performed best in minimizing the mean square error are shown below:</p>
+<div class="fold s">
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>xgboost_tuned <span class="sc">%&gt;%</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  tune<span class="sc">::</span><span class="fu">show_best</span>(<span class="at">metric =</span> <span class="st">"rmse"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 7%">
+<col style="width: 13%">
+<col style="width: 13%">
+<col style="width: 17%">
+<col style="width: 9%">
+<col style="width: 13%">
+<col style="width: 10%">
+<col style="width: 3%">
+<col style="width: 10%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;">min_n</th>
+<th style="text-align: center;">tree_depth</th>
+<th style="text-align: center;">learn_rate</th>
+<th style="text-align: center;">loss_reduction</th>
+<th style="text-align: center;">.metric</th>
+<th style="text-align: center;">.estimator</th>
+<th style="text-align: center;">mean</th>
+<th style="text-align: center;">n</th>
+<th style="text-align: center;">std_err</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">12</td>
+<td style="text-align: center;">7</td>
+<td style="text-align: center;">0.0346875</td>
+<td style="text-align: center;">0.0451186</td>
+<td style="text-align: center;">rmse</td>
+<td style="text-align: center;">standard</td>
+<td style="text-align: center;">25561.99</td>
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">2983.927</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">9</td>
+<td style="text-align: center;">13</td>
+<td style="text-align: center;">0.0183617</td>
+<td style="text-align: center;">0.1042750</td>
+<td style="text-align: center;">rmse</td>
+<td style="text-align: center;">standard</td>
+<td style="text-align: center;">25576.99</td>
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">2687.849</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">23</td>
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">0.0788798</td>
+<td style="text-align: center;">0.7513677</td>
+<td style="text-align: center;">rmse</td>
+<td style="text-align: center;">standard</td>
+<td style="text-align: center;">25645.38</td>
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">2461.057</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">11</td>
+<td style="text-align: center;">6</td>
+<td style="text-align: center;">0.0091690</td>
+<td style="text-align: center;">0.0000001</td>
+<td style="text-align: center;">rmse</td>
+<td style="text-align: center;">standard</td>
+<td style="text-align: center;">25669.84</td>
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">2706.457</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">10</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">0.0108475</td>
+<td style="text-align: center;">0.0000003</td>
+<td style="text-align: center;">rmse</td>
+<td style="text-align: center;">standard</td>
+<td style="text-align: center;">25883.23</td>
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">2828.172</td>
+</tr>
+</tbody>
+</table>
+<p>Next, we isolate the best performing hyperparameter values.</p>
+<div class="fold s">
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>xgboost_best_params <span class="ot">&lt;-</span> xgboost_tuned <span class="sc">%&gt;%</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  tune<span class="sc">::</span><span class="fu">select_best</span>(<span class="st">"rmse"</span>)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(xgboost_best_params)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: center;">min_n</th>
+<th style="text-align: center;">tree_depth</th>
+<th style="text-align: center;">learn_rate</th>
+<th style="text-align: center;">loss_reduction</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">12</td>
+<td style="text-align: center;">7</td>
+<td style="text-align: center;">0.0346875</td>
+<td style="text-align: center;">0.0451186</td>
+</tr>
+</tbody>
+</table>
+<p>We finish the XGBoost model using the best parameter we have set.</p>
+<div class="fold s">
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>xgboost_model_final <span class="ot">&lt;-</span> xgboost_model <span class="sc">%&gt;%</span> </span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">finalize_model</span>(xgboost_best_params)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+</section>
+<section id="performance-evaluation-with-test-data." class="level2">
+<h2 class="anchored" data-anchor-id="performance-evaluation-with-test-data.">3.9. Performance Evaluation with Test Data.</h2>
+<p>Now that we have trained our model, we need to evaluate the performance of the model. We use the test data from step 1 (that 20% of data that was not used in model training) to evaluate the performance.</p>
+<p>We use the <em>rmse</em> (Root Mean Squared Error), rsq (R Squared) and mae (Mean Absolute Value) metrics from the <code>yardstick</code> package in our model evaluation.</p>
+<p>First, we evaluated the training data metrics:</p>
+<div class="fold s">
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>train_processed <span class="ot">&lt;-</span> <span class="fu">bake</span>(preprocessing_recipe,  <span class="at">new_data =</span> <span class="fu">training</span>(ames_split))</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>train_prediction <span class="ot">&lt;-</span> xgboost_model_final <span class="sc">%&gt;%</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># model fit on all training data</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">formula =</span> sale_price <span class="sc">~</span> ., </span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">data    =</span> train_processed</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>  <span class="co"># prediction of sales prices on training data</span></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">predict</span>(<span class="at">new_data =</span> train_processed) <span class="sc">%&gt;%</span></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bind_cols</span>(<span class="fu">training</span>(ames_split))</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>xgboost_score_train <span class="ot">&lt;-</span> </span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>  train_prediction <span class="sc">%&gt;%</span></span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>  yardstick<span class="sc">::</span><span class="fu">metrics</span>(sale_price, .pred) <span class="sc">%&gt;%</span></span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">.estimate =</span> <span class="fu">format</span>(<span class="fu">round</span>(.estimate, <span class="dv">2</span>), <span class="at">big.mark =</span> <span class="st">","</span>))</span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(xgboost_score_train)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: center;">.metric</th>
+<th style="text-align: center;">estimator.</th>
+<th style="text-align: center;">.estimate</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">rmse</td>
+<td style="text-align: center;">standard</td>
+<td style="text-align: center;">3,807.24</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">rsq</td>
+<td style="text-align: center;">standard</td>
+<td style="text-align: center;">1.00</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">mae</td>
+<td style="text-align: center;">standard</td>
+<td style="text-align: center;">2,747.17</td>
+</tr>
+</tbody>
+</table>
+<p>And now for the rest of the data:</p>
+<div class="fold s">
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>test_processed  <span class="ot">&lt;-</span> <span class="fu">bake</span>(preprocessing_recipe, <span class="at">new_data =</span> <span class="fu">testing</span>(ames_split))</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>test_prediction <span class="ot">&lt;-</span> xgboost_model_final <span class="sc">%&gt;%</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># model fit on all training data</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">formula =</span> sale_price <span class="sc">~</span> ., </span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">data    =</span> train_processed</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>  <span class="co"># use of the training fit model for test data prediction</span></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">predict</span>(<span class="at">new_data =</span> test_processed) <span class="sc">%&gt;%</span></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bind_cols</span>(<span class="fu">testing</span>(ames_split))</span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a><span class="co"># measuring the accuracy of our model using `yardstick`.</span></span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>xgboost_score <span class="ot">&lt;-</span> </span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>  test_prediction <span class="sc">%&gt;%</span></span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>  yardstick<span class="sc">::</span><span class="fu">metrics</span>(sale_price, .pred) <span class="sc">%&gt;%</span></span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">.estimate =</span> <span class="fu">format</span>(<span class="fu">round</span>(.estimate, <span class="dv">2</span>), <span class="at">big.mark =</span> <span class="st">","</span>))</span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(xgboost_score)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: center;">.metric</th>
+<th style="text-align: center;">estimator.</th>
+<th style="text-align: center;">.estimate</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">rmse</td>
+<td style="text-align: center;">standard</td>
+<td style="text-align: center;">30,217.58</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">rsq</td>
+<td style="text-align: center;">standard</td>
+<td style="text-align: center;">0.87</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">mae</td>
+<td style="text-align: center;">standard</td>
+<td style="text-align: center;">15,728.22</td>
+</tr>
+</tbody>
+</table>
+<p>The above metrics in the test data are significantly worse than the metrics in our training data, so we know that there is some overfitting in our model. This highlights the importance of using test data, rather than training data, to evaluate model performance.</p>
+<p>To quickly check that there is not a problem with our model predictions, we can obtain the plot of the test data residuals:</p>
+<div class="fold s">
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>house_prediction_residual <span class="ot">&lt;-</span> test_prediction <span class="sc">%&gt;%</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(.pred) <span class="sc">%&gt;%</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">residual_pct =</span> (sale_price <span class="sc">-</span> .pred) <span class="sc">/</span> .pred) <span class="sc">%&gt;%</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(.pred, residual_pct)</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(house_prediction_residual, <span class="fu">aes</span>(<span class="at">x =</span> .pred, <span class="at">y =</span> residual_pct)) <span class="sc">+</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Predicted Sale Price"</span>) <span class="sc">+</span></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Residual (%)"</span>) <span class="sc">+</span></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">dollar_format</span>()) <span class="sc">+</span></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span>percent)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<p><a href="residuals.png"><img src="residuals.png" class="img-fluid"></a></p>
+<p>The above plot does not show very obvious trends in residuals. This indicates that, at a very high level, our model is not systematically making inaccurate predictions for homes with certain predicted sales prices. We would do more model validation here for a real-world analysis, but, for the sake of this publication, the above graph is good enough for our purpose.</p>
+</section>
+</section>
+<section id="conclusions" class="level1">
+<h1>Conclusions</h1>
+<p>The objective of this analysis was to work through the training process of an XGBoost model in <strong>R</strong> using the <code>tidymodels</code> package, and to learn the basics of how the algorithm works, although we have not put too much emphasis on the performance of our model, the foundations for future lines of research with this tool have been laid.</p>
+<p>We have seen that the <code>tidymodels</code> library provides us with a standard process and tools to handle resampling (<code>rsample</code>), data preprocessing (<code>recipes</code>), model specification (<code>parsnip</code>), fitting (<code>tune</code>) and model validation (<code>yardstick</code>). In this sense, the <code>tidymodels</code> ability to <code>sort</code> the machine learning process is a step-change improvement for machine learning accessibility in <strong>R</strong>; thus, it is easier to train and understand the XGBoost model training process.</p>
+</section>
+<section id="references" class="level1">
+<h1>References</h1>
+<ol type="1">
+<li><p>https://towardsdatascience.com/https-medium-com-vishalmorde-xgboost-algorithm-long-she-may-rein-edd9f99be63d</p></li>
+<li><p>Chollet, F. and Allaire, J. J. (2018): <em>“Deep Learning with R,”</em> Ed. Manning Publications.</p></li>
+<li><p>Kuhn, M. (2008). <em>“Building Predictive Models in R Using the caret Package,”</em> Journal of Statistical Software, 28(5), 1-26; doi:http://dx.doi.org/10.18637/jss.v028.i05.</p></li>
+<li><p>De Cock, D. (2011). <em>“Ames, Iowa: Alternative to the Boston Housing Data as an End of Semester Regression Project,”</em>: Journal of Statistics Education, Volume 19, Number 3.</p></li>
+<li><p>Chen, T. and Guestrin, C. (2016): <em>“XGBoost: A Scalable Tree Boosting System,”</em> doi:10.1145/2939672.2939785</p></li>
+<li><p>Friedman, J.H. (2001): <em>“Greedy Function Approximation: A Gradient Boosting Machine,”</em> Annals of Statistics, pp.&nbsp;1189–1232.</p></li>
+</ol>
+
+
+<!-- -->
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+    const viewSource = window.document.getElementById('quarto-view-source') ||
+                       window.document.getElementById('quarto-code-tools-source');
+    if (viewSource) {
+      const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+      viewSource.addEventListener("click", function(e) {
+        if (sourceUrl) {
+          // rstudio viewer pane
+          if (/\bcapabilities=\b/.test(window.location)) {
+            window.open(sourceUrl);
+          } else {
+            window.location.href = sourceUrl;
+          }
+        } else {
+          const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+          modal.show();
+        }
+        return false;
+      });
+    }
+    function toggleCodeHandler(show) {
+      return function(e) {
+        const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+        for (let i=0; i<detailsSrc.length; i++) {
+          const details = detailsSrc[i].parentElement;
+          if (show) {
+            details.open = true;
+          } else {
+            details.removeAttribute("open");
+          }
+        }
+        const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+        const fromCls = show ? "hidden" : "unhidden";
+        const toCls = show ? "unhidden" : "hidden";
+        for (let i=0; i<cellCodeDivs.length; i++) {
+          const codeDiv = cellCodeDivs[i];
+          if (codeDiv.classList.contains(fromCls)) {
+            codeDiv.classList.remove(fromCls);
+            codeDiv.classList.add(toCls);
+          } 
+        }
+        return false;
+      }
+    }
+    const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+    if (hideAllCode) {
+      hideAllCode.addEventListener("click", toggleCodeHandler(false));
+    }
+    const showAllCode = window.document.getElementById("quarto-show-all-code");
+    if (showAllCode) {
+      showAllCode.addEventListener("click", toggleCodeHandler(true));
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/github\.com\/jrcarob");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Forecasting with XGBoost: An implementation in R"</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="an">date:</span><span class="co"> 23-08-2021</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="an">description:</span><span class="co"> "Application in `R` of the XGBoost machine learning algorithm for predictive modelling"</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="co">#image: network.png</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="an">categories:</span><span class="co"> </span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="co">  - XGBoost</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a><span class="co">  - data analysis</span></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a><span class="co">  - forecasting</span></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a><span class="co">  - machine learning</span></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span></span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a><span class="co">  html</span></span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a><span class="co">    #code-fold: show</span></span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">img</span><span class="ot"> src</span><span class="op">=</span><span class="st">"dplyr.png"</span><span class="ot"> alt</span><span class="op">=</span><span class="st">"dplyr_sticker"</span><span class="ot"> style</span><span class="op">=</span><span class="st">"height: 75px; width:75px;"</span><span class="dt">/&gt;</span></span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">img</span><span class="ot"> src</span><span class="op">=</span><span class="st">"dials.png"</span><span class="ot"> alt</span><span class="op">=</span><span class="st">"dial_sticker"</span><span class="ot"> style</span><span class="op">=</span><span class="st">"height: 75px; width:75px;"</span><span class="dt">/&gt;</span></span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">img</span><span class="ot"> src</span><span class="op">=</span><span class="st">"parsnip.png"</span><span class="ot"> alt</span><span class="op">=</span><span class="st">"parsnip_sticker"</span><span class="ot"> style</span><span class="op">=</span><span class="st">"height: 75px; width:75px;"</span><span class="dt">/&gt;</span></span>
+<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">img</span><span class="ot"> src</span><span class="op">=</span><span class="st">"recipes.png"</span><span class="ot"> alt</span><span class="op">=</span><span class="st">"recipes_sticker"</span><span class="ot"> style</span><span class="op">=</span><span class="st">"height: 75px; width:75px;"</span><span class="dt">/&gt;</span></span>
+<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">img</span><span class="ot"> src</span><span class="op">=</span><span class="st">"rsample.png"</span><span class="ot"> alt</span><span class="op">=</span><span class="st">"rsample_sticker"</span><span class="ot"> style</span><span class="op">=</span><span class="st">"height: 75px; width:75px;"</span><span class="dt">/&gt;</span></span>
+<span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">img</span><span class="ot"> src</span><span class="op">=</span><span class="st">"tune.png"</span><span class="ot"> alt</span><span class="op">=</span><span class="st">"tune_sticker"</span><span class="ot"> style</span><span class="op">=</span><span class="st">"height: 75px; width:75px;"</span><span class="dt">/&gt;</span></span>
+<span id="cb17-22"><a href="#cb17-22" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">img</span><span class="ot"> src</span><span class="op">=</span><span class="st">"workflows.png"</span><span class="ot"> alt</span><span class="op">=</span><span class="st">"workflows_sticker"</span><span class="ot"> style</span><span class="op">=</span><span class="st">"height: 75px; width:75px;"</span><span class="dt">/&gt;</span></span>
+<span id="cb17-23"><a href="#cb17-23" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">img</span><span class="ot"> src</span><span class="op">=</span><span class="st">"yardstick.png"</span><span class="ot"> alt</span><span class="op">=</span><span class="st">"yardstick_sticker"</span><span class="ot"> style</span><span class="op">=</span><span class="st">"height: 75px; width:75px;"</span><span class="dt">/&gt;</span></span>
+<span id="cb17-24"><a href="#cb17-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-25"><a href="#cb17-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-26"><a href="#cb17-26" aria-hidden="true" tabindex="-1"></a><span class="fu"># 1. Introduction to the XGBoost algorithm</span></span>
+<span id="cb17-27"><a href="#cb17-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-28"><a href="#cb17-28" aria-hidden="true" tabindex="-1"></a>XGBoost, (*Extreme Gradient Boosting*), is one of the most widely used supervised _machine learning_ algorithms that uses the _boosting_ principle.</span>
+<span id="cb17-29"><a href="#cb17-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-30"><a href="#cb17-30" aria-hidden="true" tabindex="-1"></a>Supervised learning is one that has input variables $(x)$ and an output variable and an output variable $(Y)$  and uses an algorithm to learn the mapping function of the input $$Y=f(X)$$ to the output.The objective is to approximate the mapping function as accurately as possible so that when you have new input data $(x)$, the output variables $(Y)$ can be predicted for that data.</span>
+<span id="cb17-31"><a href="#cb17-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-32"><a href="#cb17-32" aria-hidden="true" tabindex="-1"></a>It is called supervised learning because the process of an algorithm learning from the training data set can be thought of as a teacher supervising the learning process. We know the correct answers, the algorithm iteratively makes predictions on the training data and is corrected by the teacher. Learning stops when the algorithm reaches an acceptable level of performance.</span>
+<span id="cb17-33"><a href="#cb17-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-34"><a href="#cb17-34" aria-hidden="true" tabindex="-1"></a>Supervised learning problems can be grouped into regression and classification problems.</span>
+<span id="cb17-35"><a href="#cb17-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-36"><a href="#cb17-36" aria-hidden="true" tabindex="-1"></a>$\bullet$ **Classification:** A classification problem is when the output variable is a category, such as “red” or “blue” or “disease” and “no disease”.</span>
+<span id="cb17-37"><a href="#cb17-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-38"><a href="#cb17-38" aria-hidden="true" tabindex="-1"></a>$\bullet$ **Regression:** A regression problem is when the output variable is a real value, such as “euros” or “kilograms”. Some common types of problems built on classification and regression include recommendation and time series prediction, respectively. Some popular examples of supervised machine learning algorithms are:</span>
+<span id="cb17-39"><a href="#cb17-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-40"><a href="#cb17-40" aria-hidden="true" tabindex="-1"></a>***Linear regression*** for regression problems.</span>
+<span id="cb17-41"><a href="#cb17-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-42"><a href="#cb17-42" aria-hidden="true" tabindex="-1"></a>***Random forest*** for classification and regression problems.</span>
+<span id="cb17-43"><a href="#cb17-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-44"><a href="#cb17-44" aria-hidden="true" tabindex="-1"></a>***Support vector machine*** for classification problems.</span>
+<span id="cb17-45"><a href="#cb17-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-46"><a href="#cb17-46" aria-hidden="true" tabindex="-1"></a>The *xgboost* algorithm is similar to *gradient boosting* but more efficient. It has linear model solutions and tree learning algorithms and is at least 10 times faster than existing implementations of *gradient boosting*. It supports several objective functions, including regression, classification and ranking. and what makes it fast is its ability to do parallel computations on a single machine.</span>
+<span id="cb17-47"><a href="#cb17-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-48"><a href="#cb17-48" aria-hidden="true" tabindex="-1"></a>In terms of efficiency, accuracy and feasibility it is more powerful than the _random forest_ algorithm, for example or a neural network and since it has very high predictive power but relatively slow implementation, _xgboost_ becomes a suitable choice for solving most regression, classification and ranking problems as well as user-created objective functions. It also has additional features to do cross validation and find the most important variables, which makes it interesting for **credit scoring models**, **insurance claims**, or where there are many parameters to be controlled to optimize the model.</span>
+<span id="cb17-49"><a href="#cb17-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-50"><a href="#cb17-50" aria-hidden="true" tabindex="-1"></a>As can be seen in the following graph (1), the XGBoost model has the best combination of prediction performance and processing time compared to other algorithms.</span>
+<span id="cb17-51"><a href="#cb17-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-52"><a href="#cb17-52" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="al">![](performance.png)</span><span class="co">](performance.png)</span></span>
+<span id="cb17-53"><a href="#cb17-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-54"><a href="#cb17-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-55"><a href="#cb17-55" aria-hidden="true" tabindex="-1"></a>Chollet and Allaire, (2018) (2) summarize the value of XGBoost as follows:</span>
+<span id="cb17-56"><a href="#cb17-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-57"><a href="#cb17-57" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; "*XGBoost* is used for problems where there is the availability of structured data is very wide, while _deep learning_ is used for perceptual problems such as image classification. Users of the former almost always use the XGBoost library."</span></span>
+<span id="cb17-58"><a href="#cb17-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-59"><a href="#cb17-59" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; "These are the two techniques that one should be most familiar with to be successful in applied machine learning today: gradient boosting machines, for shallow learning problems; and deep learning, for perceptual problems. In technical terms, this means that one should be familiar with XGBoost and Keras."</span></span>
+<span id="cb17-60"><a href="#cb17-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-61"><a href="#cb17-61" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; </span><span class="in">`r tint::quote_footer('-- Francoise Chollet and J.J. Allaire')`</span></span>
+<span id="cb17-62"><a href="#cb17-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-63"><a href="#cb17-63" aria-hidden="true" tabindex="-1"></a>Originally, XGBoost is a library written in C++ and exported to **R** in the `xgboost` package in our case, the XGBoost model has been trained using the package in **R** <span class="in">`caret`</span>(3).</span>
+<span id="cb17-64"><a href="#cb17-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-65"><a href="#cb17-65" aria-hidden="true" tabindex="-1"></a><span class="fu"># 2. Objectives and data preparation</span></span>
+<span id="cb17-66"><a href="#cb17-66" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-67"><a href="#cb17-67" aria-hidden="true" tabindex="-1"></a>In this post and preliminary preview of the project with data application to the Spanish real estate market we train and tune a model based on the XGBoost algorithm using the *tidymodels* library of <span class="in">`R`</span>. For this purpose and as data source we use the <span class="co">[</span><span class="ot">AmesHousing dataset</span><span class="co">](https://cran.r-project.org/web/packages/AmesHousing/AmesHousing.pdf)</span> (4) which contains data of 82 variables for 2,930 properties in Ames County, Iowa. Our model will attempt to predict the selling price of the home.</span>
+<span id="cb17-68"><a href="#cb17-68" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-69"><a href="#cb17-69" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">div</span><span class="ot"> class</span><span class="op">=</span><span class="st">'fold s'</span><span class="dt">&gt;</span></span>
+<span id="cb17-70"><a href="#cb17-70" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, message=FALSE, warning=FALSE, results='hide'}</span></span>
+<span id="cb17-71"><a href="#cb17-71" aria-hidden="true" tabindex="-1"></a><span class="co"># Data load</span></span>
+<span id="cb17-72"><a href="#cb17-72" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(AmesHousing)</span>
+<span id="cb17-73"><a href="#cb17-73" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-74"><a href="#cb17-74" aria-hidden="true" tabindex="-1"></a><span class="co"># Cleaning and data preparation libraries</span></span>
+<span id="cb17-75"><a href="#cb17-75" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(janitor)</span>
+<span id="cb17-76"><a href="#cb17-76" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb17-77"><a href="#cb17-77" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-78"><a href="#cb17-78" aria-hidden="true" tabindex="-1"></a><span class="co"># Libraries needed</span></span>
+<span id="cb17-79"><a href="#cb17-79" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rsample)</span>
+<span id="cb17-80"><a href="#cb17-80" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(recipes)</span>
+<span id="cb17-81"><a href="#cb17-81" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(parsnip)</span>
+<span id="cb17-82"><a href="#cb17-82" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tune)</span>
+<span id="cb17-83"><a href="#cb17-83" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dials)</span>
+<span id="cb17-84"><a href="#cb17-84" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(workflows)</span>
+<span id="cb17-85"><a href="#cb17-85" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(yardstick)</span>
+<span id="cb17-86"><a href="#cb17-86" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-87"><a href="#cb17-87" aria-hidden="true" tabindex="-1"></a><span class="co"># acceleration of calculations with parallel processing (optional but useful)</span></span>
+<span id="cb17-88"><a href="#cb17-88" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(doParallel)</span>
+<span id="cb17-89"><a href="#cb17-89" aria-hidden="true" tabindex="-1"></a>all_cores <span class="ot">&lt;-</span> parallel<span class="sc">::</span><span class="fu">detectCores</span>(<span class="at">logical =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb17-90"><a href="#cb17-90" aria-hidden="true" tabindex="-1"></a><span class="fu">registerDoParallel</span>(<span class="at">cores =</span> all_cores)</span>
+<span id="cb17-91"><a href="#cb17-91" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb17-92"><a href="#cb17-92" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">div</span><span class="dt">&gt;</span></span>
+<span id="cb17-93"><a href="#cb17-93" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-94"><a href="#cb17-94" aria-hidden="true" tabindex="-1"></a><span class="fu">### 2.1. Data load for modelling</span></span>
+<span id="cb17-95"><a href="#cb17-95" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-96"><a href="#cb17-96" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">div</span><span class="ot"> class</span><span class="op">=</span><span class="st">'fold s'</span><span class="dt">&gt;</span></span>
+<span id="cb17-97"><a href="#cb17-97" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, message=FALSE, warning=FALSE, results='hide'}</span></span>
+<span id="cb17-98"><a href="#cb17-98" aria-hidden="true" tabindex="-1"></a><span class="co"># random seed set.seed() for results to be replicable</span></span>
+<span id="cb17-99"><a href="#cb17-99" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb17-100"><a href="#cb17-100" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
+<span id="cb17-101"><a href="#cb17-101" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-102"><a href="#cb17-102" aria-hidden="true" tabindex="-1"></a><span class="co"># data load and cleaning names</span></span>
+<span id="cb17-103"><a href="#cb17-103" aria-hidden="true" tabindex="-1"></a>ames_data <span class="ot">&lt;-</span> <span class="fu">make_ames</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb17-104"><a href="#cb17-104" aria-hidden="true" tabindex="-1"></a>  janitor<span class="sc">::</span><span class="fu">clean_names</span>()</span>
+<span id="cb17-105"><a href="#cb17-105" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb17-106"><a href="#cb17-106" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">div</span><span class="dt">&gt;</span></span>
+<span id="cb17-107"><a href="#cb17-107" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-108"><a href="#cb17-108" aria-hidden="true" tabindex="-1"></a><span class="fu"># 3. XGBoost Process</span></span>
+<span id="cb17-109"><a href="#cb17-109" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-110"><a href="#cb17-110" aria-hidden="true" tabindex="-1"></a><span class="fu">## 3.1. Exploratory Data Analysis.</span></span>
+<span id="cb17-111"><a href="#cb17-111" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-112"><a href="#cb17-112" aria-hidden="true" tabindex="-1"></a>At this initial point, we would do summaries of the data and some simple graphs to get as detailed an understanding of the data as possible. For simplicity, we are going to skip this step but, in a real-world analysis, understanding the business issues and doing an effective EDA are often the crucial aspects that require the most time and analysis.</span>
+<span id="cb17-113"><a href="#cb17-113" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-114"><a href="#cb17-114" aria-hidden="true" tabindex="-1"></a><span class="fu">## 3.2. Splitting the Data.</span></span>
+<span id="cb17-115"><a href="#cb17-115" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-116"><a href="#cb17-116" aria-hidden="true" tabindex="-1"></a>We now divide the data into training and test data. The training data is used for model training and hyperparameter fitting. Once trained, the model can be evaluated against the test data to assess accuracy. Typically, 80% of the data is used for model training, while simulation or testing is done with the remaining 20%.</span>
+<span id="cb17-117"><a href="#cb17-117" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-118"><a href="#cb17-118" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">div</span><span class="ot"> class</span><span class="op">=</span><span class="st">'fold s'</span><span class="dt">&gt;</span></span>
+<span id="cb17-119"><a href="#cb17-119" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, message=FALSE, warning=FALSE, results='hide'}</span></span>
+<span id="cb17-120"><a href="#cb17-120" aria-hidden="true" tabindex="-1"></a><span class="co"># Data split for training and testing. Stratification by sales price</span></span>
+<span id="cb17-121"><a href="#cb17-121" aria-hidden="true" tabindex="-1"></a>ames_split <span class="ot">&lt;-</span> rsample<span class="sc">::</span><span class="fu">initial_split</span>(</span>
+<span id="cb17-122"><a href="#cb17-122" aria-hidden="true" tabindex="-1"></a>  ames_data, </span>
+<span id="cb17-123"><a href="#cb17-123" aria-hidden="true" tabindex="-1"></a>  <span class="at">prop =</span> <span class="fl">0.8</span>, </span>
+<span id="cb17-124"><a href="#cb17-124" aria-hidden="true" tabindex="-1"></a>  <span class="at">strata =</span> sale_price</span>
+<span id="cb17-125"><a href="#cb17-125" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb17-126"><a href="#cb17-126" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb17-127"><a href="#cb17-127" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">div</span><span class="dt">&gt;</span></span>
+<span id="cb17-128"><a href="#cb17-128" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-129"><a href="#cb17-129" aria-hidden="true" tabindex="-1"></a><span class="fu">## 3.3. Pre-processing.</span></span>
+<span id="cb17-130"><a href="#cb17-130" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-131"><a href="#cb17-131" aria-hidden="true" tabindex="-1"></a>Preprocessing alters the data to make our model more predictive and the training process requires less computational calculations. Many models require careful and extensive variable preprocessing to produce accurate predictions. However, XGBoost is more robust to highly asymmetric and/or correlated data, so the amount of preprocessing required with XGBoost is minimal. However, we can still make use of some preprocessing, and in **R**, with the libraries that <span class="in">`tidymodels`</span> uses, we use the <span class="in">`recipes`</span> package to define these aforementioned preprocessing steps:</span>
+<span id="cb17-132"><a href="#cb17-132" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-133"><a href="#cb17-133" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">div</span><span class="ot"> class</span><span class="op">=</span><span class="st">'fold s'</span><span class="dt">&gt;</span></span>
+<span id="cb17-134"><a href="#cb17-134" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, message=FALSE, warning=FALSE, results='hide'}</span></span>
+<span id="cb17-135"><a href="#cb17-135" aria-hidden="true" tabindex="-1"></a><span class="co"># preprocessing routine</span></span>
+<span id="cb17-136"><a href="#cb17-136" aria-hidden="true" tabindex="-1"></a>preprocessing_recipe <span class="ot">&lt;-</span> </span>
+<span id="cb17-137"><a href="#cb17-137" aria-hidden="true" tabindex="-1"></a>  recipes<span class="sc">::</span><span class="fu">recipe</span>(sale_price <span class="sc">~</span> ., <span class="at">data =</span> <span class="fu">training</span>(ames_split)) <span class="sc">%&gt;%</span></span>
+<span id="cb17-138"><a href="#cb17-138" aria-hidden="true" tabindex="-1"></a>  <span class="co"># categorical variables to factor variables conversion</span></span>
+<span id="cb17-139"><a href="#cb17-139" aria-hidden="true" tabindex="-1"></a>  recipes<span class="sc">::</span><span class="fu">step_string2factor</span>(<span class="fu">all_nominal</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb17-140"><a href="#cb17-140" aria-hidden="true" tabindex="-1"></a>  <span class="co"># low frequency factor levels combination</span></span>
+<span id="cb17-141"><a href="#cb17-141" aria-hidden="true" tabindex="-1"></a>  recipes<span class="sc">::</span><span class="fu">step_other</span>(<span class="fu">all_nominal</span>(), <span class="at">threshold =</span> <span class="fl">0.01</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb17-142"><a href="#cb17-142" aria-hidden="true" tabindex="-1"></a>  <span class="co"># remove of predictors without variance that do not provide predicitive information</span></span>
+<span id="cb17-143"><a href="#cb17-143" aria-hidden="true" tabindex="-1"></a>  recipes<span class="sc">::</span><span class="fu">step_nzv</span>(<span class="fu">all_nominal</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb17-144"><a href="#cb17-144" aria-hidden="true" tabindex="-1"></a>  <span class="fu">prep</span>()</span>
+<span id="cb17-145"><a href="#cb17-145" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb17-146"><a href="#cb17-146" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">div</span><span class="dt">&gt;</span></span>
+<span id="cb17-147"><a href="#cb17-147" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-148"><a href="#cb17-148" aria-hidden="true" tabindex="-1"></a>As can be seen in the graph below, for the <span class="in">`neighborhood`</span> variable, several of the factor levels with the smallest number of observations (less than 1% of the total number of observations) have been grouped into an <span class="in">`other`</span> factor level. We did this preprocessing with the <span class="in">`step_other()`</span> command in the previous section.</span>
+<span id="cb17-149"><a href="#cb17-149" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-150"><a href="#cb17-150" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="al">![](others.png)</span><span class="co">](others.png)</span></span>
+<span id="cb17-151"><a href="#cb17-151" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-152"><a href="#cb17-152" aria-hidden="true" tabindex="-1"></a><span class="fu">## 3.4. Cross-validation split.</span></span>
+<span id="cb17-153"><a href="#cb17-153" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-154"><a href="#cb17-154" aria-hidden="true" tabindex="-1"></a>We apply the preprocessing previously defined with the <span class="in">`bake()`</span> command. Then, we use cross-validation to randomly split the training data into additional training and test sets. We will use these additional cross-validation folds to adjust our hyperparameters in a later step.</span>
+<span id="cb17-155"><a href="#cb17-155" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-156"><a href="#cb17-156" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">div</span><span class="ot"> class</span><span class="op">=</span><span class="st">'fold s'</span><span class="dt">&gt;</span></span>
+<span id="cb17-157"><a href="#cb17-157" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, message=FALSE, warning=FALSE, results='hide'}</span></span>
+<span id="cb17-158"><a href="#cb17-158" aria-hidden="true" tabindex="-1"></a>ames_cv_folds <span class="ot">&lt;-</span> </span>
+<span id="cb17-159"><a href="#cb17-159" aria-hidden="true" tabindex="-1"></a>  recipes<span class="sc">::</span><span class="fu">bake</span>(</span>
+<span id="cb17-160"><a href="#cb17-160" aria-hidden="true" tabindex="-1"></a>    preprocessing_recipe, </span>
+<span id="cb17-161"><a href="#cb17-161" aria-hidden="true" tabindex="-1"></a>    <span class="at">new_data =</span> <span class="fu">training</span>(ames_split)</span>
+<span id="cb17-162"><a href="#cb17-162" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span>  </span>
+<span id="cb17-163"><a href="#cb17-163" aria-hidden="true" tabindex="-1"></a>  rsample<span class="sc">::</span><span class="fu">vfold_cv</span>(<span class="at">v =</span> <span class="dv">5</span>)</span>
+<span id="cb17-164"><a href="#cb17-164" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb17-165"><a href="#cb17-165" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">div</span><span class="dt">&gt;</span></span>
+<span id="cb17-166"><a href="#cb17-166" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-167"><a href="#cb17-167" aria-hidden="true" tabindex="-1"></a><span class="fu">## 3.5. XGBoost model specification.</span></span>
+<span id="cb17-168"><a href="#cb17-168" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-169"><a href="#cb17-169" aria-hidden="true" tabindex="-1"></a>We use the <span class="in">`parsnip`</span> package to define the XGBoost model specification. We then use <span class="in">`boost_tree()`</span> together with <span class="in">`tune()`</span> to define the hyperparameters for tuning in a later step.</span>
+<span id="cb17-170"><a href="#cb17-170" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-171"><a href="#cb17-171" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">div</span><span class="ot"> class</span><span class="op">=</span><span class="st">'fold s'</span><span class="dt">&gt;</span></span>
+<span id="cb17-172"><a href="#cb17-172" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, message=FALSE, warning=FALSE, results='hide'}</span></span>
+<span id="cb17-173"><a href="#cb17-173" aria-hidden="true" tabindex="-1"></a><span class="co"># Model specification</span></span>
+<span id="cb17-174"><a href="#cb17-174" aria-hidden="true" tabindex="-1"></a>xgboost_model <span class="ot">&lt;-</span> </span>
+<span id="cb17-175"><a href="#cb17-175" aria-hidden="true" tabindex="-1"></a>  parsnip<span class="sc">::</span><span class="fu">boost_tree</span>(</span>
+<span id="cb17-176"><a href="#cb17-176" aria-hidden="true" tabindex="-1"></a>    <span class="at">mode =</span> <span class="st">"regression"</span>,</span>
+<span id="cb17-177"><a href="#cb17-177" aria-hidden="true" tabindex="-1"></a>    <span class="at">trees =</span> <span class="dv">1000</span>,</span>
+<span id="cb17-178"><a href="#cb17-178" aria-hidden="true" tabindex="-1"></a>    <span class="at">min_n =</span> <span class="fu">tune</span>(),</span>
+<span id="cb17-179"><a href="#cb17-179" aria-hidden="true" tabindex="-1"></a>    <span class="at">tree_depth =</span> <span class="fu">tune</span>(),</span>
+<span id="cb17-180"><a href="#cb17-180" aria-hidden="true" tabindex="-1"></a>    <span class="at">learn_rate =</span> <span class="fu">tune</span>(),</span>
+<span id="cb17-181"><a href="#cb17-181" aria-hidden="true" tabindex="-1"></a>    <span class="at">loss_reduction =</span> <span class="fu">tune</span>()</span>
+<span id="cb17-182"><a href="#cb17-182" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb17-183"><a href="#cb17-183" aria-hidden="true" tabindex="-1"></a>    <span class="fu">set_engine</span>(<span class="st">"xgboost"</span>, <span class="at">objective =</span> <span class="st">"reg:squarederror"</span>)</span>
+<span id="cb17-184"><a href="#cb17-184" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb17-185"><a href="#cb17-185" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">div</span><span class="dt">&gt;</span></span>
+<span id="cb17-186"><a href="#cb17-186" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-187"><a href="#cb17-187" aria-hidden="true" tabindex="-1"></a><span class="fu">## 3.6. Grid specification.</span></span>
+<span id="cb17-188"><a href="#cb17-188" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-189"><a href="#cb17-189" aria-hidden="true" tabindex="-1"></a>Next, we use the <span class="in">`dials`</span> package to specify the set of parameters.</span>
+<span id="cb17-190"><a href="#cb17-190" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-191"><a href="#cb17-191" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">div</span><span class="ot"> class</span><span class="op">=</span><span class="st">'fold s'</span><span class="dt">&gt;</span></span>
+<span id="cb17-192"><a href="#cb17-192" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, message=FALSE, warning=FALSE, results='hide'}</span></span>
+<span id="cb17-193"><a href="#cb17-193" aria-hidden="true" tabindex="-1"></a><span class="co"># Grid setup</span></span>
+<span id="cb17-194"><a href="#cb17-194" aria-hidden="true" tabindex="-1"></a>xgboost_params <span class="ot">&lt;-</span> </span>
+<span id="cb17-195"><a href="#cb17-195" aria-hidden="true" tabindex="-1"></a>  dials<span class="sc">::</span><span class="fu">parameters</span>(</span>
+<span id="cb17-196"><a href="#cb17-196" aria-hidden="true" tabindex="-1"></a>    <span class="fu">min_n</span>(),</span>
+<span id="cb17-197"><a href="#cb17-197" aria-hidden="true" tabindex="-1"></a>    <span class="fu">tree_depth</span>(),</span>
+<span id="cb17-198"><a href="#cb17-198" aria-hidden="true" tabindex="-1"></a>    <span class="fu">learn_rate</span>(),</span>
+<span id="cb17-199"><a href="#cb17-199" aria-hidden="true" tabindex="-1"></a>    <span class="fu">loss_reduction</span>()</span>
+<span id="cb17-200"><a href="#cb17-200" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb17-201"><a href="#cb17-201" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb17-202"><a href="#cb17-202" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">div</span><span class="dt">&gt;</span></span>
+<span id="cb17-203"><a href="#cb17-203" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-204"><a href="#cb17-204" aria-hidden="true" tabindex="-1"></a>Then we set up the _grid_ space. The `dials::grid_*<span class="in">` functions support several methods to define this space.Using the `</span>dials::grid_max_entropy()` function covers the hyperparameter space so that any part of the space has an observed combination that does not lie too far from it.</span>
+<span id="cb17-205"><a href="#cb17-205" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-206"><a href="#cb17-206" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">div</span><span class="ot"> class</span><span class="op">=</span><span class="st">'fold s'</span><span class="dt">&gt;</span></span>
+<span id="cb17-207"><a href="#cb17-207" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, message=FALSE, warning=FALSE, results='hide'}</span></span>
+<span id="cb17-208"><a href="#cb17-208" aria-hidden="true" tabindex="-1"></a>xgboost_grid <span class="ot">&lt;-</span> </span>
+<span id="cb17-209"><a href="#cb17-209" aria-hidden="true" tabindex="-1"></a>  dials<span class="sc">::</span><span class="fu">grid_max_entropy</span>(</span>
+<span id="cb17-210"><a href="#cb17-210" aria-hidden="true" tabindex="-1"></a>    xgboost_params, </span>
+<span id="cb17-211"><a href="#cb17-211" aria-hidden="true" tabindex="-1"></a>    <span class="at">size =</span> <span class="dv">60</span></span>
+<span id="cb17-212"><a href="#cb17-212" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb17-213"><a href="#cb17-213" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-214"><a href="#cb17-214" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(<span class="fu">head</span>(xgboost_grid))</span>
+<span id="cb17-215"><a href="#cb17-215" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb17-216"><a href="#cb17-216" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">div</span><span class="dt">&gt;</span></span>
+<span id="cb17-217"><a href="#cb17-217" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-218"><a href="#cb17-218" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> min_n     <span class="pp">|</span> tree_depth    <span class="pp">|</span> learn_rate    <span class="pp">|</span> loss_reduction    <span class="pp">|</span></span>
+<span id="cb17-219"><a href="#cb17-219" aria-hidden="true" tabindex="-1"></a><span class="pp">|:-----:</span>    <span class="pp">|:----------:</span>   <span class="pp">|:----------:</span>   <span class="pp">|:--------------:</span>   <span class="pp">|</span></span>
+<span id="cb17-220"><a href="#cb17-220" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span>   34      <span class="pp">|</span>      1        <span class="pp">|</span>  0.0118682    <span class="pp">|</span>   29.9649253      <span class="pp">|</span></span>
+<span id="cb17-221"><a href="#cb17-221" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span>   38      <span class="pp">|</span>     12        <span class="pp">|</span>  0.0001291    <span class="pp">|</span>    0.6156496      <span class="pp">|</span></span>
+<span id="cb17-222"><a href="#cb17-222" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span>   6       <span class="pp">|</span>      7        <span class="pp">|</span>  0.0000949    <span class="pp">|</span>    0.0000000      <span class="pp">|</span></span>
+<span id="cb17-223"><a href="#cb17-223" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span>   32      <span class="pp">|</span>      4        <span class="pp">|</span>  0.0000005    <span class="pp">|</span>    0.0000367      <span class="pp">|</span></span>
+<span id="cb17-224"><a href="#cb17-224" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span>   14      <span class="pp">|</span>      2        <span class="pp">|</span>  0.0001833    <span class="pp">|</span>    0.0000000      <span class="pp">|</span></span>
+<span id="cb17-225"><a href="#cb17-225" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span>   31      <span class="pp">|</span>      8        <span class="pp">|</span>  0.0000000    <span class="pp">|</span>    1.4345098      <span class="pp">|</span></span>
+<span id="cb17-226"><a href="#cb17-226" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-227"><a href="#cb17-227" aria-hidden="true" tabindex="-1"></a>To fit our model, we perform a _grid_ search over that <span class="in">`xgboost_grid`</span> grid space to identify the hyperparameter values that have the lowest prediction error.</span>
+<span id="cb17-228"><a href="#cb17-228" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-229"><a href="#cb17-229" aria-hidden="true" tabindex="-1"></a><span class="fu">## 3.7. Workflow setup</span></span>
+<span id="cb17-230"><a href="#cb17-230" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-231"><a href="#cb17-231" aria-hidden="true" tabindex="-1"></a>We use the new <span class="in">`tidymodel`</span> workflow package to add a formula to our XGBoost model specification.</span>
+<span id="cb17-232"><a href="#cb17-232" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-233"><a href="#cb17-233" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">div</span><span class="ot"> class</span><span class="op">=</span><span class="st">'fold s'</span><span class="dt">&gt;</span></span>
+<span id="cb17-234"><a href="#cb17-234" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, message=FALSE, warning=FALSE, results='hide'}</span></span>
+<span id="cb17-235"><a href="#cb17-235" aria-hidden="true" tabindex="-1"></a>xgboost_wf <span class="ot">&lt;-</span> </span>
+<span id="cb17-236"><a href="#cb17-236" aria-hidden="true" tabindex="-1"></a>  workflows<span class="sc">::</span><span class="fu">workflow</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb17-237"><a href="#cb17-237" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_model</span>(xgboost_model) <span class="sc">%&gt;%</span> </span>
+<span id="cb17-238"><a href="#cb17-238" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_formula</span>(sale_price <span class="sc">~</span> .)</span>
+<span id="cb17-239"><a href="#cb17-239" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-240"><a href="#cb17-240" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb17-241"><a href="#cb17-241" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">div</span><span class="dt">&gt;</span></span>
+<span id="cb17-242"><a href="#cb17-242" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-243"><a href="#cb17-243" aria-hidden="true" tabindex="-1"></a><span class="fu">## 3.8. Model fitting</span></span>
+<span id="cb17-244"><a href="#cb17-244" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-245"><a href="#cb17-245" aria-hidden="true" tabindex="-1"></a>The "fitting" is where the <span class="in">`tidymodels`</span> package _ecosystem_ actually comes into play. Here's a quick breakdown of the objects passed to the first 4 arguments of our <span class="in">`tune_grid()`</span> call below:</span>
+<span id="cb17-246"><a href="#cb17-246" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-247"><a href="#cb17-247" aria-hidden="true" tabindex="-1"></a>$\bullet$ "object": <span class="in">`xgboost_wf`</span>, which is a workflow we defined by the <span class="in">`parsnip`</span> and <span class="in">`workflows`</span> packages.</span>
+<span id="cb17-248"><a href="#cb17-248" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-249"><a href="#cb17-249" aria-hidden="true" tabindex="-1"></a>$\bullet$ "resamples": <span class="in">`ames_cv_folds`</span> as defined by the <span class="in">`rsample`</span> and <span class="in">`recipes`</span> packages.</span>
+<span id="cb17-250"><a href="#cb17-250" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-251"><a href="#cb17-251" aria-hidden="true" tabindex="-1"></a>$\bullet$ "grid": <span class="in">`xgboost_grid`</span> our space as defined by the <span class="in">`dials`</span> package.</span>
+<span id="cb17-252"><a href="#cb17-252" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-253"><a href="#cb17-253" aria-hidden="true" tabindex="-1"></a>$\bullet$ "metrics": the <span class="in">`yardstick`</span> package defines the set of metrics used to evaluate model performance.</span>
+<span id="cb17-254"><a href="#cb17-254" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-255"><a href="#cb17-255" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">div</span><span class="ot"> class</span><span class="op">=</span><span class="st">'fold s'</span><span class="dt">&gt;</span></span>
+<span id="cb17-256"><a href="#cb17-256" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, eval=FALSE, message=FALSE, warning=FALSE, results='hide'}</span></span>
+<span id="cb17-257"><a href="#cb17-257" aria-hidden="true" tabindex="-1"></a><span class="co"># hyperparameters tuning</span></span>
+<span id="cb17-258"><a href="#cb17-258" aria-hidden="true" tabindex="-1"></a>xgboost_tuned <span class="ot">&lt;-</span> tune<span class="sc">::</span><span class="fu">tune_grid</span>(</span>
+<span id="cb17-259"><a href="#cb17-259" aria-hidden="true" tabindex="-1"></a>  <span class="at">object =</span> xgboost_wf,</span>
+<span id="cb17-260"><a href="#cb17-260" aria-hidden="true" tabindex="-1"></a>  <span class="at">resamples =</span> ames_cv_folds,</span>
+<span id="cb17-261"><a href="#cb17-261" aria-hidden="true" tabindex="-1"></a>  <span class="at">grid =</span> xgboost_grid,</span>
+<span id="cb17-262"><a href="#cb17-262" aria-hidden="true" tabindex="-1"></a>  <span class="at">metrics =</span> yardstick<span class="sc">::</span><span class="fu">metric_set</span>(rmse, rsq, mae),</span>
+<span id="cb17-263"><a href="#cb17-263" aria-hidden="true" tabindex="-1"></a>  <span class="at">control =</span> tune<span class="sc">::</span><span class="fu">control_grid</span>(<span class="at">verbose =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb17-264"><a href="#cb17-264" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb17-265"><a href="#cb17-265" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb17-266"><a href="#cb17-266" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">div</span><span class="dt">&gt;</span></span>
+<span id="cb17-267"><a href="#cb17-267" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-268"><a href="#cb17-268" aria-hidden="true" tabindex="-1"></a>In the above code block, <span class="in">`tune_grid()`</span> performed a search for the _grid_ on all 60 parameter combinations defined with `xgboost_grid` and used 5-fold cross-validation along with the _rmse_ (root mean square error), _rsq_ ($R^{2}$) and _mae_ (mean absolute error) to measure prediction accuracy. Therefore, our fit only fits (worth the redundancy) $60\times 5=300$ XGBoost models, each with 1,000 trees, all in search of the optimal hyperparameters. The computation was considerably time consuming and not without its share of problems. The hyperparameter values that performed best in minimizing the mean square error are shown below:</span>
+<span id="cb17-269"><a href="#cb17-269" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-270"><a href="#cb17-270" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">div</span><span class="ot"> class</span><span class="op">=</span><span class="st">'fold s'</span><span class="dt">&gt;</span></span>
+<span id="cb17-271"><a href="#cb17-271" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, eval=FALSE, message=FALSE, warning=FALSE, results='hide'}</span></span>
+<span id="cb17-272"><a href="#cb17-272" aria-hidden="true" tabindex="-1"></a>xgboost_tuned <span class="sc">%&gt;%</span></span>
+<span id="cb17-273"><a href="#cb17-273" aria-hidden="true" tabindex="-1"></a>  tune<span class="sc">::</span><span class="fu">show_best</span>(<span class="at">metric =</span> <span class="st">"rmse"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb17-274"><a href="#cb17-274" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>()</span>
+<span id="cb17-275"><a href="#cb17-275" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb17-276"><a href="#cb17-276" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">div</span><span class="dt">&gt;</span></span>
+<span id="cb17-277"><a href="#cb17-277" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-278"><a href="#cb17-278" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> min_n     <span class="pp">|</span> tree_depth    <span class="pp">|</span> learn_rate    <span class="pp">|</span> loss_reduction    <span class="pp">|</span> .metric   <span class="pp">|</span> .estimator    <span class="pp">|</span>   mean    <span class="pp">|</span> n     <span class="pp">|</span>  std_err  <span class="pp">|</span></span>
+<span id="cb17-279"><a href="#cb17-279" aria-hidden="true" tabindex="-1"></a><span class="pp">|:-----:</span>    <span class="pp">|:----------:</span>   <span class="pp">|:----------:</span>   <span class="pp">|:--------------:</span>   <span class="pp">|:-------:</span>  <span class="pp">|:----------:</span>   <span class="pp">|:--------:</span> <span class="pp">|</span>:-:    <span class="pp">|:--------:</span> <span class="pp">|</span></span>
+<span id="cb17-280"><a href="#cb17-280" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span>   12      <span class="pp">|</span>      7        <span class="pp">|</span>  0.0346875    <span class="pp">|</span>    0.0451186      <span class="pp">|</span>   rmse    <span class="pp">|</span>  standard     <span class="pp">|</span> 25561.99  <span class="pp">|</span> 5     <span class="pp">|</span> 2983.927  <span class="pp">|</span></span>
+<span id="cb17-281"><a href="#cb17-281" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span>   9       <span class="pp">|</span>     13        <span class="pp">|</span>  0.0183617    <span class="pp">|</span>    0.1042750      <span class="pp">|</span>   rmse    <span class="pp">|</span>  standard     <span class="pp">|</span> 25576.99  <span class="pp">|</span> 5     <span class="pp">|</span> 2687.849  <span class="pp">|</span></span>
+<span id="cb17-282"><a href="#cb17-282" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span>   23      <span class="pp">|</span>      5        <span class="pp">|</span>  0.0788798    <span class="pp">|</span>    0.7513677      <span class="pp">|</span>   rmse    <span class="pp">|</span>  standard     <span class="pp">|</span> 25645.38  <span class="pp">|</span> 5     <span class="pp">|</span> 2461.057  <span class="pp">|</span></span>
+<span id="cb17-283"><a href="#cb17-283" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span>   11      <span class="pp">|</span>      6        <span class="pp">|</span>  0.0091690    <span class="pp">|</span>    0.0000001      <span class="pp">|</span>   rmse    <span class="pp">|</span>  standard     <span class="pp">|</span> 25669.84  <span class="pp">|</span> 5     <span class="pp">|</span> 2706.457  <span class="pp">|</span></span>
+<span id="cb17-284"><a href="#cb17-284" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span>   10      <span class="pp">|</span>      2        <span class="pp">|</span>  0.0108475    <span class="pp">|</span>    0.0000003      <span class="pp">|</span>   rmse    <span class="pp">|</span>  standard     <span class="pp">|</span> 25883.23  <span class="pp">|</span> 5     <span class="pp">|</span> 2828.172  <span class="pp">|</span></span>
+<span id="cb17-285"><a href="#cb17-285" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-286"><a href="#cb17-286" aria-hidden="true" tabindex="-1"></a>Next, we isolate the best performing hyperparameter values.</span>
+<span id="cb17-287"><a href="#cb17-287" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-288"><a href="#cb17-288" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">div</span><span class="ot"> class</span><span class="op">=</span><span class="st">'fold s'</span><span class="dt">&gt;</span></span>
+<span id="cb17-289"><a href="#cb17-289" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, eval=FALSE, message=FALSE, warning=FALSE, results='hide'}</span></span>
+<span id="cb17-290"><a href="#cb17-290" aria-hidden="true" tabindex="-1"></a>xgboost_best_params <span class="ot">&lt;-</span> xgboost_tuned <span class="sc">%&gt;%</span></span>
+<span id="cb17-291"><a href="#cb17-291" aria-hidden="true" tabindex="-1"></a>  tune<span class="sc">::</span><span class="fu">select_best</span>(<span class="st">"rmse"</span>)</span>
+<span id="cb17-292"><a href="#cb17-292" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-293"><a href="#cb17-293" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(xgboost_best_params)</span>
+<span id="cb17-294"><a href="#cb17-294" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb17-295"><a href="#cb17-295" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">div</span><span class="dt">&gt;</span></span>
+<span id="cb17-296"><a href="#cb17-296" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-297"><a href="#cb17-297" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> min_n     <span class="pp">|</span> tree_depth    <span class="pp">|</span> learn_rate    <span class="pp">|</span> loss_reduction    <span class="pp">|</span></span>
+<span id="cb17-298"><a href="#cb17-298" aria-hidden="true" tabindex="-1"></a><span class="pp">|:-----:</span>    <span class="pp">|:----------:</span>   <span class="pp">|:----------:</span>   <span class="pp">|:--------------:</span>   <span class="pp">|</span></span>
+<span id="cb17-299"><a href="#cb17-299" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span>   12      <span class="pp">|</span>      7        <span class="pp">|</span>  0.0346875    <span class="pp">|</span>    0.0451186      <span class="pp">|</span></span>
+<span id="cb17-300"><a href="#cb17-300" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-301"><a href="#cb17-301" aria-hidden="true" tabindex="-1"></a>We finish the XGBoost model using the best parameter we have set.</span>
+<span id="cb17-302"><a href="#cb17-302" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-303"><a href="#cb17-303" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">div</span><span class="ot"> class</span><span class="op">=</span><span class="st">'fold s'</span><span class="dt">&gt;</span></span>
+<span id="cb17-304"><a href="#cb17-304" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, eval=FALSE, message=FALSE, warning=FALSE, results='hide'}</span></span>
+<span id="cb17-305"><a href="#cb17-305" aria-hidden="true" tabindex="-1"></a>xgboost_model_final <span class="ot">&lt;-</span> xgboost_model <span class="sc">%&gt;%</span> </span>
+<span id="cb17-306"><a href="#cb17-306" aria-hidden="true" tabindex="-1"></a>  <span class="fu">finalize_model</span>(xgboost_best_params)</span>
+<span id="cb17-307"><a href="#cb17-307" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb17-308"><a href="#cb17-308" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">div</span><span class="dt">&gt;</span></span>
+<span id="cb17-309"><a href="#cb17-309" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-310"><a href="#cb17-310" aria-hidden="true" tabindex="-1"></a><span class="fu">## 3.9. Performance Evaluation with Test Data.</span></span>
+<span id="cb17-311"><a href="#cb17-311" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-312"><a href="#cb17-312" aria-hidden="true" tabindex="-1"></a>Now that we have trained our model, we need to evaluate the performance of the model. We use the test data from step 1 (that 20% of data that was not used in model training) to evaluate the performance.</span>
+<span id="cb17-313"><a href="#cb17-313" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-314"><a href="#cb17-314" aria-hidden="true" tabindex="-1"></a>We use the _rmse_ (Root Mean Squared Error), rsq (R Squared) and mae (Mean Absolute Value) metrics from the <span class="in">`yardstick`</span> package in our model evaluation.</span>
+<span id="cb17-315"><a href="#cb17-315" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-316"><a href="#cb17-316" aria-hidden="true" tabindex="-1"></a>First, we evaluated the training data metrics:</span>
+<span id="cb17-317"><a href="#cb17-317" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-318"><a href="#cb17-318" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">div</span><span class="ot"> class</span><span class="op">=</span><span class="st">'fold s'</span><span class="dt">&gt;</span></span>
+<span id="cb17-319"><a href="#cb17-319" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, eval=FALSE, message=FALSE, warning=FALSE, results='hide'}</span></span>
+<span id="cb17-320"><a href="#cb17-320" aria-hidden="true" tabindex="-1"></a>train_processed <span class="ot">&lt;-</span> <span class="fu">bake</span>(preprocessing_recipe,  <span class="at">new_data =</span> <span class="fu">training</span>(ames_split))</span>
+<span id="cb17-321"><a href="#cb17-321" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-322"><a href="#cb17-322" aria-hidden="true" tabindex="-1"></a>train_prediction <span class="ot">&lt;-</span> xgboost_model_final <span class="sc">%&gt;%</span></span>
+<span id="cb17-323"><a href="#cb17-323" aria-hidden="true" tabindex="-1"></a>  <span class="co"># model fit on all training data</span></span>
+<span id="cb17-324"><a href="#cb17-324" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(</span>
+<span id="cb17-325"><a href="#cb17-325" aria-hidden="true" tabindex="-1"></a>    <span class="at">formula =</span> sale_price <span class="sc">~</span> ., </span>
+<span id="cb17-326"><a href="#cb17-326" aria-hidden="true" tabindex="-1"></a>    <span class="at">data    =</span> train_processed</span>
+<span id="cb17-327"><a href="#cb17-327" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb17-328"><a href="#cb17-328" aria-hidden="true" tabindex="-1"></a>  <span class="co"># prediction of sales prices on training data</span></span>
+<span id="cb17-329"><a href="#cb17-329" aria-hidden="true" tabindex="-1"></a>  <span class="fu">predict</span>(<span class="at">new_data =</span> train_processed) <span class="sc">%&gt;%</span></span>
+<span id="cb17-330"><a href="#cb17-330" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bind_cols</span>(<span class="fu">training</span>(ames_split))</span>
+<span id="cb17-331"><a href="#cb17-331" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-332"><a href="#cb17-332" aria-hidden="true" tabindex="-1"></a>xgboost_score_train <span class="ot">&lt;-</span> </span>
+<span id="cb17-333"><a href="#cb17-333" aria-hidden="true" tabindex="-1"></a>  train_prediction <span class="sc">%&gt;%</span></span>
+<span id="cb17-334"><a href="#cb17-334" aria-hidden="true" tabindex="-1"></a>  yardstick<span class="sc">::</span><span class="fu">metrics</span>(sale_price, .pred) <span class="sc">%&gt;%</span></span>
+<span id="cb17-335"><a href="#cb17-335" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">.estimate =</span> <span class="fu">format</span>(<span class="fu">round</span>(.estimate, <span class="dv">2</span>), <span class="at">big.mark =</span> <span class="st">","</span>))</span>
+<span id="cb17-336"><a href="#cb17-336" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-337"><a href="#cb17-337" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(xgboost_score_train)</span>
+<span id="cb17-338"><a href="#cb17-338" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb17-339"><a href="#cb17-339" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">div</span><span class="dt">&gt;</span></span>
+<span id="cb17-340"><a href="#cb17-340" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-341"><a href="#cb17-341" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> .metric   <span class="pp">|</span> estimator.    <span class="pp">|</span> .estimate     <span class="pp">|</span></span>
+<span id="cb17-342"><a href="#cb17-342" aria-hidden="true" tabindex="-1"></a><span class="pp">|:-------:</span>  <span class="pp">|:----------:</span>   <span class="pp">|:---------:</span>    <span class="pp">|</span></span>
+<span id="cb17-343"><a href="#cb17-343" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span>   rmse    <span class="pp">|</span>  standard     <span class="pp">|</span>  3,807.24     <span class="pp">|</span></span>
+<span id="cb17-344"><a href="#cb17-344" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span>   rsq     <span class="pp">|</span>  standard     <span class="pp">|</span>    1.00       <span class="pp">|</span></span>
+<span id="cb17-345"><a href="#cb17-345" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span>   mae     <span class="pp">|</span>  standard     <span class="pp">|</span>  2,747.17     <span class="pp">|</span></span>
+<span id="cb17-346"><a href="#cb17-346" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-347"><a href="#cb17-347" aria-hidden="true" tabindex="-1"></a>And now for the rest of the data:</span>
+<span id="cb17-348"><a href="#cb17-348" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-349"><a href="#cb17-349" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">div</span><span class="ot"> class</span><span class="op">=</span><span class="st">'fold s'</span><span class="dt">&gt;</span></span>
+<span id="cb17-350"><a href="#cb17-350" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, eval=FALSE, message=FALSE, warning=FALSE, results='hide'}</span></span>
+<span id="cb17-351"><a href="#cb17-351" aria-hidden="true" tabindex="-1"></a>test_processed  <span class="ot">&lt;-</span> <span class="fu">bake</span>(preprocessing_recipe, <span class="at">new_data =</span> <span class="fu">testing</span>(ames_split))</span>
+<span id="cb17-352"><a href="#cb17-352" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-353"><a href="#cb17-353" aria-hidden="true" tabindex="-1"></a>test_prediction <span class="ot">&lt;-</span> xgboost_model_final <span class="sc">%&gt;%</span></span>
+<span id="cb17-354"><a href="#cb17-354" aria-hidden="true" tabindex="-1"></a>  <span class="co"># model fit on all training data</span></span>
+<span id="cb17-355"><a href="#cb17-355" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(</span>
+<span id="cb17-356"><a href="#cb17-356" aria-hidden="true" tabindex="-1"></a>    <span class="at">formula =</span> sale_price <span class="sc">~</span> ., </span>
+<span id="cb17-357"><a href="#cb17-357" aria-hidden="true" tabindex="-1"></a>    <span class="at">data    =</span> train_processed</span>
+<span id="cb17-358"><a href="#cb17-358" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb17-359"><a href="#cb17-359" aria-hidden="true" tabindex="-1"></a>  <span class="co"># use of the training fit model for test data prediction</span></span>
+<span id="cb17-360"><a href="#cb17-360" aria-hidden="true" tabindex="-1"></a>  <span class="fu">predict</span>(<span class="at">new_data =</span> test_processed) <span class="sc">%&gt;%</span></span>
+<span id="cb17-361"><a href="#cb17-361" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bind_cols</span>(<span class="fu">testing</span>(ames_split))</span>
+<span id="cb17-362"><a href="#cb17-362" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-363"><a href="#cb17-363" aria-hidden="true" tabindex="-1"></a><span class="co"># measuring the accuracy of our model using `yardstick`.</span></span>
+<span id="cb17-364"><a href="#cb17-364" aria-hidden="true" tabindex="-1"></a>xgboost_score <span class="ot">&lt;-</span> </span>
+<span id="cb17-365"><a href="#cb17-365" aria-hidden="true" tabindex="-1"></a>  test_prediction <span class="sc">%&gt;%</span></span>
+<span id="cb17-366"><a href="#cb17-366" aria-hidden="true" tabindex="-1"></a>  yardstick<span class="sc">::</span><span class="fu">metrics</span>(sale_price, .pred) <span class="sc">%&gt;%</span></span>
+<span id="cb17-367"><a href="#cb17-367" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">.estimate =</span> <span class="fu">format</span>(<span class="fu">round</span>(.estimate, <span class="dv">2</span>), <span class="at">big.mark =</span> <span class="st">","</span>))</span>
+<span id="cb17-368"><a href="#cb17-368" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-369"><a href="#cb17-369" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(xgboost_score)</span>
+<span id="cb17-370"><a href="#cb17-370" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb17-371"><a href="#cb17-371" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">div</span><span class="dt">&gt;</span></span>
+<span id="cb17-372"><a href="#cb17-372" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-373"><a href="#cb17-373" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> .metric   <span class="pp">|</span> estimator.    <span class="pp">|</span> .estimate     <span class="pp">|</span></span>
+<span id="cb17-374"><a href="#cb17-374" aria-hidden="true" tabindex="-1"></a><span class="pp">|:-------:</span>  <span class="pp">|:----------:</span>   <span class="pp">|:---------:</span>    <span class="pp">|</span></span>
+<span id="cb17-375"><a href="#cb17-375" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span>   rmse    <span class="pp">|</span>  standard     <span class="pp">|</span> 30,217.58     <span class="pp">|</span></span>
+<span id="cb17-376"><a href="#cb17-376" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span>   rsq     <span class="pp">|</span>  standard     <span class="pp">|</span>    0.87       <span class="pp">|</span></span>
+<span id="cb17-377"><a href="#cb17-377" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span>   mae     <span class="pp">|</span>  standard     <span class="pp">|</span> 15,728.22     <span class="pp">|</span></span>
+<span id="cb17-378"><a href="#cb17-378" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-379"><a href="#cb17-379" aria-hidden="true" tabindex="-1"></a>The above metrics in the test data are significantly worse than the metrics in our training data, so we know that there is some overfitting in our model. This highlights the importance of using test data, rather than training data, to evaluate model performance.</span>
+<span id="cb17-380"><a href="#cb17-380" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-381"><a href="#cb17-381" aria-hidden="true" tabindex="-1"></a>To quickly check that there is not a problem with our model predictions, we can obtain the plot of the test data residuals:</span>
+<span id="cb17-382"><a href="#cb17-382" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-383"><a href="#cb17-383" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">div</span><span class="ot"> class</span><span class="op">=</span><span class="st">'fold s'</span><span class="dt">&gt;</span></span>
+<span id="cb17-384"><a href="#cb17-384" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, eval=FALSE, message=FALSE, warning=FALSE, results='hide'}</span></span>
+<span id="cb17-385"><a href="#cb17-385" aria-hidden="true" tabindex="-1"></a>house_prediction_residual <span class="ot">&lt;-</span> test_prediction <span class="sc">%&gt;%</span></span>
+<span id="cb17-386"><a href="#cb17-386" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(.pred) <span class="sc">%&gt;%</span></span>
+<span id="cb17-387"><a href="#cb17-387" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">residual_pct =</span> (sale_price <span class="sc">-</span> .pred) <span class="sc">/</span> .pred) <span class="sc">%&gt;%</span></span>
+<span id="cb17-388"><a href="#cb17-388" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(.pred, residual_pct)</span>
+<span id="cb17-389"><a href="#cb17-389" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-390"><a href="#cb17-390" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(house_prediction_residual, <span class="fu">aes</span>(<span class="at">x =</span> .pred, <span class="at">y =</span> residual_pct)) <span class="sc">+</span></span>
+<span id="cb17-391"><a href="#cb17-391" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb17-392"><a href="#cb17-392" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Predicted Sale Price"</span>) <span class="sc">+</span></span>
+<span id="cb17-393"><a href="#cb17-393" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Residual (%)"</span>) <span class="sc">+</span></span>
+<span id="cb17-394"><a href="#cb17-394" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">dollar_format</span>()) <span class="sc">+</span></span>
+<span id="cb17-395"><a href="#cb17-395" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span>percent)</span>
+<span id="cb17-396"><a href="#cb17-396" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb17-397"><a href="#cb17-397" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">div</span><span class="dt">&gt;</span></span>
+<span id="cb17-398"><a href="#cb17-398" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-399"><a href="#cb17-399" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="al">![](residuals.png)</span><span class="co">](residuals.png)</span></span>
+<span id="cb17-400"><a href="#cb17-400" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-401"><a href="#cb17-401" aria-hidden="true" tabindex="-1"></a>The above plot does not show very obvious trends in residuals. This indicates that, at a very high level, our model is not systematically making inaccurate predictions for homes with certain predicted sales prices. We would do more model validation here for a real-world analysis, but, for the sake of this publication, the above graph is good enough for our purpose.</span>
+<span id="cb17-402"><a href="#cb17-402" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-403"><a href="#cb17-403" aria-hidden="true" tabindex="-1"></a><span class="fu"># Conclusions</span></span>
+<span id="cb17-404"><a href="#cb17-404" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-405"><a href="#cb17-405" aria-hidden="true" tabindex="-1"></a>The objective of this analysis was to work through the training process of an XGBoost model in **R** using the <span class="in">`tidymodels`</span> package, and to learn the basics of how the algorithm works, although we have not put too much emphasis on the performance of our model, the foundations for future lines of research with this tool have been laid.</span>
+<span id="cb17-406"><a href="#cb17-406" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-407"><a href="#cb17-407" aria-hidden="true" tabindex="-1"></a>We have seen that the <span class="in">`tidymodels`</span> library provides us with a standard process and tools to handle resampling (<span class="in">`rsample`</span>), data preprocessing (<span class="in">`recipes`</span>), model specification (<span class="in">`parsnip`</span>), fitting (<span class="in">`tune`</span>) and model validation (<span class="in">`yardstick`</span>). In this sense, the <span class="in">`tidymodels`</span> ability to <span class="in">`sort`</span> the machine learning process is a step-change improvement for machine learning accessibility in **R**; thus, it is easier to train and understand the XGBoost model training process.</span>
+<span id="cb17-408"><a href="#cb17-408" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-409"><a href="#cb17-409" aria-hidden="true" tabindex="-1"></a><span class="fu"># References</span></span>
+<span id="cb17-410"><a href="#cb17-410" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-411"><a href="#cb17-411" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>https://towardsdatascience.com/https-medium-com-vishalmorde-xgboost-algorithm-long-she-may-rein-edd9f99be63d</span>
+<span id="cb17-412"><a href="#cb17-412" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-413"><a href="#cb17-413" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>Chollet, F. and Allaire, J. J. (2018): _"Deep Learning with R,"_ Ed. Manning Publications.</span>
+<span id="cb17-414"><a href="#cb17-414" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-415"><a href="#cb17-415" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>Kuhn, M. (2008). _"Building Predictive Models in R Using the caret Package,"_ Journal of Statistical Software, 28(5), 1-26; doi<span class="sc">:http:</span>//dx.doi.org/10.18637/jss.v028.i05.</span>
+<span id="cb17-416"><a href="#cb17-416" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-417"><a href="#cb17-417" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>De Cock, D. (2011). _"Ames, Iowa: Alternative to the Boston Housing Data as an End of Semester Regression Project,"_: Journal of Statistics Education, Volume 19, Number 3.</span>
+<span id="cb17-418"><a href="#cb17-418" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-419"><a href="#cb17-419" aria-hidden="true" tabindex="-1"></a><span class="ss">5. </span>Chen, T. and Guestrin, C. (2016): _"XGBoost: A Scalable Tree Boosting System,"_ doi:10.1145/2939672.2939785</span>
+<span id="cb17-420"><a href="#cb17-420" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-421"><a href="#cb17-421" aria-hidden="true" tabindex="-1"></a><span class="ss">6. </span>Friedman, J.H. (2001): _"Greedy Function Approximation: A Gradient Boosting Machine,"_ Annals of Statistics, pp. 1189–1232.</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+</div></div></div></div></div>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p><span class="faux-block"> © 2018–2026 José Rafael Caro-Barrera</span> <span class="faux-block"><i class="fa-brands fa-orcid" aria-label="orcid"></i> <strong>ORCID</strong> <a href="https://orcid.org/0000-0001-6154-2493">0000-0001-6154-2493</a></span> <span class="faux-block"><a href="https://github.com/jrcarob">View the source at <i class="fa-brands fa-github" aria-label="github"></i> GitHub</a></span></p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+<p><span class="faux-block">Made with <i class="fa-brands fa-r-project" aria-label="r-project"></i> and <a href="https://quarto.org/">Quarto</a></span> <span class="faux-block">All content licensed under<br><a href="https://creativecommons.org/licenses/by-sa/4.0/"><i class="fa-brands fa-creative-commons" aria-label="creative-commons"></i> <i class="fa-brands fa-creative-commons-by" aria-label="creative-commons-by"></i> <i class="fa-brands fa-creative-commons-sa" aria-label="creative-commons-sa"></i> Creative Commons CC BY-SA 4.0</a></span></p>
+</div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

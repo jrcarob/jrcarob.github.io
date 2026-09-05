@@ -1,0 +1,43 @@
+[
+  {
+    "listing": "/talks/index.html",
+    "items": []
+  },
+  {
+    "listing": "/atom.html",
+    "items": [
+      "/blog/index.html",
+      "/blog/2021/08/XGBoost/index.html",
+      "/blog/2026/09/index.html",
+      "/blog/2022/09/bibliometric/index.html",
+      "/blog/2023/05/regression/index.html"
+    ]
+  },
+  {
+    "listing": "/blog/index.html",
+    "items": [
+      "/blog/2026/09/index.html",
+      "/blog/2023/05/regression/index.html",
+      "/blog/2022/09/bibliometric/index.html",
+      "/blog/2021/08/XGBoost/index.html"
+    ]
+  },
+  {
+    "listing": "/research/index.html",
+    "items": [
+      "/research/articles/2026_hunting/index.html",
+      "/research/articles/2026_emh/index.html",
+      "/research/articles/2023_perez-garcia-caro/index.html",
+      "/research/articles/2022_caro-garcia-perez/index.html",
+      "/research/articles/2021_carbonell-caro/index.html",
+      "/research/articles/2021_caridad_garcia_caro_perez/index.html",
+      "/research/articles/2020_caro/index.html",
+      "/research/articles/2018-caro/index.html",
+      "/research/articles/2019_caro/index.html"
+    ]
+  },
+  {
+    "listing": "/teaching/index.html",
+    "items": []
+  }
+]
