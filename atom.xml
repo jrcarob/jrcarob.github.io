@@ -6,15 +6,15 @@
       version="2.0">
 <channel>
 <title>José Caro</title>
-<link>https://github.com/jrcarob/atom.html</link>
-<atom:link href="https://github.com/jrcarob/atom.xml" rel="self" type="application/rss+xml"/>
+<link>https://carobarrera.com/atom.html</link>
+<atom:link href="https://carobarrera.com/atom.xml" rel="self" type="application/rss+xml"/>
 <description>José Caro is an assistant professor at Córdoba University, researcher and teaching statistics.</description>
 <generator>quarto-1.8.25</generator>
 <lastBuildDate>Mon, 28 Sep 2026 22:00:00 GMT</lastBuildDate>
 <item>
   <title>Mapping the Miles: A Running Log as a Calendar Heatmap</title>
   <dc:creator>José Caro</dc:creator>
-  <link>https://github.com/jrcarob/blog/2026/09/</link>
+  <link>https://carobarrera.com/blog/2026/09/</link>
   <description><![CDATA[ 
 
 
@@ -776,7 +776,7 @@ background-color: null;
 font-style: inherit;">print</span>(monthly_stats)</span></code></pre></div></div>
 </div>
 <p>And here’s the result for 2025:</p>
-<p><img src="https://github.com/jrcarob/blog/2026/09/heatmap.png" class="img-fluid"></p>
+<p><img src="https://carobarrera.com/blog/2026/09/heatmap.png" class="img-fluid"></p>
 <p>The gaps are the honest part of the chart — the weeks I meant to run and didn’t are just as visible as the weeks I did. All told, 2025 added up to <strong>5,310 km</strong> — enough to have jogged from Córdoba to Ulaanbaatar, if I’d only picked a less roundabout route than “out my front door and back.”</p>
 
 
@@ -789,14 +789,14 @@ font-style: inherit;">print</span>(monthly_stats)</span></code></pre></div></div
   <category>heatmap</category>
   <category>data viz</category>
   <category>running</category>
-  <guid>https://github.com/jrcarob/blog/2026/09/</guid>
+  <guid>https://carobarrera.com/blog/2026/09/</guid>
   <pubDate>Mon, 28 Sep 2026 22:00:00 GMT</pubDate>
-  <media:content url="https://github.com/jrcarob/blog/2026/09/heatmap.png" medium="image" type="image/png" height="101" width="144"/>
+  <media:content url="https://carobarrera.com/blog/2026/09/heatmap.png" medium="image" type="image/png" height="101" width="144"/>
 </item>
 <item>
   <title>Understanding Linear Regression</title>
   <dc:creator>José Caro</dc:creator>
-  <link>https://github.com/jrcarob/blog/2023/05/regression/</link>
+  <link>https://carobarrera.com/blog/2023/05/regression/</link>
   <description><![CDATA[ 
 
 
@@ -826,7 +826,7 @@ font-style: inherit;">print</span>(monthly_stats)</span></code></pre></div></div
 </div>
 <div class="callout-body-container callout-body">
 <p>Have a look at the network graph, see the the complex intrincacies of the regression analysis and check out if you remember some of the concepts (in the red boxes) we have already studied. Don’t panic! You do not have to know all of them and you won’t study the most of them, just keep in mind some of the concepts (which means review them) for the lecture.</p>
-<p><img src="https://github.com/jrcarob/blog/2023/05/regression/network.png" class="img-fluid"></p>
+<p><img src="https://carobarrera.com/blog/2023/05/regression/network.png" class="img-fluid"></p>
 </div>
 </div>
 <section id="what-is-regression-analysis" class="level2">
@@ -960,7 +960,7 @@ Content for third tab
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="https://github.com/jrcarob/blog/2023/05/regression/index_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="https://carobarrera.com/blog/2023/05/regression/index_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -999,7 +999,7 @@ Content for third tab
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="https://github.com/jrcarob/blog/2023/05/regression/index_files/figure-html/unnamed-chunk-3-3.png" class="img-fluid figure-img" width="1440"></p>
+<p><img src="https://carobarrera.com/blog/2023/05/regression/index_files/figure-html/unnamed-chunk-3-3.png" class="img-fluid figure-img" width="1440"></p>
 </figure>
 </div>
 </div>
@@ -1075,21 +1075,21 @@ $$SSN_{Error}=SS_{Total}-SS_{Reg}$$
   <category>linear regression</category>
   <category>correlation</category>
   <category>goodness of fit</category>
-  <guid>https://github.com/jrcarob/blog/2023/05/regression/</guid>
+  <guid>https://carobarrera.com/blog/2023/05/regression/</guid>
   <pubDate>Fri, 22 Dec 2023 23:00:00 GMT</pubDate>
-  <media:content url="https://github.com/jrcarob/blog/2023/05/regression/network.png" medium="image" type="image/png" height="78" width="144"/>
+  <media:content url="https://carobarrera.com/blog/2023/05/regression/network.png" medium="image" type="image/png" height="78" width="144"/>
 </item>
 <item>
   <title>Forecasting with XGBoost: An implementation in R</title>
   <dc:creator>José Caro</dc:creator>
-  <link>https://github.com/jrcarob/blog/2021/08/XGBoost/</link>
+  <link>https://carobarrera.com/blog/2021/08/XGBoost/</link>
   <description><![CDATA[ 
 
 
 
 
 
-<p><img src="https://github.com/jrcarob/blog/2021/08/XGBoost/dplyr.png" alt="dplyr_sticker" style="height: 75px; width:75px;"> <img src="https://github.com/jrcarob/blog/2021/08/XGBoost/dials.png" alt="dial_sticker" style="height: 75px; width:75px;"> <img src="https://github.com/jrcarob/blog/2021/08/XGBoost/parsnip.png" alt="parsnip_sticker" style="height: 75px; width:75px;"> <img src="https://github.com/jrcarob/blog/2021/08/XGBoost/recipes.png" alt="recipes_sticker" style="height: 75px; width:75px;"> <img src="https://github.com/jrcarob/blog/2021/08/XGBoost/rsample.png" alt="rsample_sticker" style="height: 75px; width:75px;"> <img src="https://github.com/jrcarob/blog/2021/08/XGBoost/tune.png" alt="tune_sticker" style="height: 75px; width:75px;"> <img src="https://github.com/jrcarob/blog/2021/08/XGBoost/workflows.png" alt="workflows_sticker" style="height: 75px; width:75px;"> <img src="https://github.com/jrcarob/blog/2021/08/XGBoost/yardstick.png" alt="yardstick_sticker" style="height: 75px; width:75px;"></p>
+<p><img src="https://carobarrera.com/blog/2021/08/XGBoost/dplyr.png" alt="dplyr_sticker" style="height: 75px; width:75px;"> <img src="https://carobarrera.com/blog/2021/08/XGBoost/dials.png" alt="dial_sticker" style="height: 75px; width:75px;"> <img src="https://carobarrera.com/blog/2021/08/XGBoost/parsnip.png" alt="parsnip_sticker" style="height: 75px; width:75px;"> <img src="https://carobarrera.com/blog/2021/08/XGBoost/recipes.png" alt="recipes_sticker" style="height: 75px; width:75px;"> <img src="https://carobarrera.com/blog/2021/08/XGBoost/rsample.png" alt="rsample_sticker" style="height: 75px; width:75px;"> <img src="https://carobarrera.com/blog/2021/08/XGBoost/tune.png" alt="tune_sticker" style="height: 75px; width:75px;"> <img src="https://carobarrera.com/blog/2021/08/XGBoost/workflows.png" alt="workflows_sticker" style="height: 75px; width:75px;"> <img src="https://carobarrera.com/blog/2021/08/XGBoost/yardstick.png" alt="yardstick_sticker" style="height: 75px; width:75px;"></p>
 <section id="introduction-to-the-xgboost-algorithm" class="level1">
 <h1>1. Introduction to the XGBoost algorithm</h1>
 <p>XGBoost, (<em>Extreme Gradient Boosting</em>), is one of the most widely used supervised <em>machine learning</em> algorithms that uses the <em>boosting</em> principle.</p>
@@ -1104,7 +1104,7 @@ $$SSN_{Error}=SS_{Total}-SS_{Reg}$$
 <p>The <em>xgboost</em> algorithm is similar to <em>gradient boosting</em> but more efficient. It has linear model solutions and tree learning algorithms and is at least 10 times faster than existing implementations of <em>gradient boosting</em>. It supports several objective functions, including regression, classification and ranking. and what makes it fast is its ability to do parallel computations on a single machine.</p>
 <p>In terms of efficiency, accuracy and feasibility it is more powerful than the <em>random forest</em> algorithm, for example or a neural network and since it has very high predictive power but relatively slow implementation, <em>xgboost</em> becomes a suitable choice for solving most regression, classification and ranking problems as well as user-created objective functions. It also has additional features to do cross validation and find the most important variables, which makes it interesting for <strong>credit scoring models</strong>, <strong>insurance claims</strong>, or where there are many parameters to be controlled to optimize the model.</p>
 <p>As can be seen in the following graph (1), the XGBoost model has the best combination of prediction performance and processing time compared to other algorithms.</p>
-<p><a href="performance.png"><img src="https://github.com/jrcarob/blog/2021/08/XGBoost/performance.png" class="img-fluid"></a></p>
+<p><a href="performance.png"><img src="https://carobarrera.com/blog/2021/08/XGBoost/performance.png" class="img-fluid"></a></p>
 <p>Chollet and Allaire, (2018) (2) summarize the value of XGBoost as follows:</p>
 <blockquote class="blockquote">
 <p>“<em>XGBoost</em> is used for problems where there is the availability of structured data is very wide, while <em>deep learning</em> is used for perceptual problems such as image classification. Users of the former almost always use the XGBoost library.”</p>
@@ -1329,7 +1329,7 @@ font-style: inherit;">prep</span>()</span></code></pre></div></div>
 </div>
 </div>
 <p>As can be seen in the graph below, for the <code>neighborhood</code> variable, several of the factor levels with the smallest number of observations (less than 1% of the total number of observations) have been grouped into an <code>other</code> factor level. We did this preprocessing with the <code>step_other()</code> command in the previous section.</p>
-<p><a href="others.png"><img src="https://github.com/jrcarob/blog/2021/08/XGBoost/others.png" class="img-fluid"></a></p>
+<p><a href="others.png"><img src="https://carobarrera.com/blog/2021/08/XGBoost/others.png" class="img-fluid"></a></p>
 </section>
 <section id="cross-validation-split." class="level2">
 <h2 class="anchored" data-anchor-id="cross-validation-split.">3.4. Cross-validation split.</h2>
@@ -2086,7 +2086,7 @@ background-color: null;
 font-style: inherit;">::</span>percent)</span></code></pre></div></div>
 </div>
 </div>
-<p><a href="residuals.png"><img src="https://github.com/jrcarob/blog/2021/08/XGBoost/residuals.png" class="img-fluid"></a></p>
+<p><a href="residuals.png"><img src="https://carobarrera.com/blog/2021/08/XGBoost/residuals.png" class="img-fluid"></a></p>
 <p>The above plot does not show very obvious trends in residuals. This indicates that, at a very high level, our model is not systematically making inaccurate predictions for homes with certain predicted sales prices. We would do more model validation here for a real-world analysis, but, for the sake of this publication, the above graph is good enough for our purpose.</p>
 </section>
 </section>
@@ -2116,20 +2116,20 @@ font-style: inherit;">::</span>percent)</span></code></pre></div></div>
   <category>data analysis</category>
   <category>forecasting</category>
   <category>machine learning</category>
-  <guid>https://github.com/jrcarob/blog/2021/08/XGBoost/</guid>
+  <guid>https://carobarrera.com/blog/2021/08/XGBoost/</guid>
   <pubDate>Mon, 07 Nov 2022 23:00:00 GMT</pubDate>
 </item>
 <item>
   <title>Scientific Maps Analysis with the R package bibliometrix</title>
   <dc:creator>José Caro</dc:creator>
-  <link>https://github.com/jrcarob/blog/2022/09/bibliometric/</link>
+  <link>https://carobarrera.com/blog/2022/09/bibliometric/</link>
   <description><![CDATA[ 
 
 
 
 
 
-<p><img src="https://github.com/jrcarob/blog/2022/09/bibliometric/preregistered_large_color.png" class="img-fluid" alt="Preregistered">   <img src="https://github.com/jrcarob/blog/2022/09/bibliometric/data_large_color.png" class="img-fluid" alt="Open data">   <img src="https://github.com/jrcarob/blog/2022/09/bibliometric/materials_large_color.png" class="img-fluid" alt="Open"></p>
+<p><img src="https://carobarrera.com/blog/2022/09/bibliometric/preregistered_large_color.png" class="img-fluid" alt="Preregistered">   <img src="https://carobarrera.com/blog/2022/09/bibliometric/data_large_color.png" class="img-fluid" alt="Open data">   <img src="https://carobarrera.com/blog/2022/09/bibliometric/materials_large_color.png" class="img-fluid" alt="Open"></p>
 <section id="introduction" class="level1">
 <h1>Introduction</h1>
 </section>
@@ -2320,35 +2320,35 @@ Most Relevant Keywords
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="https://github.com/jrcarob/blog/2022/09/bibliometric/index_files/figure-html/Descriptive Analysis-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="https://carobarrera.com/blog/2022/09/bibliometric/index_files/figure-html/Descriptive Analysis-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="https://github.com/jrcarob/blog/2022/09/bibliometric/index_files/figure-html/Descriptive Analysis-2.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="https://carobarrera.com/blog/2022/09/bibliometric/index_files/figure-html/Descriptive Analysis-2.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="https://github.com/jrcarob/blog/2022/09/bibliometric/index_files/figure-html/Descriptive Analysis-3.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="https://carobarrera.com/blog/2022/09/bibliometric/index_files/figure-html/Descriptive Analysis-3.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="https://github.com/jrcarob/blog/2022/09/bibliometric/index_files/figure-html/Descriptive Analysis-4.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="https://carobarrera.com/blog/2022/09/bibliometric/index_files/figure-html/Descriptive Analysis-4.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="https://github.com/jrcarob/blog/2022/09/bibliometric/index_files/figure-html/Descriptive Analysis-5.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="https://carobarrera.com/blog/2022/09/bibliometric/index_files/figure-html/Descriptive Analysis-5.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -2410,7 +2410,7 @@ SOL D, 2011, PLOS ONE, V6, DOI 10.1371/JOURNAL.PONE.0019535                     
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="https://github.com/jrcarob/blog/2022/09/bibliometric/index_files/figure-html/Co-citation network-1.png" class="img-fluid figure-img" width="960"></p>
+<p><img src="https://carobarrera.com/blog/2022/09/bibliometric/index_files/figure-html/Co-citation network-1.png" class="img-fluid figure-img" width="960"></p>
 </figure>
 </div>
 </div>
@@ -2491,7 +2491,7 @@ font-style: inherit;">5</span>)</span></code></pre></div></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="https://github.com/jrcarob/blog/2022/09/bibliometric/index_files/figure-html/Co-citation source network-1.png" class="img-fluid figure-img" width="960"></p>
+<p><img src="https://carobarrera.com/blog/2022/09/bibliometric/index_files/figure-html/Co-citation source network-1.png" class="img-fluid figure-img" width="960"></p>
 </figure>
 </div>
 </div>
@@ -2533,7 +2533,7 @@ Found 49 documents with no empty Local Citations (LCS)</code></pre>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="https://github.com/jrcarob/blog/2022/09/bibliometric/index_files/figure-html/Historiograph-1.png" class="img-fluid figure-img" width="960"></p>
+<p><img src="https://carobarrera.com/blog/2022/09/bibliometric/index_files/figure-html/Historiograph-1.png" class="img-fluid figure-img" width="960"></p>
 </figure>
 </div>
 </div>
@@ -2723,7 +2723,7 @@ font-style: inherit;">2</span>)</span></code></pre></div></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="https://github.com/jrcarob/blog/2022/09/bibliometric/index_files/figure-html/Keyword co-occurrences-1.png" class="img-fluid figure-img" width="960"></p>
+<p><img src="https://carobarrera.com/blog/2022/09/bibliometric/index_files/figure-html/Keyword co-occurrences-1.png" class="img-fluid figure-img" width="960"></p>
 </figure>
 </div>
 </div>
@@ -2772,28 +2772,28 @@ font-style: inherit;">20</span>)</span>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="https://github.com/jrcarob/blog/2022/09/bibliometric/index_files/figure-html/Co-word Analysis-1.png" class="img-fluid figure-img" width="960"></p>
+<p><img src="https://carobarrera.com/blog/2022/09/bibliometric/index_files/figure-html/Co-word Analysis-1.png" class="img-fluid figure-img" width="960"></p>
 </figure>
 </div>
 </div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="https://github.com/jrcarob/blog/2022/09/bibliometric/index_files/figure-html/Co-word Analysis-2.png" class="img-fluid figure-img" width="960"></p>
+<p><img src="https://carobarrera.com/blog/2022/09/bibliometric/index_files/figure-html/Co-word Analysis-2.png" class="img-fluid figure-img" width="960"></p>
 </figure>
 </div>
 </div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="https://github.com/jrcarob/blog/2022/09/bibliometric/index_files/figure-html/Co-word Analysis-3.png" class="img-fluid figure-img" width="960"></p>
+<p><img src="https://carobarrera.com/blog/2022/09/bibliometric/index_files/figure-html/Co-word Analysis-3.png" class="img-fluid figure-img" width="960"></p>
 </figure>
 </div>
 </div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="https://github.com/jrcarob/blog/2022/09/bibliometric/index_files/figure-html/Co-word Analysis-4.png" class="img-fluid figure-img" width="960"></p>
+<p><img src="https://carobarrera.com/blog/2022/09/bibliometric/index_files/figure-html/Co-word Analysis-4.png" class="img-fluid figure-img" width="960"></p>
 </figure>
 </div>
 </div>
@@ -2848,7 +2848,7 @@ font-style: inherit;">$</span>map)</span></code></pre></div></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="https://github.com/jrcarob/blog/2022/09/bibliometric/index_files/figure-html/ThematicMap-1.png" class="img-fluid figure-img" width="864"></p>
+<p><img src="https://carobarrera.com/blog/2022/09/bibliometric/index_files/figure-html/ThematicMap-1.png" class="img-fluid figure-img" width="864"></p>
 </figure>
 </div>
 </div>
@@ -2983,7 +2983,7 @@ font-style: inherit;">1</span>)</span></code></pre></div></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="https://github.com/jrcarob/blog/2022/09/bibliometric/index_files/figure-html/Au collaboration network-1.png" class="img-fluid figure-img" width="960"></p>
+<p><img src="https://carobarrera.com/blog/2022/09/bibliometric/index_files/figure-html/Au collaboration network-1.png" class="img-fluid figure-img" width="960"></p>
 </figure>
 </div>
 </div>
@@ -3043,7 +3043,7 @@ font-style: inherit;">1</span>)</span></code></pre></div></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="https://github.com/jrcarob/blog/2022/09/bibliometric/index_files/figure-html/Edu collaboration network-1.png" class="img-fluid figure-img" width="960"></p>
+<p><img src="https://carobarrera.com/blog/2022/09/bibliometric/index_files/figure-html/Edu collaboration network-1.png" class="img-fluid figure-img" width="960"></p>
 </figure>
 </div>
 </div>
@@ -3123,7 +3123,7 @@ font-style: inherit;">"none"</span>)</span></code></pre></div></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="https://github.com/jrcarob/blog/2022/09/bibliometric/index_files/figure-html/Co collaboration network-1.png" class="img-fluid figure-img" width="960"></p>
+<p><img src="https://carobarrera.com/blog/2022/09/bibliometric/index_files/figure-html/Co collaboration network-1.png" class="img-fluid figure-img" width="960"></p>
 </figure>
 </div>
 </div>
@@ -3149,7 +3149,7 @@ font-style: inherit;">"none"</span>)</span></code></pre></div></div>
   title = {Scientific {Maps} {Analysis} with the {`R`} Package
     `Bibliometrix`},
   date = {2022-09-09},
-  url = {https://github.com/jrcarob/blog/2022/09/bibliometric/},
+  url = {https://carobarrera.com/blog/2022/09/bibliometric/},
   doi = {10.5281/zenodo.10079724},
   langid = {en}
 }
@@ -3160,14 +3160,14 @@ Caro, José. 2022. <span>“Scientific Maps Analysis with the `R` Package
   <category>bibliometry</category>
   <category>mapping</category>
   <category>bibliometric analysis</category>
-  <guid>https://github.com/jrcarob/blog/2022/09/bibliometric/</guid>
+  <guid>https://carobarrera.com/blog/2022/09/bibliometric/</guid>
   <pubDate>Thu, 08 Sep 2022 22:00:00 GMT</pubDate>
-  <media:content url="https://github.com/jrcarob/blog/2022/09/bibliometric/graph.png" medium="image" type="image/png" height="139" width="144"/>
+  <media:content url="https://carobarrera.com/blog/2022/09/bibliometric/graph.png" medium="image" type="image/png" height="139" width="144"/>
 </item>
 <item>
   <title>Blog</title>
   <dc:creator>José Caro</dc:creator>
-  <link>https://github.com/jrcarob/blog/</link>
+  <link>https://carobarrera.com/blog/</link>
   <description><![CDATA[ 
 
 
@@ -3218,7 +3218,7 @@ Caro, José. 2022. <span>“Scientific Maps Analysis with the `R` Package
         </div>
         
         <div class="thumbnail">
-            <img src="https://github.com/jrcarob/blog/2026/09/heatmap.png" alt="Mapping the Miles: A Running Log as a Calendar Heatmap" title="Mapping the Miles: A Running Log as a Calendar Heatmap">
+            <img src="https://carobarrera.com/blog/2026/09/heatmap.png" alt="Mapping the Miles: A Running Log as a Calendar Heatmap" title="Mapping the Miles: A Running Log as a Calendar Heatmap">
         </div>
         
     </div>
@@ -3272,7 +3272,7 @@ Caro, José. 2022. <span>“Scientific Maps Analysis with the `R` Package
         </div>
         
         <div class="thumbnail">
-            <img src="https://github.com/jrcarob/blog/2023/05/regression/network.png" alt="Understanding Linear Regression" title="Understanding Linear Regression">
+            <img src="https://carobarrera.com/blog/2023/05/regression/network.png" alt="Understanding Linear Regression" title="Understanding Linear Regression">
         </div>
         
     </div>
@@ -3314,12 +3314,12 @@ Caro, José. 2022. <span>“Scientific Maps Analysis with the `R` Package
             <p class="description listing-description">Example of scientific maps for bibliometric analysis</p>
             
             
-            <p class="post-doi"><img src="https://github.com/jrcarob/files/doi.svg" class="doi-icon img-fluid" alt="DOI"> <a href="https://doi.org/10.5281/zenodo.10079724" target="_blank" rel="noopener noreferrer">10.5281/zenodo.10079724</a></p>
+            <p class="post-doi"><img src="https://carobarrera.com/files/doi.svg" class="doi-icon img-fluid" alt="DOI"> <a href="https://doi.org/10.5281/zenodo.10079724" target="_blank" rel="noopener noreferrer">10.5281/zenodo.10079724</a></p>
             
         </div>
         
         <div class="thumbnail">
-            <img src="https://github.com/jrcarob/blog/2022/09/bibliometric/graph.png" alt="Scientific Maps Analysis with the `R` package `bibliometrix`" title="Scientific Maps Analysis with the `R` package `bibliometrix`">
+            <img src="https://carobarrera.com/blog/2022/09/bibliometric/graph.png" alt="Scientific Maps Analysis with the `R` package `bibliometrix`" title="Scientific Maps Analysis with the `R` package `bibliometrix`">
         </div>
         
     </div>
@@ -3384,8 +3384,8 @@ Caro, José. 2022. <span>“Scientific Maps Analysis with the `R` Package
 </section>
 
  ]]></description>
-  <guid>https://github.com/jrcarob/blog/</guid>
-  <pubDate>Sat, 05 Sep 2026 13:01:50 GMT</pubDate>
+  <guid>https://carobarrera.com/blog/</guid>
+  <pubDate>Sat, 05 Sep 2026 13:35:33 GMT</pubDate>
 </item>
 </channel>
 </rss>
