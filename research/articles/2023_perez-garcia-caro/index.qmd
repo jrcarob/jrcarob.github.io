@@ -25,7 +25,7 @@ categories:
   - Local Gastronomy
 pub-info:
   reference: >-
-    Manuel Pérez Priego, María de los Baños García-Moreno García, <a href="http://localhost:5555/now/">Carol A. Jara Alba</a> and <strong>José Rafael Caro-Barrera</strong></a>, “Local Gastronomy As a Destination Tourist Attraction: the Case of the 'Chiringuitos' on the Costa del Sol (Spain),” <em>International Journal of Gastronomy and Food Science</em> vol. 34 (December 2023), doi: <a href="https://doi.org/10.1016/j.ijgfs.2023.100822"><code>10.1016/j.ijgfs.2023.100822</code></a>
+    Manuel Pérez Priego, María de los Baños García-Moreno García, <a href="/now/">Carol A. Jara Alba</a> and <strong>José Rafael Caro-Barrera</strong></a>, “Local Gastronomy As a Destination Tourist Attraction: the Case of the 'Chiringuitos' on the Costa del Sol (Spain),” <em>International Journal of Gastronomy and Food Science</em> vol. 34 (December 2023), doi: <a href="https://doi.org/10.1016/j.ijgfs.2023.100822"><code>10.1016/j.ijgfs.2023.100822</code></a>
   links:
     - name: Preprint
       url: elsarticle-template-harv.pdf
