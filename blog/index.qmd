@@ -51,7 +51,7 @@ freeze: false
 }
 ```
 
-When I’m not blogging about [demography](/demography/), I blog here about economics, finance, data science, computing or any other interesting topic for the community. It’s a way to keep my ideas organized and gathered in one place rather than scattered across countless directories and folders on my computer. This makes them easily accessible—not just to me, but to anyone interested—though please remember that these posts reflect only my opinions, methods...
+When I’m not blogging about [demography](/demography/), I blog here about economics, finance, data science, computing or any other interesting topic for the community. It’s a way to keep my ideas organized and gathered in one place rather than scattered across countless directories and folders on my computer. This makes them easily accessible—not just to me, but to anyone interested—though please remember that these posts reflect only my opinions.
 
 ## 2026
 

@@ -81,24 +81,28 @@ The future of longevity is therefore not only a question of **how many years we 
 The figure can be reproduced from the underlying demographic data using R. Making the code available alongside the visualisation turns the graph from a static illustration into a reproducible research object, allowing readers to inspect the data, modify the assumptions and experiment with alternative representations of the projected changes in longevity.
 
 
-```{r setup, include = TRUE, message=FALSE}
-knitr::opts_chunk$set(echo = T,
-                      results = "hide")
-library(tidyverse)
-library(ggplot2)
-library(ggflags)
-library(showtext)
+The chart is a **Sankey-style ranking flow**: two vertical axes, one for 2026 and one for 2100, with a coloured ribbon connecting each country's position in the two years. The vertical axis is rank (not the life-expectancy value itself), so an upward-sloping ribbon means a country climbs the table and a downward-sloping one means it is overtaken. Regions are encoded by colour, the printed numbers are the actual life-expectancy values at each end, and countries that leave or enter the top 30 get tapering ribbons that fade in or out at the bottom.
 
-# ============================================================================
-# 0. LOAD FONT
-# ============================================================================
-font_add_google("Roboto Condensed", "roboto_condensed")
-showtext_auto()
+Everything below reproduces that figure. Only the data-loading and preparation chunks are executed on render; the plotting and saving chunks are shown but not run (`eval = FALSE`), since the published PNG was produced once at high resolution.
+
+### Setup and data
+
+We start with the packages, a web font, and the two source tables. `ggflags` draws the circular country flags used as nodes; `showtext` lets us use *Roboto Condensed* from Google Fonts. The data are the top 30 countries by life expectancy at birth in each year (plus the United States, carried along as a reference case), taken from the UN *World Population Prospects 2024* via Our World in Data.
+
+```{r setup, include = TRUE, message=FALSE}
+knitr::opts_chunk$set(echo = TRUE, results = "hide")
+library(tidyverse)
+
+# Plotting-only dependencies (needed for the eval = FALSE chunks below):
+#   library(ggflags)   # circular flag glyphs for the nodes
+#   library(showtext)  # Google Fonts in ggplot
+#   font_add_google("Roboto Condensed", "roboto_condensed"); showtext_auto()
 
 # ============================================================================
 # 1. DATA
 # ============================================================================
 
+# One colour per world region, reused for ribbons and the legend swatches
 region_colors <- c(
   "Europe"    = "#2E5AAC",
   "Asia"      = "#C44536", 
@@ -194,6 +198,247 @@ data_2100 <- tribble(
 )
 ```
 
-2. 
+### From ranks to ribbon geometry
 
-3. 
+The plot has no real coordinate system of its own: we draw it in an abstract space where `x` runs from 0 (the 2026 axis) to 1 (the 2100 axis) and `y` is a vertical slot derived from rank. Rank 1 sits at the top, so we flip it with `y = 31 - rank`. We then split the countries into three groups — those present in both years (`common`), those that fall out of the top 30 by 2100 (`dropped`), and those that break into it (`new`).
+
+```{r prep, include = TRUE}
+# Vertical slot for each country: rank 1 → top of the panel
+data_2026_y <- data_2026 |>
+  mutate(y_2026 = 31 - rank_2026, iso2 = country_iso2[country_2026])
+data_2100_y <- data_2100 |>
+  mutate(y_2100 = 31 - rank_2100, iso2 = country_iso2[country_2100])
+
+common_countries  <- intersect(data_2026$country_2026, data_2100$country_2100)
+dropped_countries <- setdiff(data_2026$country_2026,  data_2100$country_2100)
+new_countries     <- setdiff(data_2100$country_2100,  data_2026$country_2026)
+
+bottom_y     <- 0.5    # where fading ribbons enter/leave
+ribbon_width <- 0.9    # thickness of a full ribbon, in y units
+```
+
+Each ribbon is a smooth band between a start slot and an end slot. `create_spline()` interpolates the centre-line with a **smoothstep** easing (`3t² − 2t³`), which has zero slope at both ends so ribbons leave and arrive horizontally instead of at an angle. `geom_ribbon()` later needs a lower and an upper edge, so we carry `ymin`/`ymax` a half-width above and below that centre-line.
+
+```{r ribbons, include = TRUE}
+create_spline <- function(y_start, y_end, n = 200) {
+  t <- seq(0, 1, length.out = n)
+  tibble(x = t,
+         y = y_start + (y_end - y_start) * (3 * t^2 - 2 * t^3))
+}
+
+# --- Common countries: constant-width band between the two slots ---
+common_data <- data_2026_y |>
+  filter(country_2026 %in% common_countries) |>
+  inner_join(data_2100_y |> filter(country_2100 %in% common_countries),
+             by = c("country_2026" = "country_2100")) |>
+  rename(country = country_2026, region = region_2026) |>
+  select(country, y_2026, y_2100, value_2026, value_2100, region, iso2 = iso2.x)
+
+ribbon_common <- map_dfr(seq_len(nrow(common_data)), function(i) {
+  row <- common_data[i, ]
+  create_spline(row$y_2026, row$y_2100) |>
+    mutate(country = row$country, region = row$region, iso2 = row$iso2,
+           ymin = y - ribbon_width / 2, ymax = y + ribbon_width / 2)
+})
+
+# --- Dropped / new: same centre-line, but width tapered to zero at the ---
+#     open end so the ribbon visually "fades out" (dropped) or "fades in" (new)
+taper_ribbon <- function(dat, direction = c("out", "in")) {
+  direction <- match.arg(direction)
+  map_dfr(seq_len(nrow(dat)), function(i) {
+    row <- dat[i, ]
+    t <- seq(0, 1, length.out = 200)
+    w <- if (direction == "out") (1 - t)^1.5 else t^1.5   # width factor
+    half <- (ribbon_width / 2) * w
+    y <- row$y_2026 + (row$y_2100 - row$y_2026) * (3 * t^2 - 2 * t^3)
+    tibble(x = t, y = y, country = row$country, region = row$region,
+           iso2 = row$iso2, ymin = y - half, ymax = y + half)
+  })
+}
+
+dropped_data <- data_2026_y |>
+  filter(country_2026 %in% dropped_countries) |>
+  mutate(y_2100 = bottom_y, value_2100 = NA_real_) |>
+  rename(country = country_2026, region = region_2026) |>
+  select(country, y_2026, y_2100, value_2026, value_2100, region, iso2)
+
+new_data <- data_2100_y |>
+  filter(country_2100 %in% new_countries) |>
+  mutate(y_2026 = bottom_y, value_2026 = NA_real_) |>
+  rename(country = country_2100, region = region_2100) |>
+  select(country, y_2026, y_2100, value_2026, value_2100, region, iso2)
+
+ribbon_dropped <- taper_ribbon(dropped_data, "out")
+ribbon_new     <- taper_ribbon(new_data, "in")
+
+ribbon_all <- bind_rows(ribbon_common, ribbon_dropped, ribbon_new)
+```
+
+### Edge labels and nodes
+
+The life-expectancy values are printed just inside each end of the ribbon. We sample the same smoothstep curve slightly away from the axis (`t = 0.07` and `t = 0.93`) so the number sits on the ribbon rather than under the flag. Dropped countries only get a left-hand (2026) value; new countries only get a right-hand (2100) one.
+
+```{r labels, include = TRUE}
+calc_spline_y <- function(y_start, y_end, t) {
+  y_start + (y_end - y_start) * (3 * t^2 - 2 * t^3)
+}
+fmt_value <- function(v) ifelse(is.na(v), "", sprintf("%.1f", v))
+
+left_values_all <- bind_rows(
+  common_data  |> mutate(x_pos = 0.07,
+                         y_pos = calc_spline_y(y_2026, y_2100, 0.07),
+                         label_text = fmt_value(value_2026)),
+  dropped_data |> mutate(x_pos = 0.07,
+                         y_pos = calc_spline_y(y_2026, y_2100, 0.07),
+                         label_text = fmt_value(value_2026))
+)
+right_values_all <- bind_rows(
+  common_data |> mutate(x_pos = 0.93, y_pos = y_2100,
+                        label_text = fmt_value(value_2100)),
+  new_data    |> mutate(x_pos = 0.93,
+                        y_pos = calc_spline_y(y_2026, y_2100, 0.93),
+                        label_text = fmt_value(value_2100))
+)
+
+# Node = white circle + flag glyph at each country's slot on its axis
+nodes_2026_all <- data_2026_y |>
+  transmute(country = country_2026, value_2026, node_y = y_2026,
+            region = region_2026, iso2, x = 0)
+nodes_2100_all <- data_2100_y |>
+  transmute(country = country_2100, value_2100, node_y = y_2100,
+            region = region_2100, iso2, x = 1)
+```
+
+### Assembling the plot
+
+The figure is built in layer order: ribbons first, then the printed values on top of them, then the flag nodes and country names on each axis, and finally the title block, the region colour key, the detached United States row at the bottom, and the source notes. `coord_equal(ratio = 0.09)` locks the aspect ratio so the flag circles stay round, and `theme_void()` strips every axis and grid line — none of the abstract `x`/`y` space is meant to be read directly.
+
+```{r plot, eval = FALSE}
+library(ggflags)
+library(showtext)
+font_add_google("Roboto Condensed", "roboto_condensed")
+showtext_auto()
+
+bg_color <- "#F5F0E8"
+
+p <- ggplot() +
+  # --- ribbons, coloured by region ---
+  geom_ribbon(data = ribbon_all,
+              aes(x = x, ymin = ymin, ymax = ymax, group = country, fill = region),
+              alpha = 0.95, color = NA) +
+  scale_fill_manual(values = region_colors, name = NULL) +
+
+  # --- life-expectancy values at each end of every ribbon ---
+  geom_text(data = left_values_all,
+            aes(x = x_pos, y = y_pos, label = label_text),
+            size = 18, fontface = "bold", color = "white",
+            family = "roboto_condensed", vjust = 0.3, hjust = 0.3) +
+  geom_text(data = right_values_all,
+            aes(x = x_pos, y = y_pos, label = label_text),
+            size = 18, fontface = "bold", color = "white",
+            family = "roboto_condensed", vjust = 0.3, hjust = 0.6) +
+
+  # --- nodes: white disc + flag, on the 2026 axis and the 2100 axis ---
+  geom_point(data = nodes_2026_all, aes(x = x - 0.015, y = node_y),
+             size = 15, color = "black", fill = "white", shape = 21, stroke = 1) +
+  ggflags::geom_flag(data = nodes_2026_all,
+                     aes(x = x - 0.015, y = node_y, country = iso2), size = 13) +
+  geom_point(data = nodes_2100_all, aes(x = x + 0.015, y = node_y),
+             size = 15, color = "black", fill = "white", shape = 21, stroke = 1) +
+  ggflags::geom_flag(data = nodes_2100_all,
+                     aes(x = x + 0.015, y = node_y, country = iso2), size = 13) +
+
+  # --- country names, outside each axis ---
+  geom_text(data = nodes_2026_all, aes(x = x - 0.075, y = node_y, label = country),
+            hjust = 1, size = 18, fontface = "bold", family = "roboto_condensed") +
+  geom_text(data = nodes_2100_all, aes(x = x + 0.075, y = node_y, label = country),
+            hjust = 0, size = 18, fontface = "bold", family = "roboto_condensed") +
+
+  # --- title block ---
+  annotate("text", x = 0.5, y = 34.5, label = "THE WORLD'S HIGHEST",
+           size = 28, fontface = "bold", color = "grey40", family = "roboto_condensed") +
+  annotate("text", x = 0.5, y = 33.0, label = "Life Expectancy",
+           size = 86, fontface = "bold", family = "serif") +
+
+  # --- year headers ---
+  annotate("text", x = -0.1, y = 31, label = "2026",
+           size = 36, fontface = "bold", family = "roboto_condensed") +
+  annotate("text", x =  1.1, y = 31, label = "2100p",
+           size = 36, fontface = "bold", family = "roboto_condensed") +
+
+  # --- region colour key: a swatch + label for each region, laid out left to
+  #     right just under the title (x0 = 0, 0.2, 0.4, 0.6, 0.8) ---
+  purrr::imap(names(region_colors), function(reg, i) {
+    x0 <- (i - 1) * 0.2
+    list(
+      annotate("rect", xmin = x0, xmax = x0 + 0.18, ymin = 30.5, ymax = 31.0,
+               fill = region_colors[[reg]]),
+      annotate("text", x = x0 + 0.09, y = 30.75, label = toupper(reg),
+               size = 12, color = "white", fontface = "bold",
+               family = "roboto_condensed")
+    )
+  }) +
+
+  # --- United States, shown on a detached row below the main panel ---
+  annotate("segment", x = -0.3, xend = 1.25, y = 0.2, yend = 0.2,
+           color = "grey10", linewidth = 0.6) +
+  geom_segment(data = tibble(x = 0.02, xend = 0.98, y = -0.5),
+               aes(x = x, xend = xend, y = y, yend = y),
+               color = region_colors["Americas"], size = 14, lineend = "butt") +
+  annotate("text", x = 0.5, y = -0.5,
+           label = "The U.S. ranks 45th and is projected to drop to 48th by 2100",
+           hjust = 0.5, size = 13, fontface = "italic", color = "grey20",
+           family = "roboto_condensed") +
+  annotate("text", x = -0.07, y = -0.5, label = "U.S.", hjust = 1, size = 18,
+           fontface = "bold", family = "roboto_condensed") +
+  annotate("text", x = 0.08, y = -0.5, label = "79.3", hjust = 0.5, size = 18,
+           fontface = "bold", color = "white", family = "roboto_condensed") +
+  geom_point(data = tibble(x = -0.015, y = -0.5), aes(x, y),
+             size = 15, color = "black", fill = "white", shape = 21, stroke = 1) +
+  ggflags::geom_flag(data = tibble(x = -0.015, y = -0.5, iso2 = "us"),
+                     aes(x = x, y = y, country = iso2), size = 13) +
+  annotate("text", x = 0.92, y = -0.5, label = "89.2", hjust = 0.5, size = 18,
+           fontface = "bold", color = "white", family = "roboto_condensed") +
+  geom_point(data = tibble(x = 1.015, y = -0.5), aes(x, y),
+             size = 15, color = "black", fill = "white", shape = 21, stroke = 1) +
+  ggflags::geom_flag(data = tibble(x = 1.015, y = -0.5, iso2 = "us"),
+                     aes(x = x, y = y, country = iso2), size = 13) +
+  annotate("text", x = 1.08, y = -0.5, label = "U.S.", hjust = 0, size = 18,
+           fontface = "bold", family = "roboto_condensed") +
+
+  # --- source notes ---
+  annotate("text", x = 0.5, y = -2.0,
+           label = "Shows the expected lifespan of a baby born in 2026 and 2100, based on projected mortality rates.",
+           hjust = 0.5, size = 24, color = "grey50", family = "roboto_condensed") +
+  annotate("text", x = 0.5, y = -2.6, label = "Excludes territories and dependencies.",
+           hjust = 0.5, size = 24, color = "grey50", family = "roboto_condensed") +
+  annotate("text", x = 0.5, y = -3.2,
+           label = "José Caro - @caroisallin - Based on Visual Capitalist",
+           hjust = 0.5, size = 24, color = "grey50", family = "roboto_condensed") +
+  annotate("text", x = 0.5, y = -3.8,
+           label = "Source: UN World Population Prospects 2024 via Our World in Data",
+           hjust = 0.5, size = 24, color = "grey50", family = "roboto_condensed") +
+
+  # --- fix the frame so flags stay circular and nothing is clipped ---
+  scale_x_continuous(limits = c(-0.55, 1.55), expand = c(0, 0)) +
+  scale_y_continuous(limits = c(-7, 38.5),   expand = c(0, 0)) +
+  coord_equal(ratio = 0.09) +
+  theme_void() +
+  theme(
+    plot.background  = element_rect(fill = bg_color, color = NA),
+    panel.background = element_rect(fill = bg_color, color = NA),
+    legend.position  = "none",
+    plot.margin      = margin(10, 20, 20, 10)
+  )
+```
+
+### Saving
+
+The canvas is tall and narrow, so we export at a large physical size and 300 dpi. The saved file is the `life_expectancy.png` shown at the top of this page.
+
+```{r save, eval = FALSE}
+ggsave("life_expectancy.png", plot = p,
+       width = 18, height = 24, dpi = 300, bg = bg_color)
+```
+
+The full script lives alongside this page as [`life_expectancy_sankey.R`](life_expectancy_sankey.R).
