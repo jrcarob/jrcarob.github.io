@@ -7,10 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="José Caro">
-<meta name="dcterms.date" content="2026-08-26">
-<meta name="description" content="José Caro is working on a bunch of exciting and groundbreaking demographic projects">
+<meta name="dcterms.date" content="2026-09-07">
 
-<title>Demography at the MPIDR | José Caro – José Caro</title>
+<title>&lt;code&gt;inedemogR&lt;/code&gt;: A Tidy Access to Spanish INE Demographic Data | José Caro – José Caro</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -23,31 +22,66 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
-<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="../site_libs/clipboard/clipboard.min.js"></script>
-<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="../site_libs/quarto-search/fuse.min.js"></script>
-<script src="../site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="../">
-<link href="..//files/favicon-512.png" rel="icon" type="image/png">
-<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
-<script src="../site_libs/quarto-html/popper.min.js"></script>
-<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="../site_libs/quarto-html/anchor.min.js"></script>
-<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-4c7b890cc350be7067044af900615741.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-518c0b22ba42e977bde395bf4a19c2bb.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/quarto-contrib/fontawesome6-6.7.2/all.min.css" rel="stylesheet">
-<link href="../site_libs/quarto-contrib/fontawesome6-6.7.2/latex-fontsize.css" rel="stylesheet">
-<link href="../site_libs/quarto-contrib/academicons-1.9.2/all.css" rel="stylesheet">
-<link href="../site_libs/quarto-contrib/academicons-1.9.2/size.css" rel="stylesheet">
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../..//files/favicon-512.png" rel="icon" type="image/png">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-4c7b890cc350be7067044af900615741.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-518c0b22ba42e977bde395bf4a19c2bb.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/quarto-contrib/fontawesome6-6.7.2/all.min.css" rel="stylesheet">
+<link href="../../site_libs/quarto-contrib/fontawesome6-6.7.2/latex-fontsize.css" rel="stylesheet">
+<link href="../../site_libs/quarto-contrib/academicons-1.9.2/all.css" rel="stylesheet">
+<link href="../../site_libs/quarto-contrib/academicons-1.9.2/size.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -92,26 +126,22 @@ ga('send', {
 <style>
 
       .quarto-title-block .quarto-title-banner {
-        background: #19733D;
+        background: #F5AD27;
       }
 </style>
 
 
-<meta property="og:title" content="Demography at the MPIDR | José Caro">
-<meta property="og:description" content="José Caro is working on a bunch of exciting and groundbreaking demographic projects">
-<meta property="og:image" content="https://carobarrera.com/files/profiles/myAvatar.png">
+<meta property="og:title" content="inedemogR: A Tidy Access to Spanish INE Demographic Data | José Caro">
+<meta property="og:description" content="?meta:description-meta">
+<meta property="og:image" content="https://carobarrera.com/demography/2026_inedemogR/app.png">
 <meta property="og:site_name" content="José Caro">
 <meta property="og:locale" content="en_US">
-<meta property="og:image:height" content="1200">
-<meta property="og:image:width" content="1200">
-<meta name="twitter:title" content="Demography at the MPIDR | José Caro">
-<meta name="twitter:description" content="José Caro is working on a bunch of exciting and groundbreaking demographic projects">
-<meta name="twitter:image" content="https://carobarrera.com/files/profiles/myAvatar.png">
+<meta name="twitter:title" content="inedemogR: A Tidy Access to Spanish INE Demographic Data | José Caro">
+<meta name="twitter:description" content="?meta:description-meta">
+<meta name="twitter:image" content="https://carobarrera.com/demography/2026_inedemogR/app.png">
 <meta name="twitter:creator" content="@acaroisallin">
 <meta name="twitter:site" content="@acaroisallin">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image-height" content="1200">
-<meta name="twitter:image-width" content="1200">
 </head>
 
 <body class="nav-fixed quarto-light">
@@ -121,9 +151,9 @@ ga('send', {
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a href="../index.html" class="navbar-brand navbar-brand-logo">
+    <a href="../../index.html" class="navbar-brand navbar-brand-logo">
     </a>
-    <a class="navbar-brand" href="../index.html">
+    <a class="navbar-brand" href="../../index.html">
     <span class="navbar-title">José Caro</span>
     </a>
   </div>
@@ -134,39 +164,39 @@ ga('send', {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../index.html"> 
+    <a class="nav-link" href="../../index.html"> 
 <span class="menu-text">About</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../teaching/index.html"> 
+    <a class="nav-link" href="../../teaching/index.html"> 
 <span class="menu-text">Teaching</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../research/index.html"> 
+    <a class="nav-link" href="../../research/index.html"> 
 <span class="menu-text">Research</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../talks/index.html"> 
+    <a class="nav-link" href="../../talks/index.html"> 
 <span class="menu-text">Conferences</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../apps/index.html"> 
+    <a class="nav-link" href="../../apps/index.html"> 
 <span class="menu-text">Resources</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link active" href="../demography/index.html" aria-current="page"> 
+    <a class="nav-link" href="../../demography/index.html"> 
 <span class="menu-text">Demography</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../now/index.html"> 
+    <a class="nav-link" href="../../now/index.html"> 
 <span class="menu-text">SEJ-670</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../cv/index.html"> 
+    <a class="nav-link" href="../../cv/index.html"> 
 <span class="menu-text">CV</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../blog/index.html"> 
+    <a class="nav-link" href="../../blog/index.html"> 
 <span class="menu-text">Blog</span></a>
   </li>  
 </ul>
@@ -206,8 +236,13 @@ ga('send', {
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">Demography at the MPIDR</h1>
-                      </div>
+      <h1 class="title"><code>inedemogR</code>: A Tidy Access to Spanish INE Demographic Data</h1>
+                                <div class="quarto-categories">
+                <div class="quarto-category">demography</div>
+                <div class="quarto-category">R</div>
+                <div class="quarto-category">CRAN</div>
+              </div>
+                  </div>
   </div>
     
   
@@ -215,9 +250,9 @@ ga('send', {
 
       
       <div>
-      <div class="quarto-title-meta-heading">Last updated</div>
+      <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">August 26, 2026</p>
+        <p class="date">September 7, 2026</p>
       </div>
     </div>
     
@@ -233,7 +268,12 @@ ga('send', {
     <h2 id="toc-title">Contents</h2>
    
   <ul>
-  <li><a href="#small-demographic-data-viz-projects" id="toc-small-demographic-data-viz-projects" class="nav-link active" data-scroll-target="#small-demographic-data-viz-projects">Small Demographic Data Viz Projects</a></li>
+  <li><a href="#the-r-package" id="toc-the-r-package" class="nav-link active" data-scroll-target="#the-r-package">The R package <img src="sticker.png" class="img-fluid" width="125"></a>
+  <ul class="collapse">
+  <li><a href="#introduction" id="toc-introduction" class="nav-link" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#installation" id="toc-installation" class="nav-link" data-scroll-target="#installation">Installation</a></li>
+  <li><a href="#citation" id="toc-citation" class="nav-link" data-scroll-target="#citation">Citation</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -244,67 +284,33 @@ ga('send', {
 
 
 
+<section id="the-r-package" class="level2">
+<h2 class="anchored" data-anchor-id="the-r-package">The R package <img src="sticker.png" class="img-fluid" width="125"></h2>
+<section id="introduction" class="level3">
+<h3 class="anchored" data-anchor-id="introduction">Introduction</h3>
+<p>The R package <code>inedemogR</code> provides tidy access to demographic data from the Spanish National Statistics Institute (INE), specifically its “fenómenos demográficos” domain: population, births, and deaths. Data is retrieved live via the official <code>ineapir</code> API wrapper and tidied into long/wide data frames, with optional spatial integration via <code>mapSpain</code> and <code>sf</code>.</p>
+</section>
+<section id="installation" class="level3">
+<h3 class="anchored" data-anchor-id="installation">Installation</h3>
+<p><code>inedemogR</code> is on <a href="https://cran.r-project.org/web/packages/inedemogR/index.html">CRAN</a>. Install the released version with:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"inedemogR"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Alternatively, you can install the development version of inedemogR from <a href="https://github.com/jrcarob/inedemogR_package" target="_blank">GitHub</a> with:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages("devtools")</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>pak<span class="sc">::</span><span class="fu">pak</span>(<span class="st">'jrcarob/inedemogR_package'</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>or </span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">"jrcarob/inedemogR_package"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="citation" class="level3">
+<h3 class="anchored" data-anchor-id="citation">Citation</h3>
+<p>If you use this package for your research, please cite:</p>
+<div style="background-color: #fae5be; padding: 4px; border-left: 1px solid #F5AD27;">
 <blockquote class="blockquote">
-<p>“<em>Life is a chemical incident.</em>” (Paul Ehrlich, 1870)</p>
-</blockquote>
-<section id="small-demographic-data-viz-projects" class="level2">
-<h2 class="anchored" data-anchor-id="small-demographic-data-viz-projects">Small Demographic Data Viz Projects</h2>
-<p>My current research projects involve mortality and fertility forecasting, demographic modelling and computational demography. These areas require extensive computational analyses, simulation studies, and the management of complex datasets. In 2026, during the stay at the <a href="https://www.demogr.mpg.de" target="_blank"><strong>Max Planck Institute for Demographic Research (MPIDR)</strong></a> I came up with the idea of building this corner during long conversations with some researchers at the MPIDR to whom I am deeply grateful for their valuable contributions, whose websites served as the inspiration for this small section dedicated to demography and data visualization.</p>
-<div class="grid">
-<div class="card g-col-12 g-col-sm-4">
-<p><a href="../demography/2026_inedemogR/index.html"><img src="img/sticker.png" class="card-img-top mx-auto d-block img-fluid" style="width:50.0%"></a></p>
-<section id="inedemogr" class="level4 card-body">
-<h4 class="anchored" data-anchor-id="inedemogr"><code>inedemogR</code></h4>
-<p>A tidy access to demographic data from the Spanish National Statistics Institute (INE)</p>
-<p><a href="https://cran.r-project.org/web/packages/inedemogR/index.html" class="card-link"><i class="fa-brands fa-github" aria-label="github"></i> Source</a></p>
-<!--::: {.card-description}-->
-<!--Take a look at **life expectancy in Spain** since the beginning of the century"-->
-<!--:::-->
-</section>
-</div>
-<div class="card g-col-12 g-col-sm-4">
-<p><a href="../demography/2026_worldwide_lexp/index.html"><img src="img/world-le.png" class="card-img-top img-fluid"></a></p>
-<section id="worldwide-highest-life-expectancy" class="level4 card-body">
-<h4 class="anchored" data-anchor-id="worldwide-highest-life-expectancy">Worldwide Highest Life Expectancy</h4>
-<p>Data Viz of <strong>highest life expectancy</strong> projections worldwide</p>
-<p><a href="https://github.com/jrcarob/Highest_Life_Expectancy" class="card-link"><i class="fa-brands fa-github" aria-label="github"></i> Source</a></p>
-<!--::: {.card-description}-->
-<!--Take a look at **life expectancy in Spain** since the beginning of the century"-->
-<!--:::-->
-</section>
-</div>
-<div class="card g-col-12 g-col-sm-4">
-<p><a href="../demography/2026_shinyapp/index.html"><img src="img/app.png" class="card-img-top mx-auto d-block img-fluid" style="width:100.0%"></a></p>
-<section id="the-spanish-life-expectancy-dashboard" class="level4 card-body">
-<h4 class="anchored" data-anchor-id="the-spanish-life-expectancy-dashboard">The Spanish Life Expectancy Dashboard</h4>
-<p>Explore the interactive dashboard that visualizes life expectancy and mortality data for Spain</p>
-<p><a href="https://jrcaro.shinyapps.io/shiny-app/" class="card-link"><i class="fa-solid fa-arrow-up-right-from-square" aria-label="arrow-up-right-from-square"></i> Site</a> <a href="https://github.com/jrcarob/Spanish_life_expectancy_Dashboard" class="card-link"><i class="fa-brands fa-github" aria-label="github"></i> Source</a><br> <a href="https://doi.org/10.5281/zenodo.21409180"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.21409180.svg" class="img-fluid" alt="DOI"></a></p>
-</section>
-</div>
-</div>
-<div class="grid">
-<div class="card g-col-12 g-col-sm-4">
-<p><a href="../demography/2025_life_expectancy/index.html"><img src="img/cover.png" class="card-img-top img-fluid"></a></p>
-<section id="spanish-life-expectancy" class="level4 card-body">
-<h4 class="anchored" data-anchor-id="spanish-life-expectancy">Spanish Life Expectancy</h4>
-<p>Take a look at <strong>life expectancy in Spain</strong> since the beginning of the century</p>
-</section>
-</div>
-<div class="card g-col-12 g-col-sm-4">
-<p><a href="../demography/2026_demographic_dividend/index.html"><img src="img/demo_dividend.png" class="card-img-top img-fluid"></a></p>
-<section id="demographic-dividend" class="level4 card-body">
-<h4 class="anchored" data-anchor-id="demographic-dividend">Demographic Dividend</h4>
-<p>Check the shrinkage of the Spanish demographic dividend and the changing age structure</p>
-</section>
-</div>
-</div>
-<div style="background-color: #daf0e3; padding: 4px; border-left: 4px solid #19733D;">
-<blockquote class="blockquote">
-<p>This page is under construction, but most of my projects are open source and can be found in my <a href="https://github.com/jrcarob">GitHub repositories</a>. This includes all of the materials for my <a href="../teaching/index.html">course websites</a> and course content, if you cannot find something you are interested in, please, write me an <a href="mailto:jrcaro@uco.es">e-mail</a> and I will provide you the materials.</p>
+<p>Caro-Barrera, J. R. (2026). inedemogR: Tidy Access to Spanish INE Demographic Data. R package version 0.1.0. https://CRAN.R-project.org/package=inedemogR</p>
 </blockquote>
 </div>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
