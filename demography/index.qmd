@@ -24,9 +24,66 @@ whose websites served as the inspiration for this small section dedicated to dem
 
 ::::: {.card .g-col-12 .g-col-sm-4}
 
+[![](img/sticker.png){.card-img-top .mx-auto .d-block width=50%}](2026_inedemogR/index.qmd)
+
+:::: {.card-body}
+#### `inedemogR`
+
+A tidy access to demographic data from the Spanish National Statistics Institute (INE)
+
+[{{< fa brands github >}} Source](https://cran.r-project.org/web/packages/inedemogR/index.html){.card-link}
+
+<!--::: {.card-description}-->
+<!--Take a look at **life expectancy in Spain** since the beginning of the century"-->
+<!--:::-->
+::::
+
+:::::
+
+::::: {.card .g-col-12 .g-col-sm-4}
+
+[![](img/world-le.png){.card-img-top}](2026_worldwide_lexp/index.qmd)
+
+:::: {.card-body}
+#### Worldwide Highest Life Expectancy
+
+Data Viz of **highest life expectancy** projections worldwide
+
+[{{< fa brands github >}} Source](https://github.com/jrcarob/Highest_Life_Expectancy){.card-link}
+
+<!--::: {.card-description}-->
+<!--Take a look at **life expectancy in Spain** since the beginning of the century"-->
+<!--:::-->
+::::
+
+:::::
+
+::::: {.card .g-col-12 .g-col-sm-4}
+
+[![](img/app.png){.card-img-top .mx-auto .d-block width=100%}](2026_shinyapp/index.qmd)
+
+:::: {.card-body}
+#### The Spanish Life Expectancy Dashboard
+
+Explore the interactive dashboard that visualizes life expectancy and mortality data for Spain
+
+[{{< fa arrow-up-right-from-square >}} Site](https://jrcaro.shinyapps.io/shiny-app/){.card-link} [{{< fa brands github >}} Source](https://github.com/jrcarob/Spanish_life_expectancy_Dashboard){.card-link}</br>
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21409180.svg)](https://doi.org/10.5281/zenodo.21409180)
+
+::::
+
+:::::
+
+::::::
+
+:::::: {.grid}
+
+::::: {.card .g-col-12 .g-col-sm-4}
+
 [![](img/cover.png){.card-img-top}](2025_life_expectancy/index.qmd)
 
 :::: {.card-body}
+
 #### Spanish Life Expectancy
 
 Take a look at **life expectancy in Spain** since the beginning of the century
@@ -47,45 +104,6 @@ Check the shrinkage of the Spanish demographic dividend and the changing age str
 
 :::::
 
-::::: {.card .g-col-12 .g-col-sm-4}
-
-[![](img/sticker.png){.card-img-top .mx-auto .d-block width=70%}](2026_shinyapp/index.qmd)
-
-:::: {.card-body}
-#### The Spanish Life Expectancy Dashboard
-
-Explore the interactive dashboard that visualizes life expectancy and mortality data for Spain
-
-[{{< fa arrow-up-right-from-square >}} Site](https://jrcaro.shinyapps.io/shiny-app/){.card-link} [{{< fa brands github >}} Source](https://github.com/jrcarob/Spanish_life_expectancy_Dashboard){.card-link}</br>
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21409180.svg)](https://doi.org/10.5281/zenodo.21409180)
-
-::::
-
-:::::
-
-
-::::::
-
-:::::: {.grid}
-
-::::: {.card .g-col-12 .g-col-sm-4}
-
-[![](img/world-le.png){.card-img-top}](2026_worldwide_lexp/index.qmd)
-
-:::: {.card-body}
-#### Worldwide Highest Life Expectancy
-
-Data Viz of **highest life expectancy** projections worldwide
-
-[{{< fa brands github >}} Source](https://github.com/jrcarob/Highest_Life_Expectancy){.card-link}
-
-<!--::: {.card-description}-->
-<!--Take a look at **life expectancy in Spain** since the beginning of the century"-->
-<!--:::-->
-::::
-
-:::::
-
 ::::::
 
 <div style="background-color: #daf0e3; padding: 4px; border-left: 4px solid #19733D;">
@@ -93,7 +111,6 @@ Data Viz of **highest life expectancy** projections worldwide
 >This page is under construction, but most of my projects are open source and can be found in my [GitHub repositories](https://github.com/jrcarob). This includes all of the materials for my [course websites](../teaching/index.qmd) and course content, if you cannot find something you are interested in, please, write me an [e-mail](mailto:jrcaro@uco.es) and I will provide you the materials.
 
 </div>
-
 
 
 
