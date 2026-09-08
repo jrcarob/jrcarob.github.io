@@ -11,7 +11,7 @@ categories:
   - Demography
 pub-info:
   reference: >-
-    <strong>José Rafael Caro-Barrera</strong></a>, “inedemogR: Tidy Access to Spanish INE Demographic Data”, <em>R package version 0.1.0., doi: <a href="https://CRAN.R-project.org/package=inedemogR"><code>10.32614/CRAN.package.inedemogR</code></a>
+    <strong>José Rafael Caro-Barrera</strong>, “inedemogR: Tidy Access to Spanish INE Demographic Data”, <em>R package version 0.1.0.</em>, doi: <a href="https://CRAN.R-project.org/package=inedemogR"><code>10.32614/CRAN.package.inedemogR</code></a>
   links:
     - name: CRAN access
       url: https://cran.r-project.org/web/packages/inedemogR/index.html
