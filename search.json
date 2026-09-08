@@ -95,7 +95,7 @@
     "href": "research/articles/2026_pack-indemogR/index.html",
     "title": "inedemogR: Tidy Access to Spanish INE Demographic Data",
     "section": "",
-    "text": "(To update).\n\n\n\n\nProvides tidy, harmonized access to demographic data from the Spanish National Statistics Institute (INE) fenomenos demograficos domain, including population, births, and deaths, retrieved live via the official ‘ineapir’ API wrapper, with optional spatial integration at municipality and province level via ‘mapSpain’. Mortality indicators follow the Human Mortality Database Methods Protocol, including the average age at death in infancy method of Andreev and Kingkade (2015)\n\n\n\n\n Add to Zotero \n\n@article{Caro-Barrera2026,\n  author  ={Caro-Barrera, José Rafael}, \n  title ={inedemogR: Tidy Access to Spanish INE Demographic Data}, \n  url ={https://cran.r-project.org/web/packages/inedemogR/index.html}, \n  DOI ={10.32614/CRAN.package.inedemogR}, \n  year  ={2026}, \n  month ={Aug.}\n}"
+    "text": "(To update)."
   },
   {
     "objectID": "research/articles/2026_pack-indemogR/index.html#important-links",
@@ -108,15 +108,15 @@
     "objectID": "research/articles/2026_pack-indemogR/index.html#abstract",
     "href": "research/articles/2026_pack-indemogR/index.html#abstract",
     "title": "inedemogR: Tidy Access to Spanish INE Demographic Data",
-    "section": "",
-    "text": "Provides tidy, harmonized access to demographic data from the Spanish National Statistics Institute (INE) fenomenos demograficos domain, including population, births, and deaths, retrieved live via the official ‘ineapir’ API wrapper, with optional spatial integration at municipality and province level via ‘mapSpain’. Mortality indicators follow the Human Mortality Database Methods Protocol, including the average age at death in infancy method of Andreev and Kingkade (2015)"
+    "section": "Abstract",
+    "text": "Abstract\nProvides tidy, harmonized access to demographic data from the Spanish National Statistics Institute (INE) fenomenos demograficos domain, including population, births, and deaths, retrieved live via the official ‘ineapir’ API wrapper, with optional spatial integration at municipality and province level via ‘mapSpain’. Mortality indicators follow the Human Mortality Database Methods Protocol, including the average age at death in infancy method of Andreev and Kingkade (2015)"
   },
   {
     "objectID": "research/articles/2026_pack-indemogR/index.html#citation",
     "href": "research/articles/2026_pack-indemogR/index.html#citation",
     "title": "inedemogR: Tidy Access to Spanish INE Demographic Data",
-    "section": "",
-    "text": "Add to Zotero \n\n@article{Caro-Barrera2026,\n  author  ={Caro-Barrera, José Rafael}, \n  title ={inedemogR: Tidy Access to Spanish INE Demographic Data}, \n  url ={https://cran.r-project.org/web/packages/inedemogR/index.html}, \n  DOI ={10.32614/CRAN.package.inedemogR}, \n  year  ={2026}, \n  month ={Aug.}\n}"
+    "section": "Citation",
+    "text": "Citation\n\n Add to Zotero \n\n@article{Caro-Barrera2026,\n  author  ={Caro-Barrera, José Rafael}, \n  title ={inedemogR: Tidy Access to Spanish INE Demographic Data}, \n  url ={https://cran.r-project.org/web/packages/inedemogR/index.html}, \n  DOI ={10.32614/CRAN.package.inedemogR}, \n  year  ={2026}, \n  month ={Aug.}\n}"
   },
   {
     "objectID": "research/articles/2026_emh/index.html#important-links",
