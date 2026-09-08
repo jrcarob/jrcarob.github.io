@@ -4,15 +4,6 @@
     "items": []
   },
   {
-    "listing": "/blog/index.html",
-    "items": [
-      "/blog/2026/09/index.html",
-      "/blog/2023/05/regression/index.html",
-      "/blog/2022/09/bibliometric/index.html",
-      "/blog/2021/08/XGBoost/index.html"
-    ]
-  },
-  {
     "listing": "/atom.html",
     "items": [
       "/blog/index.html",
@@ -23,8 +14,18 @@
     ]
   },
   {
+    "listing": "/blog/index.html",
+    "items": [
+      "/blog/2026/09/index.html",
+      "/blog/2023/05/regression/index.html",
+      "/blog/2022/09/bibliometric/index.html",
+      "/blog/2021/08/XGBoost/index.html"
+    ]
+  },
+  {
     "listing": "/research/index.html",
     "items": [
+      "/research/articles/2026_pack-indemogR/index.html",
       "/research/articles/2026_hunting/index.html",
       "/research/articles/2026_emh/index.html",
       "/research/articles/2023_perez-garcia-caro/index.html",
