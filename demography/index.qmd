@@ -31,7 +31,8 @@ whose websites served as the inspiration for this small section dedicated to dem
 
 A tidy access to demographic data from the Spanish National Statistics Institute (INE)
 
-[{{< fa brands github >}} Source](https://cran.r-project.org/web/packages/inedemogR/index.html){.card-link}
+[{{< fa globe >}} Website](https://carobarrera.com/inedemogR/){.card-link}
+[{{< fa brands r-project >}} CRAN](https://cran.r-project.org/web/packages/inedemogR/index.html){.card-link}
 
 <!--::: {.card-description}-->
 <!--Take a look at **life expectancy in Spain** since the beginning of the century"-->
