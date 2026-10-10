@@ -4,6 +4,15 @@
     "items": []
   },
   {
+    "listing": "/blog/index.html",
+    "items": [
+      "/blog/2026/09/index.html",
+      "/blog/2023/05/regression/index.html",
+      "/blog/2022/09/bibliometric/index.html",
+      "/blog/2021/08/XGBoost/index.html"
+    ]
+  },
+  {
     "listing": "/atom.html",
     "items": [
       "/blog/index.html",
@@ -11,15 +20,6 @@
       "/blog/2026/09/index.html",
       "/blog/2022/09/bibliometric/index.html",
       "/blog/2023/05/regression/index.html"
-    ]
-  },
-  {
-    "listing": "/blog/index.html",
-    "items": [
-      "/blog/2026/09/index.html",
-      "/blog/2023/05/regression/index.html",
-      "/blog/2022/09/bibliometric/index.html",
-      "/blog/2021/08/XGBoost/index.html"
     ]
   },
   {
