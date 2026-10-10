@@ -24,12 +24,13 @@ whose websites served as the inspiration for this small section dedicated to dem
 
 ::::: {.card .g-col-12 .g-col-sm-4}
 
-[![](img/sticker.png){.card-img-top .mx-auto .d-block width=50%}](2026_inedemogR/index.qmd)
+[![](img/sticker.png){.card-img-top .mx-auto .d-block width=75%}](2026_inedemogR/index.qmd)
 
 :::: {.card-body}
-#### `inedemogR`
+#### inedemogR
 
-A tidy access to demographic data from the Spanish National Statistics Institute (INE)
+The package `inedemogR` A tidy access to demographic data from the Spanish National Statistics Institute (INE), now update to its version 0.2.0.
+
 
 [{{< fa globe >}} Website](https://carobarrera.com/inedemogR/){.card-link}
 [{{< fa brands r-project >}} CRAN](https://cran.r-project.org/web/packages/inedemogR/index.html){.card-link}
@@ -43,33 +44,32 @@ A tidy access to demographic data from the Spanish National Statistics Institute
 
 ::::: {.card .g-col-12 .g-col-sm-4}
 
-[![](img/world-le.png){.card-img-top}](2026_worldwide_lexp/index.qmd)
+[![](img/distribution.png){.card-img-top .mx-auto .d-block width=100%}](2026_spain_age_distribution/index.qmd)
 
 :::: {.card-body}
-#### Worldwide Highest Life Expectancy
+#### The Demographic Transformation of Spain
 
-Data Viz of **highest life expectancy** projections worldwide
+Looking at Spain’s trajectory from 1950 with projections extending toward 2100.
 
-[{{< fa brands github >}} Source](https://github.com/jrcarob/Highest_Life_Expectancy){.card-link}
-
-<!--::: {.card-description}-->
-<!--Take a look at **life expectancy in Spain** since the beginning of the century"-->
-<!--:::-->
+[{{< fa brands github >}} Source](https://github.com/jrcarob/Projected_Age_Distribution/tree/main){.card-link}
 ::::
 
 :::::
 
 ::::: {.card .g-col-12 .g-col-sm-4}
 
-[![](img/app.png){.card-img-top .mx-auto .d-block width=100%}](2026_shinyapp/index.qmd)
+[![](img/world-le.png){.card-img-top}](2026_worldwide_lexp/index.qmd)
 
 :::: {.card-body}
-#### The Spanish Life Expectancy Dashboard
+#### Worldwide Highest Life Expectancy
 
-Explore the interactive dashboard that visualizes life expectancy and mortality data for Spain
+Data Viz of **highest life expectancy** projections worldwide.
 
-[{{< fa arrow-up-right-from-square >}} Site](https://jrcaro.shinyapps.io/shiny-app/){.card-link} [{{< fa brands github >}} Source](https://github.com/jrcarob/Spanish_life_expectancy_Dashboard){.card-link}</br>
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21409180.svg)](https://doi.org/10.5281/zenodo.21409180)
+[{{< fa brands github >}} Source](https://github.com/jrcarob/Highest_Life_Expectancy){.card-link}
+
+<!--::: {.card-description}-->
+<!--Take a look at **life expectancy in Spain** since the beginning of the century"-->
+<!--:::-->
 
 ::::
 
@@ -81,13 +81,29 @@ Explore the interactive dashboard that visualizes life expectancy and mortality 
 
 ::::: {.card .g-col-12 .g-col-sm-4}
 
+[![](img/app.png){.card-img-top .mx-auto .d-block width=100%}](2026_shinyapp/index.qmd)
+
+:::: {.card-body}
+#### The Spanish Life Expectancy Dashboard
+
+Explore the interactive dashboard that visualizes life expectancy and mortality data for Spain.
+
+[{{< fa arrow-up-right-from-square >}} Site](https://jrcaro.shinyapps.io/shiny-app/){.card-link} [{{< fa brands github >}} Source](https://github.com/jrcarob/Spanish_life_expectancy_Dashboard){.card-link}</br>
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21409180.svg)](https://doi.org/10.5281/zenodo.21409180)
+
+::::
+
+:::::
+
+::::: {.card .g-col-12 .g-col-sm-4}
+
 [![](img/cover.png){.card-img-top}](2025_life_expectancy/index.qmd)
 
 :::: {.card-body}
 
 #### Spanish Life Expectancy
 
-Take a look at **life expectancy in Spain** since the beginning of the century
+Take a look at **life expectancy in Spain** since the beginning of the century.
 ::::
 
 :::::
@@ -99,7 +115,7 @@ Take a look at **life expectancy in Spain** since the beginning of the century
 :::: {.card-body}
 #### Demographic Dividend
 
-Check the shrinkage of the Spanish demographic dividend and the changing age structure
+Check the shrinkage of the Spanish demographic dividend and the changing age structure.
 
 ::::
 
