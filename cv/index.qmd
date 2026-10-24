@@ -29,7 +29,7 @@ cv:
 }
 ```
 
-![](research2.png){width="200%"}
+![](research3.png){width="200%"}
 
 ```{=html}
 <p class="text-center">
