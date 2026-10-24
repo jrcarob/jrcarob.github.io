@@ -29,7 +29,7 @@ whose websites served as the inspiration for this small section dedicated to dem
 :::: {.card-body}
 #### inedemogR
 
-The package `inedemogR` A tidy access to demographic data from the Spanish National Statistics Institute (INE), now update to its version 0.2.0.
+The package `inedemogR` A tidy access to demographic data from the Spanish National Statistics Institute (INE), now update to its version 0.2.1.
 
 
 [{{< fa globe >}} Website](https://carobarrera.com/inedemogR/){.card-link}
