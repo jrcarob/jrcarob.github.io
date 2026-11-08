@@ -9,7 +9,7 @@ df <- bind_rows(
     Year = rep(2019:2026, 1),
     Item = "Journal articles",
     Type = rep(c("whole", "fractional"), each = 8),
-    Count = c(2, 3, 5, 6, 7, 7, 7, 9, 
+    Count = c(2, 3, 5, 6, 7, 7, 7, 11, 
               2, 3, 3.42, 3.75, 4.00, 4.00, 4.00, 4.58)
   ),
   #data.frame(
@@ -30,13 +30,13 @@ df <- bind_rows(
     Year = rep(c(2021, 2022, 2023, 2024, 2025, 2026, 2027), 2),
     Item = "Google Scholar",
     Type = rep(c("whole", "fractional"), each = 7),
-    Count = rep(c(1, 3, 9, 22, 44, 61, 61), 1)
+    Count = rep(c(1, 3, 9, 22, 44, 61, 65), 1)
   ),
   data.frame(
     Year = rep(c(2021, 2022, 2023, 2024, 2025, 2026, 2027), 2),
     Item = "Scopus",
     Type = rep(c("whole", "fractional"), each = 7),
-    Count = rep(c(1, 2, 5, 8, 14, 22, 31), 1)
+    Count = rep(c(1, 2, 5, 8, 14, 22, 33), 1)
   )
   # data.frame(
   #   Year = rep(c(2013, 2019, 2022, 2023, 2024, 2025, 2026), 2),
@@ -88,7 +88,7 @@ base_plot <- function(data_subset, y_max, y_breaks) {
 p1 <- base_plot(filter(df, Item %in% c("Journal articles")), 21, seq(0, 20, 5)) +
   labs(y = "Cumulative output") +
   annotate("text", x = 2019.2, y = 20, label = "Publications", fontface = "bold", hjust = 0, size = 3.8) +
-  annotate("text", x = 2019.2, y = 14, label = "Journals/Books:\nβ whole: 9\nβ fractional: 4.58", color = "#2B7BBA", hjust = 0, size = 3) # +
+  annotate("text", x = 2019.2, y = 14, label = "Journals/Books:\nβ whole: 11\nβ fractional: 4.58", color = "#2B7BBA", hjust = 0, size = 3) # +
   # annotate("text", x = 2019.2, y = 14, label = "Preprints/WPs:\nβ whole: 1.423\nβ fractional: 0.564", color = "#D95F02", hjust = 0, size = 3)
 
 p2 <- base_plot(filter(df, Item == "Presentations"), 30, seq(0, 30, 5)) +
