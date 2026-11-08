@@ -1,0 +1,88 @@
+---
+title: "inedemogR: Reproducible retrieval and life-table computation for Spanish subnational demographic data"
+date: 2026-11-03
+author:
+  - name: José R. Caro-Barrera
+    url: http://www.github.com/jrcarob
+    orcid: 0000-0001-6154-2493
+    affiliation: University of Córdoba, Spain
+categories: 
+  - Demography
+  - Mortality
+  - R
+pub-info:
+  reference: >-
+    <strong>José Rafael Caro-Barrera</strong></a>, “inedemogR: Reproducible retrieval and life-table computation for Spanish subnational demographic data”, <em>SoftwareX</em> 36, doi: <a href="https://doi.org/10.1016/j.softx.2026.103189"><code>10.1016/j.softx.2026.103189</code></a>
+  links:
+    - name: Final version
+      url: https://doi.org/10.1016/j.softx.2026.103189
+      icon: fa-solid fa-scroll
+    - name: Add to Zotero
+      url: https://www.zotero.org/save?type=doi&q=10.1016/j.softx.2026.103189
+      icon: ai ai-zotero
+  #extra: >-
+  #  Presented at the Royal Statistical Society International Conference, Harrogate, Manchester, UK, September 2023.
+doi: 10.1016/j.softx.2026.103189
+haiku:
+  - R package `inedemogR`
+  - retrieves and harmonises INE demographic data
+  - Life tables follow HMD Protocol
+---
+
+![Preregistered](preregistered_large_color.png) &emsp; ![Open data](data_large_color.png) &emsp; ![Open](materials_large_color.png)
+
+## Important links
+
+- ![](helvia.png){width="150"} (To update).
+
+
+## Abstract
+
+`inedemogR` is an R package that turns the Spanish National Statistics Institute (INE) demographic data into tidy,
+analysis-ready tables. A quick-lookup interface returns population, birth and death totals by geography and year.
+A second interface builds province-level exposures, death rates and single-year period life tables following the
+Human Mortality Database protocol (Version 6), adapted where INE’s data require it: deaths are split evenly
+between Lexis triangles and old-age mortality is fitted at ages 80–99. Single-year life tables are supported from
+2002. In 3588 province–sex–year comparisons for 2002–2024, made separately for life expectancy at birth and
+at age 65, the package agrees with INE’s published provincial tables to within 0.25 years in approximately 99%
+of cases.
+
+## Graphical Abstract
+
+
+![Fig. 1 Graphical Abstract.](inedemogR-graphical-abstract.png)
+
+## Lexis Map
+
+
+![Fig. 4: Lexis surface.](fig_lexis.png)
+
+## Population Pyramids
+
+![Fig.5: Population pyramids, Andalusian provinces, 1 January 2024.](fig_pyramids.png)
+
+
+
+## Citation
+
+<p class="buttons" style="text-align:center;">
+<a class="btn btn-danger" target="_blank" href="https://www.zotero.org/save?type=doi&q=10.1016/j.softx.2026.103189">{{< ai zotero >}}&emsp;Add to Zotero {{< fa square-arrow-up-right >}}</a>
+</p>
+
+```bibtex
+@article{CAROBARRERA2026103189,
+title = {inedemogR: Reproducible retrieval and life-table computation for Spanish subnational demographic data},
+journal = {SoftwareX},
+volume = {36},
+pages = {103189},
+year = {2026},
+issn = {2352-7110},
+doi = {https://doi.org/10.1016/j.softx.2026.103189},
+url = {https://www.sciencedirect.com/science/article/pii/S2352711026006795},
+author = {J.R. Caro-Barrera},
+keywords = {Demography, Mortality, Life-tables, Spain, Official-statistics, Reproducibility, R},
+abstract = {inedemogR is an R package that turns the Spanish National Statistics Institute (INE) demographic data into tidy, analysis-ready tables. A quick-lookup interface returns population, birth and death totals by geography and year. A second interface builds province-level exposures, death rates and single-year period life tables following the Human Mortality Database protocol (Version 6), adapted where INE’s data require it: deaths are split evenly between Lexis triangles and old-age mortality is fitted at ages 80–99. Single-year life tables are supported from 2002. In 3588 province–sex–year comparisons for 2002–2024, made separately for life expectancy at birth and at age 65, the package agrees with INE’s published provincial tables to within 0.25 years in approximately 99% of cases.}
+}
+```
+
+
