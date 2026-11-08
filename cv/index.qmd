@@ -1,7 +1,7 @@
 ---
 title: Curriculum Vitæ
 description-meta: "José Caro's CV"
-date: 2026-10-24
+date: 2026-11-08
 title-block-banner: "#771C6D"
 published-title: CV last updated
 engine: knitr 
