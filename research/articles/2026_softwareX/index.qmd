@@ -33,7 +33,8 @@ haiku:
 
 ## Important links
 
-- ![](helvia.png){width="150"} (To update).
+- University of Córdoba's official repository
+[![](helvia.png){width="150"}](http://hdl.handle.net/10396/37577){target="_blank"}
 
 
 ## Abstract
