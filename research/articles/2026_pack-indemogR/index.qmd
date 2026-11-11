@@ -31,7 +31,8 @@ haiku:
 
 ## Important links
 
-- ![](helvia.png){width="150"} (To update).
+- [GitHub repository](https://github.com/jrcarob/inedemogR_package){target="_blank"}
+- University of Córdoba's official repository [![](helvia.png){width="150"}](http://hdl.handle.net/10396/37212){target="_blank"}
 
 ## Abstract
 
