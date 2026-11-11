@@ -41,7 +41,7 @@ haiku:
 
 ## Important links
 
-- ![](helvia.png){width="150"} (To update).
+[![](helvia.png){width="150"}](http://hdl.handle.net/10396/37210){target="_blank"}
 
 
 ## Abstract
