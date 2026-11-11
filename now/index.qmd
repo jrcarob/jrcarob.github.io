@@ -1,6 +1,6 @@
 ---
 title: What I'm working on and with whom
-date: 2026-08-30
+date: 2026-11-11
 description-meta: José Caro is working on a bunch of exciting and groundbreaking projects
 published-title: Last updated
 title-block-banner: "#187CA3"
