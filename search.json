@@ -924,29 +924,29 @@
     "text": "Citation\n\n Add to Zotero \n\n@article{PerezPriegoEtAl2026,\n  author  = {P{\\'e}rez-Priego, Manuel Adolfo and Garc{\\'i}a-Moreno Garc{\\'i}a, Mar{\\'i}a de los Ba{\\~n}os and L{\\'o}pez del R{\\'i}o, Lorena Caridad and Caro-Barrera, Jos{\\'e} Rafael},\n  title   = {Testing the weak form of the Efficient Market Hypothesis and the impact of COVID-19 in LAC countries},\n  journal = {Revista de Estudios Andaluces},\n  year    = {2026},\n  volume  = {51},\n  pages   = {241--267},\n  doi     = {10.12795/rea.2026.i51.12}\n  url     = {https://dx.doi.org/10.12795/rea.2026.i51.12}\n}"
   },
   {
-    "objectID": "research/articles/2026_pack-indemogR/index.html",
-    "href": "research/articles/2026_pack-indemogR/index.html",
+    "objectID": "research/articles/2026_pack-inedemogR/index.html",
+    "href": "research/articles/2026_pack-inedemogR/index.html",
     "title": "inedemogR: Tidy Access to Spanish INE Demographic Data",
     "section": "",
     "text": "GitHub repository\nUniversity of Córdoba’s official repository"
   },
   {
-    "objectID": "research/articles/2026_pack-indemogR/index.html#important-links",
-    "href": "research/articles/2026_pack-indemogR/index.html#important-links",
+    "objectID": "research/articles/2026_pack-inedemogR/index.html#important-links",
+    "href": "research/articles/2026_pack-inedemogR/index.html#important-links",
     "title": "inedemogR: Tidy Access to Spanish INE Demographic Data",
     "section": "",
     "text": "GitHub repository\nUniversity of Córdoba’s official repository"
   },
   {
-    "objectID": "research/articles/2026_pack-indemogR/index.html#abstract",
-    "href": "research/articles/2026_pack-indemogR/index.html#abstract",
+    "objectID": "research/articles/2026_pack-inedemogR/index.html#abstract",
+    "href": "research/articles/2026_pack-inedemogR/index.html#abstract",
     "title": "inedemogR: Tidy Access to Spanish INE Demographic Data",
     "section": "Abstract",
     "text": "Abstract\nProvides tidy, harmonized access to demographic data from the Spanish National Statistics Institute (INE) fenomenos demograficos domain, including population, births, and deaths, retrieved live via the official ‘ineapir’ API wrapper, with optional spatial integration at municipality and province level via ‘mapSpain’. Mortality indicators follow the Human Mortality Database Methods Protocol, including the average age at death in infancy method of Andreev and Kingkade (2015)"
   },
   {
-    "objectID": "research/articles/2026_pack-indemogR/index.html#citation",
-    "href": "research/articles/2026_pack-indemogR/index.html#citation",
+    "objectID": "research/articles/2026_pack-inedemogR/index.html#citation",
+    "href": "research/articles/2026_pack-inedemogR/index.html#citation",
     "title": "inedemogR: Tidy Access to Spanish INE Demographic Data",
     "section": "Citation",
     "text": "Citation\n\n Add to Zotero \n\n@article{Caro-Barrera2026,\n  author  ={Caro-Barrera, José Rafael}, \n  title ={inedemogR: Tidy Access to Spanish INE Demographic Data}, \n  url ={https://cran.r-project.org/web/packages/inedemogR/index.html}, \n  DOI ={10.32614/CRAN.package.inedemogR}, \n  year  ={2026}, \n  month ={Aug.}\n}"
